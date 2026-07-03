@@ -1,0 +1,179 @@
+---
+import '../styles/global.css';
+---
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrustScan — افحص أي موقع أو تطبيق قبل ما تثق فيه</title>
+  <meta name="description" content="أداة فحص آلية تفحص أي رابط موقع أو صفحة تطبيق وتعطيك تقريراً واضحاً عن التشفير، رؤوس الحماية، الكوكيز، وسياسة الخصوصية المعلنة." />
+</head>
+<body lang="ar">
+  <header class="site-header">
+    <div class="wrap brand">
+      <div>
+        <div class="brand-mark">Trust<span>Scan</span></div>
+        <div class="brand-tagline">فحص الثقة والخصوصية</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>قبل ما تعطيه بياناتك… افحصه</h1>
+      <p>
+        ألصق رابط أي موقع إلكتروني، أو رابط صفحة تطبيق من App Store أو Google Play،
+        وخلال ثوانٍ نعطيك تقريراً عن التشفير، رؤوس الحماية، الكوكيز، وسياسة الخصوصية المعلنة.
+      </p>
+
+      <form class="scan-form" id="scan-form">
+        <input
+          type="text"
+          class="scan-input"
+          id="scan-input"
+          placeholder="example.com أو رابط صفحة التطبيق في المتجر"
+          autocomplete="off"
+          required
+        />
+        <button type="submit" class="scan-btn" id="scan-btn">افحص الآن</button>
+      </form>
+
+      <div class="examples">
+        <button class="example-chip" type="button" data-example="https://github.com">github.com</button>
+        <button class="example-chip" type="button" data-example="https://www.wikipedia.org">wikipedia.org</button>
+      </div>
+
+      <p class="disclaimer">
+        الفحص آلي ويعتمد فقط على الإعدادات العلنية المتاحة للجميع في الموقع. نتيجة جيدة لا تعني خلوّ الموقع من كل خطر،
+        ونتيجة ضعيفة لا تعني بالضرورة نية سيئة — لكنها معلومات تستحق أن تعرفها قبل أن تثق.
+      </p>
+    </section>
+
+    <div class="loading" id="loading">
+      <span>جارٍ الفحص<span class="dots"></span></span>
+    </div>
+
+    <div class="error-box" id="error-box"></div>
+
+    <section class="results" id="results">
+      <div class="report" id="report"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      TrustScan لا يخزّن الروابط التي تفحصها ولا ينشئ حساباً أو ملفاً عنك. كل فحص يحدث لحظياً ولا يُحفظ بعد إغلاق الصفحة.
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('scan-form');
+    const input = document.getElementById('scan-input');
+    const btn = document.getElementById('scan-btn');
+    const loading = document.getElementById('loading');
+    const resultsSection = document.getElementById('results');
+    const report = document.getElementById('report');
+    const errorBox = document.getElementById('error-box');
+
+    document.querySelectorAll('.example-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        input.value = chip.getAttribute('data-example');
+        form.dispatchEvent(new Event('submit'));
+      });
+    });
+
+    const STATUS_LABEL = { pass: 'جيد', warn: 'تنبيه', fail: 'خطر', info: 'معلومة' };
+
+    function sealColor(score) {
+      if (score >= 80) return 'var(--pass)';
+      if (score >= 55) return 'var(--warn)';
+      return 'var(--fail)';
+    }
+
+    function verdictText(score, type) {
+      if (type === 'app') {
+        return 'هذا تقرير عن ما يصرّح به المطوّر في صفحة المتجر فقط — وليس فحصاً لسلوك التطبيق الفعلي بعد التثبيت.';
+      }
+      if (score >= 80) return 'الموقع يطبّق أغلب معايير التشفير والحماية الأساسية بشكل جيد.';
+      if (score >= 55) return 'الموقع يطبّق بعض المعايير الأساسية، لكن توجد نقاط تستحق الانتباه أدناه.';
+      return 'رُصدت عدة نواقص في إعدادات الحماية الأساسية — يُنصح بالحذر قبل إدخال بيانات حساسة.';
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderReport(data) {
+      const color = sealColor(data.score);
+      const checksHtml = data.checks
+        .map(
+          (c) => `
+        <li class="check-item">
+          <span class="status-dot ${c.status}"></span>
+          <div class="check-body">
+            <div class="check-label">${escapeHtml(c.label)} <span style="color:var(--text-dim);font-weight:400;font-size:12px;">(${STATUS_LABEL[c.status] || ''})</span></div>
+            <div class="check-detail">${escapeHtml(c.detail)}</div>
+          </div>
+        </li>`
+        )
+        .join('');
+
+      report.innerHTML = `
+        <div class="report-head">
+          <div class="report-target">
+            <strong>${escapeHtml(data.input)}</strong>
+            ${escapeHtml(data.finalUrl || '')}
+          </div>
+          <div class="seal" style="--seal-color:${color}">
+            <div class="score">${data.score}</div>
+            <div class="of100">من ١٠٠</div>
+          </div>
+        </div>
+        <p class="verdict"><b>الخلاصة:</b> ${escapeHtml(verdictText(data.score, data.type))}</p>
+        <ul class="checklist">${checksHtml}</ul>
+        <div class="report-foot">
+          هذا الفحص يعتمد على بيانات علنية (رؤوس HTTP، شهادة TLS، محتوى الصفحة الرئيسية) وليس تدقيقاً أمنياً كاملاً،
+          ولا يفحص محتوى الموقع أو سلوكه بعد تسجيل الدخول.
+        </div>
+      `;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const value = input.value.trim();
+      if (!value) return;
+
+      errorBox.classList.remove('active');
+      resultsSection.classList.remove('active');
+      loading.classList.add('active');
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ input: value }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'حدث خطأ غير متوقع');
+        }
+
+        renderReport(data);
+        resultsSection.classList.add('active');
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (err) {
+        errorBox.textContent = err.message || 'تعذر إتمام الفحص. تأكد من صحة الرابط وحاول مجدداً.';
+        errorBox.classList.add('active');
+      } finally {
+        loading.classList.remove('active');
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
