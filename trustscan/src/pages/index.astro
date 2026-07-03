@@ -6,23 +6,24 @@ import '../styles/global.css';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrustScan — افحص أي موقع أو تطبيق قبل ما تثق فيه</title>
-  <meta name="description" content="أداة فحص آلية تفحص أي رابط موقع أو صفحة تطبيق وتعطيك تقريراً واضحاً عن التشفير، رؤوس الحماية، الكوكيز، وسياسة الخصوصية المعلنة." />
+  <title id="page-title">TrustScan — افحص أي موقع أو تطبيق قبل ما تثق فيه</title>
+  <meta id="page-description" name="description" content="أداة فحص آلية تفحص أي رابط موقع أو صفحة تطبيق وتعطيك تقريراً واضحاً عن التشفير، رؤوس الحماية، الكوكيز، وسياسة الخصوصية المعلنة." />
 </head>
 <body lang="ar">
   <header class="site-header">
     <div class="wrap brand">
       <div>
         <div class="brand-mark">Trust<span>Scan</span></div>
-        <div class="brand-tagline">فحص الثقة والخصوصية</div>
+        <div class="brand-tagline" id="brand-tagline">فحص الثقة والخصوصية</div>
       </div>
+      <button type="button" class="lang-toggle" id="lang-toggle">English</button>
     </div>
   </header>
 
   <main class="wrap">
     <section class="hero">
-      <h1>قبل ما تعطيه بياناتك… افحصه</h1>
-      <p>
+      <h1 id="hero-title">قبل ما تعطيه بياناتك… افحصه</h1>
+      <p id="hero-desc">
         ألصق رابط أي موقع إلكتروني، أو رابط صفحة تطبيق من App Store أو Google Play،
         وخلال ثوانٍ نعطيك تقريراً عن التشفير، رؤوس الحماية، الكوكيز، وسياسة الخصوصية المعلنة.
       </p>
@@ -44,14 +45,14 @@ import '../styles/global.css';
         <button class="example-chip" type="button" data-example="https://www.wikipedia.org">wikipedia.org</button>
       </div>
 
-      <p class="disclaimer">
+      <p class="disclaimer" id="disclaimer">
         الفحص آلي ويعتمد فقط على الإعدادات العلنية المتاحة للجميع في الموقع. نتيجة جيدة لا تعني خلوّ الموقع من كل خطر،
         ونتيجة ضعيفة لا تعني بالضرورة نية سيئة — لكنها معلومات تستحق أن تعرفها قبل أن تثق.
       </p>
     </section>
 
     <div class="loading" id="loading">
-      <span>جارٍ الفحص<span class="dots"></span></span>
+      <span id="loading-text">جارٍ الفحص<span class="dots"></span></span>
     </div>
 
     <div class="error-box" id="error-box"></div>
@@ -62,28 +63,111 @@ import '../styles/global.css';
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">
+    <div class="wrap" id="footer-text">
       TrustScan لا يخزّن الروابط التي تفحصها ولا ينشئ حساباً أو ملفاً عنك. كل فحص يحدث لحظياً ولا يُحفظ بعد إغلاق الصفحة.
     </div>
   </footer>
 
   <script>
+    const UI = {
+      ar: {
+        htmlLang: 'ar',
+        dir: 'rtl',
+        pageTitle: 'TrustScan — افحص أي موقع أو تطبيق قبل ما تثق فيه',
+        pageDescription:
+          'أداة فحص آلية تفحص أي رابط موقع أو صفحة تطبيق وتعطيك تقريراً واضحاً عن التشفير، رؤوس الحماية، الكوكيز، وسياسة الخصوصية المعلنة.',
+        tagline: 'فحص الثقة والخصوصية',
+        heroTitle: 'قبل ما تعطيه بياناتك… افحصه',
+        heroDesc:
+          'ألصق رابط أي موقع إلكتروني، أو رابط صفحة تطبيق من App Store أو Google Play، وخلال ثوانٍ نعطيك تقريراً عن التشفير، رؤوس الحماية، الكوكيز، وسياسة الخصوصية المعلنة.',
+        placeholder: 'example.com أو رابط صفحة التطبيق في المتجر',
+        scanBtn: 'افحص الآن',
+        disclaimer:
+          'الفحص آلي ويعتمد فقط على الإعدادات العلنية المتاحة للجميع في الموقع. نتيجة جيدة لا تعني خلوّ الموقع من كل خطر، ونتيجة ضعيفة لا تعني بالضرورة نية سيئة — لكنها معلومات تستحق أن تعرفها قبل أن تثق.',
+        loadingText: 'جارٍ الفحص',
+        footerText:
+          'TrustScan لا يخزّن الروابط التي تفحصها ولا ينشئ حساباً أو ملفاً عنك. كل فحص يحدث لحظياً ولا يُحفظ بعد إغلاق الصفحة.',
+        toggleLabel: 'English',
+        defaultError: 'حدث خطأ غير متوقع',
+        fallbackError: 'تعذر إتمام الفحص. تأكد من صحة الرابط وحاول مجدداً.',
+        ofScore: 'من ١٠٠',
+        conclusion: 'الخلاصة:',
+        reportFoot:
+          'هذا الفحص يعتمد على بيانات علنية (رؤوس HTTP، شهادة TLS، محتوى الصفحة الرئيسية) وليس تدقيقاً أمنياً كاملاً، ولا يفحص محتوى الموقع أو سلوكه بعد تسجيل الدخول.',
+        statusLabel: { pass: 'جيد', warn: 'تنبيه', fail: 'خطر', info: 'معلومة' },
+        verdict: {
+          app: 'هذا تقرير عن ما يصرّح به المطوّر في صفحة المتجر فقط — وليس فحصاً لسلوك التطبيق الفعلي بعد التثبيت.',
+          good: 'الموقع يطبّق أغلب معايير التشفير والحماية الأساسية بشكل جيد.',
+          mid: 'الموقع يطبّق بعض المعايير الأساسية، لكن توجد نقاط تستحق الانتباه أدناه.',
+          low: 'رُصدت عدة نواقص في إعدادات الحماية الأساسية — يُنصح بالحذر قبل إدخال بيانات حساسة.',
+        },
+      },
+      en: {
+        htmlLang: 'en',
+        dir: 'ltr',
+        pageTitle: 'TrustScan — Check any site or app before you trust it',
+        pageDescription:
+          'An automated scanner that checks any website link or app-store page and gives you a clear report on encryption, security headers, cookies, and the published privacy policy.',
+        tagline: 'Trust & privacy scanning',
+        heroTitle: 'Before you hand over your data… scan it',
+        heroDesc:
+          'Paste any website link, or an app page link from the App Store or Google Play, and within seconds we give you a report on encryption, security headers, cookies, and the published privacy policy.',
+        placeholder: 'example.com or the app store page link',
+        scanBtn: 'Scan now',
+        disclaimer:
+          'The scan is automated and relies only on publicly available settings on the site. A good score does not mean the site is risk-free, and a low score does not necessarily mean bad intent — but it is information worth knowing before you trust it.',
+        loadingText: 'Scanning',
+        footerText:
+          "TrustScan doesn't store the links you scan and doesn't create an account or a file about you. Each scan happens instantly and isn't saved once you close the page.",
+        toggleLabel: 'العربية',
+        defaultError: 'An unexpected error occurred',
+        fallbackError: 'Could not complete the scan. Check the link and try again.',
+        ofScore: 'out of 100',
+        conclusion: 'Conclusion:',
+        reportFoot:
+          'This scan relies on public data (HTTP headers, TLS certificate, homepage content) and is not a full security audit — it does not check the site\'s content or behavior after logging in.',
+        statusLabel: { pass: 'Good', warn: 'Notice', fail: 'Risk', info: 'Info' },
+        verdict: {
+          app: "This report reflects only what the developer discloses on the store page — it is not a scan of the app's actual behavior after installation.",
+          good: 'The site implements most core encryption and protection standards well.',
+          mid: 'The site implements some core standards, but there are points below worth your attention.',
+          low: 'Several gaps were found in core protection settings — caution is advised before entering sensitive data.',
+        },
+      },
+    };
+
+    let lang = localStorage.getItem('trustscan-lang') === 'en' ? 'en' : 'ar';
+    let lastInput = '';
+    let hasResult = false;
+
     const form = document.getElementById('scan-form');
     const input = document.getElementById('scan-input');
     const btn = document.getElementById('scan-btn');
     const loading = document.getElementById('loading');
+    const loadingText = document.getElementById('loading-text');
     const resultsSection = document.getElementById('results');
     const report = document.getElementById('report');
     const errorBox = document.getElementById('error-box');
+    const langToggle = document.getElementById('lang-toggle');
 
-    document.querySelectorAll('.example-chip').forEach((chip) => {
-      chip.addEventListener('click', () => {
-        input.value = chip.getAttribute('data-example');
-        form.dispatchEvent(new Event('submit'));
-      });
-    });
-
-    const STATUS_LABEL = { pass: 'جيد', warn: 'تنبيه', fail: 'خطر', info: 'معلومة' };
+    function applyStaticText(l) {
+      const u = UI[l];
+      document.documentElement.lang = u.htmlLang;
+      document.documentElement.dir = u.dir;
+      document.body.setAttribute('lang', u.htmlLang);
+      document.body.setAttribute('dir', u.dir);
+      document.getElementById('page-title').textContent = u.pageTitle;
+      document.getElementById('page-description').setAttribute('content', u.pageDescription);
+      document.getElementById('brand-tagline').textContent = u.tagline;
+      document.getElementById('hero-title').textContent = u.heroTitle;
+      document.getElementById('hero-desc').textContent = u.heroDesc;
+      input.setAttribute('placeholder', u.placeholder);
+      btn.textContent = u.scanBtn;
+      document.getElementById('disclaimer').textContent = u.disclaimer;
+      loadingText.childNodes[0].textContent = u.loadingText;
+      document.getElementById('footer-text').textContent = u.footerText;
+      langToggle.textContent = u.toggleLabel;
+    }
 
     function sealColor(score) {
       if (score >= 80) return 'var(--pass)';
@@ -91,13 +175,12 @@ import '../styles/global.css';
       return 'var(--fail)';
     }
 
-    function verdictText(score, type) {
-      if (type === 'app') {
-        return 'هذا تقرير عن ما يصرّح به المطوّر في صفحة المتجر فقط — وليس فحصاً لسلوك التطبيق الفعلي بعد التثبيت.';
-      }
-      if (score >= 80) return 'الموقع يطبّق أغلب معايير التشفير والحماية الأساسية بشكل جيد.';
-      if (score >= 55) return 'الموقع يطبّق بعض المعايير الأساسية، لكن توجد نقاط تستحق الانتباه أدناه.';
-      return 'رُصدت عدة نواقص في إعدادات الحماية الأساسية — يُنصح بالحذر قبل إدخال بيانات حساسة.';
+    function verdictText(score, type, l) {
+      const v = UI[l].verdict;
+      if (type === 'app') return v.app;
+      if (score >= 80) return v.good;
+      if (score >= 55) return v.mid;
+      return v.low;
     }
 
     function escapeHtml(str) {
@@ -106,7 +189,8 @@ import '../styles/global.css';
       return div.innerHTML;
     }
 
-    function renderReport(data) {
+    function renderReport(data, l) {
+      const u = UI[l];
       const color = sealColor(data.score);
       const checksHtml = data.checks
         .map(
@@ -114,7 +198,7 @@ import '../styles/global.css';
         <li class="check-item">
           <span class="status-dot ${c.status}"></span>
           <div class="check-body">
-            <div class="check-label">${escapeHtml(c.label)} <span style="color:var(--text-dim);font-weight:400;font-size:12px;">(${STATUS_LABEL[c.status] || ''})</span></div>
+            <div class="check-label">${escapeHtml(c.label)} <span style="color:var(--text-dim);font-weight:400;font-size:12px;">(${u.statusLabel[c.status] || ''})</span></div>
             <div class="check-detail">${escapeHtml(c.detail)}</div>
           </div>
         </li>`
@@ -129,22 +213,19 @@ import '../styles/global.css';
           </div>
           <div class="seal" style="--seal-color:${color}">
             <div class="score">${data.score}</div>
-            <div class="of100">من ١٠٠</div>
+            <div class="of100">${u.ofScore}</div>
           </div>
         </div>
-        <p class="verdict"><b>الخلاصة:</b> ${escapeHtml(verdictText(data.score, data.type))}</p>
+        <p class="verdict"><b>${u.conclusion}</b> ${escapeHtml(verdictText(data.score, data.type, l))}</p>
         <ul class="checklist">${checksHtml}</ul>
-        <div class="report-foot">
-          هذا الفحص يعتمد على بيانات علنية (رؤوس HTTP، شهادة TLS، محتوى الصفحة الرئيسية) وليس تدقيقاً أمنياً كاملاً،
-          ولا يفحص محتوى الموقع أو سلوكه بعد تسجيل الدخول.
-        </div>
+        <div class="report-foot">${u.reportFoot}</div>
       `;
     }
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const value = input.value.trim();
+    async function runScan(value, l) {
       if (!value) return;
+      lastInput = value;
+      hasResult = false;
 
       errorBox.classList.remove('active');
       resultsSection.classList.remove('active');
@@ -155,25 +236,50 @@ import '../styles/global.css';
         const res = await fetch('/api/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ input: value }),
+          body: JSON.stringify({ input: value, lang: l }),
         });
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data.error || 'حدث خطأ غير متوقع');
+          throw new Error(data.error || UI[l].defaultError);
         }
 
-        renderReport(data);
+        renderReport(data, l);
+        hasResult = true;
         resultsSection.classList.add('active');
         resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } catch (err) {
-        errorBox.textContent = err.message || 'تعذر إتمام الفحص. تأكد من صحة الرابط وحاول مجدداً.';
+        errorBox.textContent = err.message || UI[l].fallbackError;
         errorBox.classList.add('active');
       } finally {
         loading.classList.remove('active');
         btn.disabled = false;
       }
+    }
+
+    document.querySelectorAll('.example-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        input.value = chip.getAttribute('data-example');
+        form.dispatchEvent(new Event('submit'));
+      });
     });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const value = input.value.trim();
+      runScan(value, lang);
+    });
+
+    langToggle.addEventListener('click', () => {
+      lang = lang === 'ar' ? 'en' : 'ar';
+      localStorage.setItem('trustscan-lang', lang);
+      applyStaticText(lang);
+      if (hasResult && lastInput) {
+        runScan(lastInput, lang);
+      }
+    });
+
+    applyStaticText(lang);
   </script>
 </body>
 </html>
