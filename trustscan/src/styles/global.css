@@ -33,6 +33,23 @@ body{
   line-height:1.7;
 }
 body[lang="ar"]{}
+body[dir="ltr"]{
+  font-family:'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  direction:ltr;
+  text-align:left;
+}
+body[dir="ltr"] .hero h1{font-family:'IBM Plex Sans Arabic', system-ui, sans-serif;}
+body[dir="ltr"] .scan-form{direction:ltr;}
+body[dir="ltr"] .scan-input{text-align:left;}
+body[dir="ltr"] .disclaimer,
+body[dir="ltr"] .verdict,
+body[dir="ltr"] .report-foot,
+body[dir="ltr"] .check-item,
+body[dir="ltr"] .error-box,
+body[dir="ltr"] .site-footer,
+body[dir="ltr"] .loading{
+  font-family:'IBM Plex Sans Arabic', system-ui, sans-serif;
+}
 
 .wrap{max-width:880px;margin:0 auto;padding:0 24px;}
 
@@ -40,7 +57,7 @@ body[lang="ar"]{}
   padding:28px 0 18px;
   border-bottom:1px solid var(--line);
 }
-.brand{display:flex;align-items:baseline;gap:12px;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:12px;justify-content:space-between;}
 .brand-mark{
   font-family:'JetBrains Mono',monospace;
   font-weight:600;
@@ -55,6 +72,21 @@ body[lang="ar"]{}
   font-size:13px;
   color:var(--text-dim);
 }
+.lang-toggle{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  direction:ltr;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--text-dim);
+  padding:7px 14px;
+  border-radius:99px;
+  cursor:pointer;
+  transition:border-color .15s ease, color .15s ease;
+  flex:0 0 auto;
+}
+.lang-toggle:hover{border-color:var(--brass);color:var(--text);}
+.lang-toggle:focus-visible{outline:2px solid var(--brass);outline-offset:2px;}
 
 .hero{padding:64px 0 40px;text-align:center;}
 .hero h1{
