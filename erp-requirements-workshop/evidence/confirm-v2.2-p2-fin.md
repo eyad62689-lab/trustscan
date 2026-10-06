@@ -2,7 +2,7 @@
 
 | البند | القيمة |
 |---|---|
-| الإصدار المفحوص | بنك الأسئلة الموحد 2.2 (`content/bank-v2.0/*.md`، دون `80-deferred.md`)، ومعه `CHANGELOG-2.1.md` و`CHANGELOG-2.2.md` |
+| الإصدار المفحوص | بنك الأسئلة الموحد 2.2 (`content/question-bank/*.md`، دون `80-deferred.md`)، ومعه `CHANGELOG-2.1.md` و`CHANGELOG-2.2.md` |
 | الشخصية | ش٢ — منشأة خدمات صيانة تكييف صغيرة (`content/reference-personas-and-scan-lists.md` v1.2) |
 | النطاق | ACC وEXP وTRS؛ ومسار TAX غير المسجّل: TAX مخفي، وPRF-003.ب، وكل تسرّب ضريبي إلى أي جزء من الوثيقة |
 | المرجع الحاكم | `03-handoff-brief-v1.0.md` §٧ (NFR-07، NFR-08، NFR-13) و§١٣ (ق ع-1 إلى ق ع-29) |
