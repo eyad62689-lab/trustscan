@@ -1,0 +1,11 @@
+{
+  "name": "ورشة المتطلبات",
+  "short_name": "ورشة المتطلبات",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1f4e5f",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

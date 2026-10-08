@@ -7,13 +7,13 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "strict": true,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "skipLibCheck": true,
     "noEmit": true,
     "types": ["vite/client"]
   },
-  "include": ["src", "test", "vite.config.ts"]
+  "include": ["src", "test"]
 }

@@ -1,0 +1,4195 @@
+{
+  "unit": "INV",
+  "sections": [
+    {
+      "id": "INV",
+      "title": "المخزون",
+      "order": 90,
+      "condition": {
+        "module": "INV"
+      },
+      "kind": "unit",
+      "opening": {
+        "attendees": "أمين المستودع (إلزامي)، والمحاسب، ومسؤول المشتريات.",
+        "mandatory": [
+          "أمين المستودع"
+        ],
+        "duration": "45–55 دقيقة",
+        "minutes": 55,
+        "discussion": [
+          "آخر جرد: كم كان الفرق بين الموجود والمسجّل، ولماذا؟",
+          "هل توجد أصناف تتلف أو تنتهي صلاحيتها قبل بيعها؟"
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "INV-001",
+      "section": "INV",
+      "order": 1,
+      "title": "اذكروا المستودعات أو أماكن التخزين",
+      "help": "كل مكان يُحفظ فيه مخزون يُحسب رصيده منفصلاً (ومنه سيارة مندوب المبيعات). وسيارة الفني أو مندوب المبيعات مكان تخزين، وما فيها عهدة على حاملها.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد المستودعات المعرّفة وربطها بالفروع والمسؤولين، وإظهار INV-009 عند أكثر من صف (ولو لم يكن F_MULTIBRANCH، تع-INV-04). ومسؤول المكان وفق STD-INV-19، ومخزون السيارات وفق STD-INV-18.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "الاسم",
+              "type": "text"
+            },
+            {
+              "key": "branch",
+              "label": "الفرع التابع له",
+              "type": "branch"
+            },
+            {
+              "key": "type",
+              "label": "النوع",
+              "type": "single",
+              "options": [
+                {
+                  "key": "main",
+                  "label": "رئيسي",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "sub",
+                  "label": "فرعي",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "showroom",
+                  "label": "معرض",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "sales_rep_car",
+                  "label": "سيارة مندوب",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "technician_car",
+                  "label": "سيارة فني",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "responsible",
+              "label": "المسؤول",
+              "type": "role",
+              "help": "قائمة منسدلة: أدوار ROL-001 + «شخص غير مستخدم» (الاسم، الجوال) يُضاف إلى قائمة «أشخاص غير مستخدمين» (STD-GEN-20)."
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "name": "المستودع الرئيسي",
+                "branch": "<الفرع الذي نوعه «مقر رئيسي» في GEN-003>",
+                "type": "main",
+                "responsible": "أمين المستودع"
+              }
+            ],
+            "reason": "الحالة الأشيع.",
+            "when": [
+              {
+                "if": {
+                  "flag": "F_MULTIBRANCH"
+                },
+                "value": [
+                  {
+                    "name": "المستودع الرئيسي — <اسم الفرع>",
+                    "branch": "<كل فرع في GEN-003>",
+                    "type": "main",
+                    "responsible": "أمين المستودع"
+                  }
+                ],
+                "reason": "الشراء المركزي والتحويل للفروع يحتاجان رصيداً لكل فرع."
+              }
+            ],
+            "text": "صف واحد: «المستودع الرئيسي» تابع للفرع الذي نوعه «مقر رئيسي» (GEN-003) — السبب: الحالة الأشيع. وعند F_MULTIBRANCH: مستودع رئيسي لكل فرع، تابع لفرعه، يُسمّى «المستودع الرئيسي — <اسم الفرع>» — السبب: الشراء المركزي والتحويل للفروع يحتاجان رصيداً لكل فرع. الموصى به لعمود «المسؤول»: «أمين المستودع» للأنواع رئيسي وفرعي ومعرض؛ وللسيارات: شخص من «أشخاص غير مستخدمين»، أو يُترك فارغاً فيُفهم الصف قالباً «سيارة لكل فني» (STD-INV-20). والدور الذي لا مستخدم له تُسند إلى المالك مسؤوليةُ أماكن تخزينه (STD-GEN-19). وسيارات الفنيين تُنشأ وفق STD-INV-20."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R001",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعرّف النظام أماكن التخزين {{Q:INV-001#main.name}} بأنواعها وفروعها، ولكل مكان رصيد منفصل ومسؤول {{Q:INV-001#main.responsible}}."
+        }
+      ],
+      "workshopNote": "صف واحد لكل فرع عند F_MULTIBRANCH (الموصى به). والسيارات: شخص من «أشخاص غير مستخدمين» أو تُترك بلا مسؤول فيُفهم الصف قالباً «سيارة لكل فني» (STD-INV-20). تع-14 (01-global-rules): الشراء المركزي أو طلب احتياج الفرع مع مستودع واحد عند تعدد الفروع ← مستودع لكل فرع افتراضاً، أو علامة على INV-001."
+    },
+    {
+      "id": "INV-002",
+      "section": "INV",
+      "order": 2,
+      "title": "ما بيانات الصنف التي تسجلونها؟",
+      "help": "عدّل المؤشَّر عليه، وأضف حقولكم الخاصة.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد بنية بطاقة الصنف وقواعد التحقق وما يُطبع على الملصقات والمستندات. وعند خلوّ دور أمين المستودع يملك مُنشئ المستند الذي يحتاج الصنف إنشاء بطاقته وتعديلها، عدا سعر البيع (STD-GEN-63). وإنشاء «سعر البيع» وتعديله وفق STD-SAL-25 (الأدوار في صف «أسعار البيع» في ROL-008)، لا «تعديل» INV؛ والصنف الذي يُنشئه غيرهم يُحفظ بلا سعر «غير متاح للبيع»، ويُقرأ إلزام «سعر البيع» في INV-R002a إلزاماً قبل أول مستند بيع. والأسعار المنقولة قبل التشغيل تُعتمد مع كشف مطابقة الأرصدة الافتتاحية وفق STD-SAL-25 (٥) (ق ع-93).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "الحقول الإلزامية",
+          "type": "multi",
+          "options": [
+            {
+              "key": "name_ar",
+              "label": "الاسم بالعربية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "name_en",
+              "label": "الاسم بالإنجليزية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "item_code",
+              "label": "رمز الصنف",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "barcode",
+              "label": "الباركود",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "group",
+              "label": "المجموعة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "brand",
+              "label": "العلامة التجارية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "uom",
+              "label": "وحدة القياس",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sale_price",
+              "label": "سعر البيع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "last_purchase_price",
+              "label": "آخر سعر شراء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "usual_supplier",
+              "label": "المورّد المعتاد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "reorder_level",
+              "label": "حد إعادة الطلب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "image",
+              "label": "الصورة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "description",
+              "label": "الوصف",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "tax_code",
+              "label": "رمز الضريبة",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "flag": "F_TAXREADY"
+              }
+            },
+            {
+              "key": "bin_location",
+              "label": "الموقع داخل المستودع (رف)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "weight_volume",
+              "label": "الوزن أو الحجم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "name_ar",
+              "item_code",
+              "uom",
+              "sale_price"
+            ],
+            "reason": "الحد الأدنى للبيع والتقارير.",
+            "when": [
+              {
+                "if": {
+                  "flag": "F_TAXREADY"
+                },
+                "value": [
+                  "name_ar",
+                  "item_code",
+                  "uom",
+                  "sale_price",
+                  "tax_code"
+                ],
+                "reason": "رمز الضريبة إلزامي عند F_TAXREADY."
+              }
+            ],
+            "text": "الاسم بالعربية، ورمز الصنف، ووحدة القياس، وسعر البيع — إلزامية؛ ورمز الضريبة إلزامي عند F_TAXREADY؛ والباقي اختياري — السبب: الحد الأدنى للبيع والتقارير. عند عدم F_TAXREADY: يُسقَط حقل «رمز الضريبة» (STD-GEN-24، الحالة ٥). عند F_VAT_SOON: «رمز الضريبة» مخفي واختياري حتى تاريخ التفعيل، ثم يُعبّأ آلياً ويصير إلزامياً (تع-TAX-01)."
+          },
+          "required": false
+        },
+        {
+          "key": "optional",
+          "label": "الحقول الاختيارية",
+          "type": "multi",
+          "options": [
+            {
+              "key": "name_ar",
+              "label": "الاسم بالعربية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "name_en",
+              "label": "الاسم بالإنجليزية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "item_code",
+              "label": "رمز الصنف",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "barcode",
+              "label": "الباركود",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "group",
+              "label": "المجموعة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "brand",
+              "label": "العلامة التجارية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "uom",
+              "label": "وحدة القياس",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sale_price",
+              "label": "سعر البيع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "last_purchase_price",
+              "label": "آخر سعر شراء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "usual_supplier",
+              "label": "المورّد المعتاد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "reorder_level",
+              "label": "حد إعادة الطلب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "image",
+              "label": "الصورة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "description",
+              "label": "الوصف",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "tax_code",
+              "label": "رمز الضريبة",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "flag": "F_TAXREADY"
+              }
+            },
+            {
+              "key": "bin_location",
+              "label": "الموقع داخل المستودع (رف)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "weight_volume",
+              "label": "الوزن أو الحجم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "name_en",
+              "barcode",
+              "group",
+              "brand",
+              "last_purchase_price",
+              "usual_supplier",
+              "reorder_level",
+              "image",
+              "description",
+              "bin_location",
+              "weight_volume"
+            ],
+            "reason": "الحد الأدنى للبيع والتقارير.",
+            "when": [],
+            "text": "والباقي اختياري."
+          },
+          "required": false
+        },
+        {
+          "key": "props",
+          "label": "النوع ويُطبع في المستند؟ (ع-08)",
+          "type": "matrix",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "type",
+              "label": "النوع",
+              "type": "single",
+              "options": [
+                {
+                  "key": "text",
+                  "label": "نص",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "list",
+                  "label": "قائمة",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "number",
+                  "label": "رقم",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "number_per_location",
+                  "label": "رقم لكل مستودع",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "attachment",
+                  "label": "مرفق",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "printed",
+              "label": "يُطبع في المستند؟",
+              "type": "bool"
+            }
+          ],
+          "rows": [
+            {
+              "key": "name_ar",
+              "label": "الاسم بالعربية"
+            },
+            {
+              "key": "name_en",
+              "label": "الاسم بالإنجليزية"
+            },
+            {
+              "key": "item_code",
+              "label": "رمز الصنف"
+            },
+            {
+              "key": "barcode",
+              "label": "الباركود"
+            },
+            {
+              "key": "group",
+              "label": "المجموعة"
+            },
+            {
+              "key": "brand",
+              "label": "العلامة التجارية"
+            },
+            {
+              "key": "uom",
+              "label": "وحدة القياس"
+            },
+            {
+              "key": "sale_price",
+              "label": "سعر البيع"
+            },
+            {
+              "key": "last_purchase_price",
+              "label": "آخر سعر شراء"
+            },
+            {
+              "key": "usual_supplier",
+              "label": "المورّد المعتاد"
+            },
+            {
+              "key": "reorder_level",
+              "label": "حد إعادة الطلب"
+            },
+            {
+              "key": "image",
+              "label": "الصورة"
+            },
+            {
+              "key": "description",
+              "label": "الوصف"
+            },
+            {
+              "key": "tax_code",
+              "label": "رمز الضريبة"
+            },
+            {
+              "key": "bin_location",
+              "label": "الموقع داخل المستودع (رف)"
+            },
+            {
+              "key": "weight_volume",
+              "label": "الوزن أو الحجم"
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": {
+              "name_ar": {
+                "type": "text",
+                "printed": true
+              },
+              "name_en": {
+                "type": "text",
+                "printed": true
+              },
+              "item_code": {
+                "type": "text",
+                "printed": true
+              },
+              "barcode": {
+                "type": "text",
+                "printed": false
+              },
+              "group": {
+                "type": "list",
+                "printed": false
+              },
+              "brand": {
+                "type": "list",
+                "printed": false
+              },
+              "uom": {
+                "type": "list",
+                "printed": true
+              },
+              "sale_price": {
+                "type": "number",
+                "printed": false
+              },
+              "last_purchase_price": {
+                "type": "number",
+                "printed": false
+              },
+              "usual_supplier": {
+                "type": "list",
+                "printed": false
+              },
+              "reorder_level": {
+                "type": "number_per_location",
+                "printed": false
+              },
+              "image": {
+                "type": "attachment",
+                "printed": false
+              },
+              "description": {
+                "type": "text",
+                "printed": false
+              },
+              "tax_code": {
+                "type": "list",
+                "printed": true
+              },
+              "bin_location": {
+                "type": "text",
+                "printed": false
+              },
+              "weight_volume": {
+                "type": "number",
+                "printed": false
+              }
+            },
+            "reason": "",
+            "when": [],
+            "text": "النوع ويُطبع (ع-08): الاسم بالعربية نص/يُطبع؛ الاسم بالإنجليزية نص/يُطبع؛ رمز الصنف نص/يُطبع؛ الباركود نص/لا؛ المجموعة قائمة/لا؛ العلامة التجارية قائمة/لا؛ وحدة القياس قائمة/يُطبع؛ سعر البيع رقم/لا (يُطبع سعر السطر)؛ آخر سعر شراء رقم/لا؛ المورّد المعتاد قائمة/لا؛ حد إعادة الطلب رقم لكل مستودع/لا (STD-INV-13)؛ الصورة مرفق/لا؛ الوصف نص/لا؛ رمز الضريبة قائمة/يُطبع؛ الموقع داخل المستودع نص/لا؛ الوزن أو الحجم رقم/لا."
+          },
+          "required": false
+        },
+        {
+          "key": "custom",
+          "label": "حقول مخصصة (م-7)",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "الاسم",
+              "type": "text"
+            },
+            {
+              "key": "type",
+              "label": "النوع",
+              "type": "single",
+              "options": [
+                {
+                  "key": "text",
+                  "label": "نص",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "number",
+                  "label": "رقم",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "date",
+                  "label": "تاريخ",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "list",
+                  "label": "قائمة",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "bool",
+                  "label": "نعم/لا",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "attachment",
+                  "label": "مرفق",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "required",
+              "label": "إلزامي",
+              "type": "bool"
+            },
+            {
+              "key": "printed",
+              "label": "يُطبع",
+              "type": "bool"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [],
+            "reason": "",
+            "when": [],
+            "text": ""
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R002a",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب ألا يحفظ النظام بطاقة صنف دون الحقول {{Q:INV-002}}، وأن تكون الحقول {{Q:INV-002#optional}} اختيارية في البطاقة.",
+          "whenText": "يُولَّد دائماً عند ظهور السؤال."
+        },
+        {
+          "id": "INV-R002b",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يكون نوع كل حقل في بطاقة الصنف وظهوره في المستند المطبوع وفق {{Q:INV-002#props.type}} و{{Q:INV-002#props.printed}}."
+        },
+        {
+          "id": "INV-R002c",
+          "when": {
+            "answered": "INV-002#custom"
+          },
+          "noRequirement": false,
+          "text": "يجب أن تتضمن بطاقة الصنف الحقول المخصصة {{Q:INV-002#custom.name}} بنوعها {{Q:INV-002#custom.type}} وإلزامها {{Q:INV-002#custom.required}} وطباعتها {{Q:INV-002#custom.printed}}.",
+          "whenText": "يُولَّد عند جدول م-7 غير فارغ."
+        }
+      ],
+      "workshopNote": "حقلان تلقائيان: «الحالة: نشط/موقوف» دائماً (STD-INV-15)، و«يُتتبَّع تاريخ صلاحيته» عند INV-005 تتضمن الصلاحية (STD-INV-10). تع-TAX-01 (12-tax): عند F_VAT_SOON يبقى «رمز الضريبة» في INV-002 مخفياً اختيارياً حتى التفعيل، ثم يُعبّأ آلياً ويصير إلزامياً."
+    },
+    {
+      "id": "INV-003",
+      "section": "INV",
+      "order": 3,
+      "title": "كيف يُرمَّز الصنف؟",
+      "help": "رمز الصنف رقم أو رمز قصير يميزه.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد قاعدة توليد الرمز ومنع التكرار. وشكل الترقيم وإيقاف الصنف وفق STD-INV-15.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "auto_serial",
+              "label": "رقم تسلسلي تلقائي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "group_prefix",
+              "label": "رمز حسب المجموعة (مثل: أدوات-001)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "manufacturer_barcode",
+              "label": "نستخدم باركود المصنّع رمزاً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "manual",
+              "label": "ندخله يدوياً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "auto_serial",
+            "reason": "يمنع التكرار ولا يعتمد على وجود باركود.",
+            "when": [],
+            "text": "رقم تسلسلي تلقائي مع حفظ باركود المصنّع في حقل مستقل — السبب: يمنع التكرار ولا يعتمد على وجود باركود."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R003",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يُنشأ رمز الصنف بطريقة {{Q:INV-003}}، وألا يقبل النظام رمزاً مكرراً{{IF:{\"all\":[{\"eq\":[\"INV-003\",\"auto_serial\"]},{\"any\":[{\"has\":[\"INV-002\",\"barcode\"]},{\"has\":[\"INV-002#optional\",\"barcode\"]}]}]}|، ويُحفظ باركود المصنّع في حقل مستقل عن الرمز}}.",
+          "whenText": "يُولَّد عند ظهور السؤال؛ والخانة الأخيرة عند INV-003 = «رقم تسلسلي تلقائي» و«الباركود» مختار في INV-002."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "INV-004",
+      "section": "INV",
+      "order": 4,
+      "title": "هل يُباع الصنف أو يُشترى بأكثر من وحدة قياس؟",
+      "help": "مثل: الشراء بالكرتون (24 حبة) والبيع بالحبة. ومثل أنابيب تُباع بالمتر أو غاز بالكيلو: الوحدة تقبل الكسور.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد جدول وحدات لكل صنف بمعاملات تحويل وسعر لكل وحدة وباركود لكل وحدة. ولكل صنف وحدة أساسية (أصغر وحداته)، ووحدة شراء افتراضية، ووحدة بيع افتراضية؛ ولكل وحدة «تقبل الكسور» (STD-INV-04).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "single_unit",
+              "label": "لا، وحدة واحدة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "multi_units",
+              "label": "نعم، وحدات متعددة بمعامل تحويل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "multi_units",
+            "reason": "شائع في التجارة، وغيابه يسبب أخطاء الكميات.",
+            "when": [],
+            "text": "نعم، وحدات متعددة — السبب: شائع في التجارة، وغيابه يسبب أخطاء الكميات."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R004a",
+          "when": {
+            "eq": [
+              "INV-004",
+              "multi_units"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يتيح النظام لكل صنف وحدات قياس متعددة، لكلٍّ معامل تحويل إلى وحدته الأساسية وسعر بيع وباركود خاصان بها.",
+          "whenText": "يُولَّد عند INV-004 = «نعم، وحدات متعددة بمعامل تحويل»."
+        },
+        {
+          "id": "INV-R004b",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يحفظ النظام رصيد الصنف وتكلفته بوحدته الأساسية، وأن يقترح وحدة الشراء والبيع الافتراضيتين، وأن يقبل الكسور للوحدات الموسومة بذلك فقط."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "INV-005",
+      "section": "INV",
+      "order": 5,
+      "title": "هل تحتاجون تتبعاً خاصاً لبعض الأصناف؟",
+      "help": "اختر كل ما ينطبق.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد حقول التتبع على مستوى الحركة، وقاعدة الصرف (الأقرب انتهاءً أولاً عند الصلاحية)، والجرد والتحويل بتاريخ الصلاحية (STD-INV-10 (٥)، ق ع-95)، وتقارير الصلاحية والضمان. واختيار الصلاحية يفعّل STD-INV-10، ويضيف تقرير الصلاحية وتنبيهها إلى الموصى به في INV-014 وINV-015 (تع-INV-01). وإن تضمّن الصلاحية ولم يتضمن INV-010 «تالف أو منتهي الصلاحية»، يُضاف إليه افتراضاً مُعلناً (STD-GEN-24، الحالة ٦).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multiPriority",
+          "options": [
+            {
+              "key": "expiry",
+              "label": "تاريخ انتهاء الصلاحية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "batch",
+              "label": "رقم التشغيلة (الدفعة)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "serial",
+              "label": "رقم تسلسلي لكل قطعة (مثل الأجهزة)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "variants",
+              "label": "مقاسات وألوان للصنف الواحد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "warranty",
+              "label": "ضمان بعد البيع بمدة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "none",
+              "label": "لا حاجة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "none"
+            ],
+            "reason": "يضيف عبئاً لا يلزم إلا أنشطة محددة؛ ومن يحتاجه يختاره.",
+            "when": [],
+            "text": "لا حاجة — السبب: يضيف عبئاً لا يلزم إلا أنشطة محددة؛ ومن يحتاجه يختاره."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R005",
+          "when": {
+            "not": {
+              "has": [
+                "INV-005",
+                "none"
+              ]
+            }
+          },
+          "noRequirement": false,
+          "text": "يجب أن يتتبع النظام {{Q:INV-005}} للأصناف الموسومة، وفق STD-INV-10."
+        },
+        {
+          "id": "INV-R005-noreq",
+          "when": {
+            "has": [
+              "INV-005",
+              "none"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً (§٣.٣ (١٤) من قواعد التوليد)، ولا يسري STD-INV-10."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "INV-006",
+      "section": "INV",
+      "order": 6,
+      "title": "كيف تُحسب تكلفة البضاعة المباعة؟",
+      "help": "عندما تشترون الصنف نفسه بأسعار مختلفة، بأي سعر تُحسب تكلفة ما بِيع؟",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد طريقة التكلفة وإعادة حسابها عند كل استلام، وتكلفة كل سطر بيع. ونطاق المتوسط وتكلفة المرتجعات وفق STD-INV-05.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "weighted_avg",
+              "label": "متوسط أسعار الشراء (المتوسط المرجح)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "fifo",
+              "label": "الأقدم شراءً يُصرف أولاً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "specific_id",
+              "label": "تكلفة كل قطعة بعينها (للأصناف ذات الرقم التسلسلي)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "weighted_avg",
+            "reason": "الأبسط والأكثر شيوعاً، ويعطي ربحاً مستقراً.",
+            "when": [],
+            "text": "متوسط أسعار الشراء — السبب: الأبسط والأكثر شيوعاً، ويعطي ربحاً مستقراً."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R006",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يحسب النظام تكلفة البضاعة المباعة بطريقة {{Q:INV-006}}، وفق STD-INV-05{{IF:{\"eq\":[\"INV-006\",\"weighted_avg\"]}|، ويعيد حساب المتوسط عند كل استلام}}.",
+          "whenText": "يُولَّد عند ظهور السؤال؛ والخانة الأخيرة عند INV-006 = «متوسط أسعار الشراء (المتوسط المرجح)»."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "INV-007",
+      "section": "INV",
+      "order": 7,
+      "title": "هل يُسمح بالبيع أو الصرف بكمية غير موجودة في رصيد النظام؟",
+      "help": "يحدث أحياناً أن البضاعة موجودة فعلاً ولم تُسجَّل بعد.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV). والجزء (ب) عند الخيار الثالث.",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد التحقق من الرصيد عند كل صرف وبيع وتحويل. ونطاق التحقق وتوقيته والكمية المتاحة وفق STD-INV-06؛ وموضع التحقق في البيع وفق STD-SAL-08.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "never",
+              "label": "لا يُسمح أبداً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "allow_warn",
+              "label": "يُسمح مع تنبيه",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "roles_only",
+              "label": "يُسمح لأدوار معينة فقط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "never",
+            "reason": "يحمي دقة الأرصدة والتكلفة.",
+            "when": [],
+            "text": "لا يُسمح أبداً — السبب: يحمي دقة الأرصدة والتكلفة. (ب) «المالك» — السبب: تجاوز الرصيد يمس دقة التكلفة، فهو قرار مالك كتسويات المخزون (ق ع-26)."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "الأدوار المسموح لها",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "role",
+              "label": "الدور",
+              "type": "role"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "INV-007",
+              "roles_only"
+            ]
+          },
+          "recommended": {
+            "value": [
+              {
+                "role": "المالك"
+              }
+            ],
+            "reason": "تجاوز الرصيد يمس دقة التكلفة، فهو قرار مالك كتسويات المخزون (ق ع-26).",
+            "when": [],
+            "text": "(ب) «المالك» — السبب: تجاوز الرصيد يمس دقة التكلفة، فهو قرار مالك كتسويات المخزون (ق ع-26)."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R007",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يتحقق النظام من الكمية المتاحة في كل صرف وبيع وتحويل وفق STD-INV-06، وأن يعامل ما يتجاوزها بحكم {{Q:INV-007}}: {{SW:INV-007|never=يمنع الترحيل|allow_warn=ينبّه المُنشئ ويسمح بالترحيل|roles_only=يمنع الترحيل إلا لمستخدم دوره {{Q:INV-007#b.role}}، ويُسجَّل ذلك (ADM-001)}}.",
+          "whenText": "يُولَّد عند ظهور السؤال، وتُكتب منه جملة الخيار المختار وحدها."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "INV-008",
+      "section": "INV",
+      "order": 8,
+      "title": "كيف تجردون المخزون؟",
+      "help": "الجرد عدّ البضاعة فعلياً ومقارنتها بالنظام.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مستند الجرد وأوراق العدّ، واحتساب الفروقات، ومسار اعتماد التسوية وقيدها. وطريقة احتساب الفرق والعدّ الأعمى وفق STD-INV-07؛ ومعتمِد التسوية من INV-016. ويُمنح الجرد رقمه الدائم عند «مفتوح»، وتُطبع به أوراق العدّ دون وسم «مسودة — غير نافذ»، ولا يُحذف جرد فُتح بل يُلغى قبل التسوية ويبقى برقمه (STD-GEN-43 (١)). و«العدّ بالجوال» يضيف «عدّ الجرد» إلى الموصى به في GEN-008.ب (تع-41).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "annual_full",
+              "label": "جرد كامل سنوي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "quarterly_full",
+              "label": "جرد كامل كل ربع سنة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "partial_cycle",
+              "label": "جرد جزئي دوري لمجموعات مختارة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "mobile_count",
+              "label": "العدّ بالجوال أو قارئ الباركود",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "freeze",
+              "label": "تجميد الحركة أثناء الجرد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "annual_full",
+              "partial_cycle",
+              "mobile_count"
+            ],
+            "reason": "يضبط المخزون دون إيقاف العمل طويلاً.",
+            "when": [],
+            "text": "جرد كامل سنوي، وجرد جزئي دوري، والعدّ بالجوال؛ والفروقات تُعتمد — السبب: يضبط المخزون دون إيقاف العمل طويلاً."
+          },
+          "required": false
+        },
+        {
+          "key": "settlement",
+          "label": "التسوية",
+          "type": "single",
+          "options": [
+            {
+              "key": "approved",
+              "label": "الفروقات تُعتمد (المعتمِد في INV-016)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "direct",
+              "label": "تُسوّى مباشرة",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "approved",
+            "reason": "يضبط المخزون دون إيقاف العمل طويلاً.",
+            "when": [],
+            "text": "والفروقات تُعتمد"
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R008",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام الجرد {{Q:INV-008}}{{IF:{\"hasAny\":[\"INV-008\",[\"annual_full\",\"quarterly_full\"]]}|، وأن يُنشئ الجرد الكامل الدوري آلياً في موعده وينبّه على تأخر عدّه وفق STD-INV-22}}، وأن تُسوّى الفروق {{Q:INV-008#settlement}} وفق STD-INV-07.",
+          "whenText": "الخانة الشرطية عند سريان STD-INV-22."
+        }
+      ],
+      "workshopNote": "تع-41 (01-global-rules): «العدّ بالجوال» في INV-008 دون «عدّ الجرد» في GEN-008.ب ← توحيد الاختيار بحسب «إجابة/افتراض»."
+    },
+    {
+      "id": "INV-009",
+      "section": "INV",
+      "order": 9,
+      "title": "كيف تُنقل البضاعة بين المستودعات؟",
+      "help": "يحدد من يرسل ومن يؤكد الاستلام.",
+      "detail": true,
+      "condition": {
+        "all": [
+          {
+            "module": "INV"
+          },
+          {
+            "text": "INV-001 فيه أكثر من صف، أو سريان STD-INV-20 مع صف آخر في INV-001"
+          }
+        ]
+      },
+      "conditionText": "M(INV) وINV-001 فيه أكثر من صف، أو سريان STD-INV-20 مع صف آخر في INV-001، ولو لم يكن F_MULTIBRANCH (تع-INV-04). والجزء (ب) عند الخيار الثالث.",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مستند التحويل وحالة «بضاعة في الطريق» ومعالجة فروق الاستلام (STD-INV-08). والتحويل من مكان أو إليه مسؤوله «شخص غير مستخدم» بخطوة واحدة دائماً (تع-INV-05).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "one_step",
+              "label": "تحويل بخطوة واحدة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "two_step",
+              "label": "تحويل بخطوتين: إرسال ثم تأكيد استلام من المستودع المستلم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "request_flow",
+              "label": "طلب تحويل من الفرع ← اعتماد ← إرسال ← استلام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "two_step",
+            "reason": "يكشف الفاقد أثناء النقل دون تعقيد.",
+            "when": [],
+            "text": "(أ) تحويل بخطوتين — السبب: يكشف الفاقد أثناء النقل دون تعقيد. وحين يكون كل تحويل ممكن من مكان أو إلى مكان مسؤوله «شخص غير مستخدم» (في INV-001 مكان واحد غير السيارات، وكل سيارة مسؤولها شخص غير مستخدم): «تحويل بخطوة واحدة» — السبب: لا يقع غيره (تع-INV-05)، فلا يُولَّد صف «نقص استلام التحويل» في INV-016 ولا تنبيه «تحويل لم يؤكَّد» في INV-015 بلا عمل. (ب) الطالب: «مدير الفرع» المستلم و«أمين المستودع» فيه، كلاهما يملك إنشاء الطلب؛ ويعتمد «مدير الفرع» المرسِل؛ عند الرفض يعود للمُنشئ؛ التذكير 24 ساعة؛ وعند عدم F_MULTIBRANCH: يعتمد «المالك» — السبب: من يملك البضاعة يقرر خروجها."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "الطالب والمعتمِد",
+          "type": "approvalRow",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "requester",
+              "label": "الطالب",
+              "type": "role"
+            },
+            {
+              "key": "approver",
+              "label": "المعتمِد",
+              "type": "role"
+            },
+            {
+              "key": "on_reject",
+              "label": "عند الرفض",
+              "type": "single",
+              "options": [
+                {
+                  "key": "return_to_creator",
+                  "label": "يعود للمُنشئ",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "cancel",
+                  "label": "يُلغى",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "reminder_hours",
+              "label": "التذكير بالساعات",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "INV-009",
+              "request_flow"
+            ]
+          },
+          "recommended": {
+            "value": {
+              "requester": "مدير الفرع المستلم، أمين المستودع",
+              "approver": "مدير الفرع المرسِل",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            "reason": "من يملك البضاعة يقرر خروجها.",
+            "when": [
+              {
+                "if": {
+                  "not": {
+                    "flag": "F_MULTIBRANCH"
+                  }
+                },
+                "value": {
+                  "requester": "مدير الفرع المستلم، أمين المستودع",
+                  "approver": "المالك",
+                  "on_reject": "return_to_creator",
+                  "reminder_hours": 24
+                },
+                "reason": "من يملك البضاعة يقرر خروجها."
+              }
+            ],
+            "text": "(ب) الطالب: «مدير الفرع» المستلم و«أمين المستودع» فيه، كلاهما يملك إنشاء الطلب؛ ويعتمد «مدير الفرع» المرسِل؛ عند الرفض يعود للمُنشئ؛ التذكير 24 ساعة؛ وعند عدم F_MULTIBRANCH: يعتمد «المالك» — السبب: من يملك البضاعة يقرر خروجها."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R009a",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام التحويل بين أماكن التخزين {{Q:INV-009}}، وفق STD-INV-08{{IF:{\"in\":[\"INV-009\",[\"two_step\",\"request_flow\"]]}|، مع حالة «بضاعة في الطريق» وتأكيد الاستلام من المكان المستلم ومعالجة فروقه}}.",
+          "whenText": "يُولَّد عند ظهور السؤال؛ والخانة الأخيرة عند الخيار الثاني أو الثالث، وتُسقَط للتحويل من مكان أو إليه مسؤوله «شخص غير مستخدم»، فيُكتب له «بخطوة واحدة» (تع-INV-05)."
+        },
+        {
+          "id": "INV-R009b",
+          "when": {
+            "eq": [
+              "INV-009",
+              "request_flow"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب ألا يُرسَل التحويل المطلوب إلا بعد اعتماد {{Q:INV-009#b.approver}}، على طلب ينشئه {{Q:INV-009#b.requester}}؛ وعند الرفض {{Q:INV-009#b.on_reject}}، والتذكير بعد {{Q:INV-009#b.reminder_hours}} ساعة."
+        }
+      ],
+      "workshopNote": "حين يكون كل تحويل ممكن من مكان أو إلى مكان مسؤوله «شخص غير مستخدم» يُوصى بـ«تحويل بخطوة واحدة» (تع-INV-05) — لا يُعبَّر عنه آلياً؛ يراجعه الميسّر. تع-14 (01-global-rules) يمسّ هذا السؤال عبر INV-001."
+    },
+    {
+      "id": "INV-010",
+      "section": "INV",
+      "order": 10,
+      "title": "ما أنواع الصرف من المخزون غير البيع؟",
+      "help": "اختر كل ما ينطبق.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مستند «صرف مخزني» بأسبابه، وتوجيه كل سبب إلى حساب مصروف مناسب، و«صرف لمشروع» يربط بـPRJ. والصرف وفق STD-INV-11. الإسقاط (STD-GEN-24): إن لم يتضمن «تالف أو منتهي الصلاحية» يُسقَط وسم «غير صالح للبيع» في سطر مرتجع المبيعات والصرف الآلي عنه وصف «صرف تالف» في INV-016 (الحالة ٦). وإن ظهر INV-017 يُسقَط سبب «استخدام في أعمال الخدمة أو الصيانة» من أسباب الصرف ومن STD-INV-11 ومن INV-016 ومن مهام الإعداد، ويبقى في الواجهة شرطاً لظهور INV-017 فقط؛ فإن لم يبقَ سبب، لا يُولَّد INV-R010 ولا مستند «صرف مخزني» (الحالة ٩).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "internal_use",
+              "label": "استخدام داخلي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "damaged_expired",
+              "label": "تالف أو منتهي الصلاحية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "free_samples",
+              "label": "عينات مجانية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "customer_gifts",
+              "label": "هدايا للعملاء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "project_issue",
+              "label": "صرف لمشروع",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "module": "PRJ"
+              },
+              "conditionText": "يُخفى ما لم تكن M(PRJ)"
+            },
+            {
+              "key": "employee_custody_tools",
+              "label": "تسليم أصناف لموظف عهدةً يُعيدها (أدوات)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "service_maintenance_use",
+              "label": "استخدام في أعمال الخدمة أو الصيانة",
+              "other": false,
+              "dontKnow": false,
+              "hint": "يُظهر INV-017"
+            },
+            {
+              "key": "none",
+              "label": "لا يوجد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "internal_use",
+              "damaged_expired"
+            ],
+            "reason": "يحدثان في كل منشأة تقريباً.",
+            "when": [],
+            "text": "استخدام داخلي، وتالف — السبب: يحدثان في كل منشأة تقريباً."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R010",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "has": [
+                    "INV-010",
+                    "none"
+                  ]
+                }
+              },
+              {
+                "any": [
+                  {
+                    "hasAny": [
+                      "INV-010",
+                      [
+                        "internal_use",
+                        "damaged_expired",
+                        "free_samples",
+                        "customer_gifts",
+                        "project_issue",
+                        "employee_custody_tools",
+                        "other"
+                      ]
+                    ]
+                  },
+                  {
+                    "not": {
+                      "visible": "INV-017"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام «صرفاً مخزنياً» بالأسباب {{Q:INV-010}}، وفق STD-INV-11.",
+          "whenText": "لا يُولَّد إن لم يبقَ سبب بعد إسقاط «استخدام في أعمال الخدمة أو الصيانة» عند ظهور INV-017 (STD-GEN-24، الحالة ٩)."
+        }
+      ],
+      "workshopNote": "عند ظهور INV-017 يُسقَط سبب «استخدام في أعمال الخدمة أو الصيانة» من نص INV-R010 ومن STD-INV-11 وINV-016 (STD-GEN-24، الحالة ٩)، ويبقى في الواجهة شرطاً لظهور INV-017 فقط."
+    },
+    {
+      "id": "INV-011",
+      "section": "INV",
+      "order": 11,
+      "title": "هل تبيعون أصنافاً مجمّعة أو تجمّعون أصنافاً في صنف واحد؟",
+      "help": "مثل سلة هدايا من عدة أصناف، أو جهاز يُجمَّع من قطع. (التصنيع الكامل خارج النطاق).",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد تعريف مكونات الصنف المجمّع، وصرفها، وحساب تكلفته.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sale_bundle",
+              "label": "حزمة بيع تُصرف مكوناتها عند البيع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "pre_assembly",
+              "label": "تجميع مسبق: تُصرف المكونات ويُضاف صنف جاهز للمخزون",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "no",
+            "reason": "لا ينطبق إلا على أنشطة محددة.",
+            "when": [],
+            "text": "لا — السبب: لا ينطبق إلا على أنشطة محددة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R011",
+          "when": {
+            "in": [
+              "INV-011",
+              [
+                "sale_bundle",
+                "pre_assembly"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يتيح النظام تعريف صنف مجمّع بمكوناته وكمياتها، وأن {{SW:INV-011|sale_bundle=يصرف مكوناتها من المكان عند بيعها|pre_assembly=يصرف المكونات ويضيف الصنف الجاهز إلى المخزون في عملية واحدة}}؛ وتُحسب تكلفة الصنف المجمّع من تكلفة مكوناته وفق STD-INV-05.",
+          "whenText": "يُولَّد عند INV-011 = الخيار الثاني أو الثالث."
+        },
+        {
+          "id": "INV-R011-noreq",
+          "when": {
+            "eq": [
+              "INV-011",
+              "no"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا أصناف مجمّعة، والتصنيع الكامل خارج النطاق أصلاً (ما لا يُولَّد، 8.2)."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "INV-012",
+      "section": "INV",
+      "order": 12,
+      "title": "هل تحتاجون حجز كميات لطلبات العملاء قبل تسليمها؟",
+      "help": "حتى لا تُباع الكمية المحجوزة لعميل آخر.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "INV"
+          },
+          {
+            "module": "SAL"
+          }
+        ]
+      },
+      "conditionText": "M(INV) وM(SAL)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد رصيد «محجوز» و«متاح» لكل صنف ومستودع. وفك الحجز وفق STD-INV-09. وتُحرَّر الكمية المحجوزة عند «منتهٍ» أو «ملغى» أمر البيع (STD-GEN-04). ومستند «حجز» (الخيار الثاني) مستند INV (STD-GEN-27 (١))، يُنشئه من يملك «إنشاء» في INV (أمين المستودع، وإلا وفق STD-GEN-19)، بطلب موظف المبيعات أو مندوب المبيعات خارج المستند؛ ولا يُنشئه موظف المبيعات ما لم تمنحه ROL-002 «إنشاء» في INV.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "حجز الكميات",
+          "type": "single",
+          "options": [
+            {
+              "key": "auto_on_so",
+              "label": "نعم، تلقائياً عند أمر البيع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "manual_doc",
+              "label": "نعم، يدوياً بمستند «حجز» لعميل معيّن لمدة محددة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "no",
+            "reason": "يمنع الوعد ببضاعة مباعة دون حجز مفتوح بلا نهاية.",
+            "when": [
+              {
+                "if": {
+                  "any": [
+                    {
+                      "eqLabel": [
+                        "SAL-002",
+                        "عرض سعر ← أمر بيع (موافقة العميل) ← تسليم ← فاتورة"
+                      ]
+                    },
+                    {
+                      "eqLabel": [
+                        "SAL-002",
+                        "أمر بيع ← تسليم ← فاتورة"
+                      ]
+                    }
+                  ]
+                },
+                "value": "auto_on_so",
+                "reason": "SAL-002 تتضمن «أمر بيع»."
+              }
+            ],
+            "text": "(أ) الأول عند SAL-002 تتضمن «أمر بيع»، وإلا «لا»؛ (ب) 7 أيام — السبب: يمنع الوعد ببضاعة مباعة دون حجز مفتوح بلا نهاية. ولا يُطبَّق موصى به (أ) إلا حين يكون INV-012 «افتراضاً». وخيار «تلقائياً عند أمر البيع» يُسقَط إن لم تتضمن SAL-002 «أمر بيع» ما لم يكن إجابة (STD-GEN-24، الحالة ٣)."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "مدة الحجز بالأيام",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "أيام",
+          "min": 1,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "INV-012",
+              "manual_doc"
+            ]
+          },
+          "recommended": {
+            "value": 7,
+            "reason": "يمنع الوعد ببضاعة مباعة دون حجز مفتوح بلا نهاية.",
+            "when": [],
+            "text": "(ب) 7 أيام"
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R012",
+          "when": {
+            "in": [
+              "INV-012",
+              [
+                "auto_on_so",
+                "manual_doc"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يحجز النظام الكميات {{Q:INV-012}}، وأن يفك الحجز وفق STD-INV-09{{IF:{\"eq\":[\"INV-012\",\"manual_doc\"]}|، وبانتهاء {{Q:INV-012#b}} يوماً للحجز اليدوي}}."
+        },
+        {
+          "id": "INV-R012-noreq",
+          "when": {
+            "eq": [
+              "INV-012",
+              "no"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً (§٣.٣ (١٤) من قواعد التوليد)، ولا يسري STD-INV-09، ولا عمود «محجوز» في تقرير الأرصدة."
+        }
+      ],
+      "workshopNote": "خيار «تلقائياً عند أمر البيع» يُسقَط إن لم تتضمن SAL-002 «أمر بيع» ما لم يكن إجابة (STD-GEN-24، الحالة ٣)؛ وموصى به (أ) لا يُطبَّق إلا حين يكون INV-012 «افتراضاً» (تع-INV-02)."
+    },
+    {
+      "id": "INV-013",
+      "section": "INV",
+      "order": 13,
+      "title": "هل تحتاجون طباعة ملصقات باركود؟",
+      "help": "لطباعة باركود وسعر على الأصناف أو الرفوف.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV). ويُسقَط خيار «السعر شامل الضريبة» من محتوى الملصق عند عدم F_TAXREADY (STD-GEN-24، الحالة ٥).",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد قالب الملصق وطباعته جماعياً من الاستلام أو قائمة الأصناف.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes",
+              "label": "نعم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "no",
+            "reason": "البيع بالقارئ يحتاج ملصقات.",
+            "when": [
+              {
+                "if": {
+                  "module": "POS"
+                },
+                "value": "yes",
+                "reason": "البيع بالقارئ يحتاج ملصقات."
+              }
+            ],
+            "text": "نعم بالاسم والسعر والباركود عند M(POS)، وإلا لا — السبب: البيع بالقارئ يحتاج ملصقات."
+          },
+          "required": false
+        },
+        {
+          "key": "content",
+          "label": "محتوى الملصق",
+          "type": "multi",
+          "options": [
+            {
+              "key": "name",
+              "label": "الاسم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "price",
+              "label": "السعر",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "barcode",
+              "label": "الباركود",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "expiry_date",
+              "label": "تاريخ الانتهاء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "price_incl_vat",
+              "label": "السعر شامل الضريبة",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "flag": "F_TAXREADY"
+              }
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "INV-013",
+              "yes"
+            ]
+          },
+          "recommended": {
+            "value": [
+              "name",
+              "price",
+              "barcode"
+            ],
+            "reason": "البيع بالقارئ يحتاج ملصقات.",
+            "when": [],
+            "text": "بالاسم والسعر والباركود"
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R013",
+          "when": {
+            "eq": [
+              "INV-013",
+              "yes"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يطبع النظام ملصقات باركود تحمل {{Q:INV-013#content}}، جماعياً من مستند الاستلام أو من قائمة الأصناف.",
+          "whenText": "يُولَّد عند INV-013 = «نعم»."
+        },
+        {
+          "id": "INV-R013-noreq",
+          "when": {
+            "eq": [
+              "INV-013",
+              "no"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا ملصقات مطلوبة (ما لا يُولَّد، 8.2)."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "INV-014",
+      "section": "INV",
+      "order": 14,
+      "title": "ما تقارير المخزون التي تحتاجونها؟",
+      "help": "انظر هيكل التقارير (م-9).",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد تقارير المخزون وتصفياتها.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multiPriority",
+          "options": [
+            {
+              "key": "stock_balance",
+              "label": "أرصدة الأصناف حسب المستودع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "stock_value",
+              "label": "قيمة المخزون",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "item_card",
+              "label": "حركة صنف (كرت الصنف)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "below_reorder",
+              "label": "الأصناف تحت حد إعادة الطلب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "slow_moving",
+              "label": "الأصناف الراكدة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "near_expiry",
+              "label": "الأصناف القريبة من انتهاء الصلاحية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "count_variances",
+              "label": "فروقات الجرد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "transfers",
+              "label": "التحويلات بين المستودعات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "non_sales_issues",
+              "label": "الصرف غير البيعي حسب السبب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "vehicle_stock",
+              "label": "مخزون كل سيارة وحامل عهدتها",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "visible": "INV-018"
+              },
+              "conditionText": "يظهر بشرط INV-018"
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "stock_balance",
+              "stock_value",
+              "item_card",
+              "below_reorder",
+              "slow_moving"
+            ],
+            "reason": "أساس إدارة المخزون.",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "has": [
+                        "INV-005",
+                        "expiry"
+                      ]
+                    },
+                    {
+                      "visible": "INV-009"
+                    },
+                    {
+                      "visible": "INV-018"
+                    }
+                  ]
+                },
+                "value": [
+                  "stock_balance",
+                  "stock_value",
+                  "item_card",
+                  "below_reorder",
+                  "slow_moving",
+                  "near_expiry",
+                  "transfers",
+                  "vehicle_stock"
+                ],
+                "reason": "يُضاف: «القريبة من انتهاء الصلاحية» عند INV-005 تتضمن الصلاحية؛ و«التحويلات» عند ظهور INV-009؛ و«مخزون كل سيارة» عند ظهور INV-018."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "has": [
+                        "INV-005",
+                        "expiry"
+                      ]
+                    },
+                    {
+                      "visible": "INV-009"
+                    }
+                  ]
+                },
+                "value": [
+                  "stock_balance",
+                  "stock_value",
+                  "item_card",
+                  "below_reorder",
+                  "slow_moving",
+                  "near_expiry",
+                  "transfers"
+                ],
+                "reason": "يُضاف: «القريبة من انتهاء الصلاحية» عند INV-005 تتضمن الصلاحية؛ و«التحويلات» عند ظهور INV-009؛ و«مخزون كل سيارة» عند ظهور INV-018."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "has": [
+                        "INV-005",
+                        "expiry"
+                      ]
+                    },
+                    {
+                      "visible": "INV-018"
+                    }
+                  ]
+                },
+                "value": [
+                  "stock_balance",
+                  "stock_value",
+                  "item_card",
+                  "below_reorder",
+                  "slow_moving",
+                  "near_expiry",
+                  "vehicle_stock"
+                ],
+                "reason": "يُضاف: «القريبة من انتهاء الصلاحية» عند INV-005 تتضمن الصلاحية؛ و«التحويلات» عند ظهور INV-009؛ و«مخزون كل سيارة» عند ظهور INV-018."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "visible": "INV-009"
+                    },
+                    {
+                      "visible": "INV-018"
+                    }
+                  ]
+                },
+                "value": [
+                  "stock_balance",
+                  "stock_value",
+                  "item_card",
+                  "below_reorder",
+                  "slow_moving",
+                  "transfers",
+                  "vehicle_stock"
+                ],
+                "reason": "يُضاف: «القريبة من انتهاء الصلاحية» عند INV-005 تتضمن الصلاحية؛ و«التحويلات» عند ظهور INV-009؛ و«مخزون كل سيارة» عند ظهور INV-018."
+              },
+              {
+                "if": {
+                  "has": [
+                    "INV-005",
+                    "expiry"
+                  ]
+                },
+                "value": [
+                  "stock_balance",
+                  "stock_value",
+                  "item_card",
+                  "below_reorder",
+                  "slow_moving",
+                  "near_expiry"
+                ],
+                "reason": "يُضاف: «القريبة من انتهاء الصلاحية» عند INV-005 تتضمن الصلاحية؛ و«التحويلات» عند ظهور INV-009؛ و«مخزون كل سيارة» عند ظهور INV-018."
+              },
+              {
+                "if": {
+                  "visible": "INV-009"
+                },
+                "value": [
+                  "stock_balance",
+                  "stock_value",
+                  "item_card",
+                  "below_reorder",
+                  "slow_moving",
+                  "transfers"
+                ],
+                "reason": "يُضاف: «القريبة من انتهاء الصلاحية» عند INV-005 تتضمن الصلاحية؛ و«التحويلات» عند ظهور INV-009؛ و«مخزون كل سيارة» عند ظهور INV-018."
+              },
+              {
+                "if": {
+                  "visible": "INV-018"
+                },
+                "value": [
+                  "stock_balance",
+                  "stock_value",
+                  "item_card",
+                  "below_reorder",
+                  "slow_moving",
+                  "vehicle_stock"
+                ],
+                "reason": "يُضاف: «القريبة من انتهاء الصلاحية» عند INV-005 تتضمن الصلاحية؛ و«التحويلات» عند ظهور INV-009؛ و«مخزون كل سيارة» عند ظهور INV-018."
+              }
+            ],
+            "text": "أرصدة الأصناف، وقيمة المخزون، وكرت الصنف، وتحت حد الطلب، والراكدة — السبب: أساس إدارة المخزون. ويُضاف: «القريبة من انتهاء الصلاحية» عند INV-005 تتضمن الصلاحية؛ و«التحويلات» عند ظهور INV-009؛ و«مخزون كل سيارة» عند ظهور INV-018."
+          },
+          "required": false
+        },
+        {
+          "key": "cards",
+          "label": "بطاقات التقارير (ع-09)",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "option",
+              "label": "الخيار",
+              "type": "single",
+              "options": [
+                {
+                  "key": "stock_balance",
+                  "label": "أرصدة الأصناف حسب المستودع",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "stock_value",
+                  "label": "قيمة المخزون",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "item_card",
+                  "label": "حركة صنف (كرت الصنف)",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "below_reorder",
+                  "label": "الأصناف تحت حد إعادة الطلب",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "slow_moving",
+                  "label": "الأصناف الراكدة",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "near_expiry",
+                  "label": "الأصناف القريبة من انتهاء الصلاحية",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "count_variances",
+                  "label": "فروقات الجرد",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "transfers",
+                  "label": "التحويلات بين المستودعات",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "non_sales_issues",
+                  "label": "الصرف غير البيعي حسب السبب",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "vehicle_stock",
+                  "label": "مخزون كل سيارة وحامل عهدتها",
+                  "other": false,
+                  "dontKnow": false,
+                  "condition": {
+                    "visible": "INV-018"
+                  },
+                  "conditionText": "يظهر بشرط INV-018"
+                }
+              ]
+            },
+            {
+              "key": "report",
+              "label": "التقرير",
+              "type": "text"
+            },
+            {
+              "key": "purpose",
+              "label": "الغرض",
+              "type": "text"
+            },
+            {
+              "key": "figures",
+              "label": "الأرقام",
+              "type": "text"
+            },
+            {
+              "key": "filter",
+              "label": "التصفية",
+              "type": "text"
+            },
+            {
+              "key": "frequency",
+              "label": "التكرار",
+              "type": "text"
+            },
+            {
+              "key": "reader",
+              "label": "القارئ",
+              "type": "role"
+            }
+          ],
+          "rows": [
+            {
+              "option": "stock_balance",
+              "report": "أرصدة الأصناف حسب المكان",
+              "purpose": "معرفة الموجود",
+              "figures": "الرصيد، المحجوز، المتاح",
+              "filter": "مكان، صنف، مجموعة",
+              "frequency": "عند الطلب",
+              "reader": "أمين المستودع"
+            },
+            {
+              "option": "stock_value",
+              "report": "قيمة المخزون",
+              "purpose": "قيمة البضاعة",
+              "figures": "الكمية، المتوسط، القيمة",
+              "filter": "تاريخ، مكان، مجموعة",
+              "frequency": "شهري",
+              "reader": "المالك"
+            },
+            {
+              "option": "item_card",
+              "report": "كرت الصنف",
+              "purpose": "تتبع الحركة",
+              "figures": "الوارد، الصادر، الرصيد المتراكم، المستند",
+              "filter": "فترة، صنف، مكان",
+              "frequency": "عند الطلب",
+              "reader": "أمين المستودع"
+            },
+            {
+              "option": "below_reorder",
+              "report": "تحت حد إعادة الطلب",
+              "purpose": "التخطيط للشراء",
+              "figures": "المتاح، الحد، الفرق",
+              "filter": "مستودع، مجموعة، مورّد معتاد",
+              "frequency": "يومي",
+              "reader": "مسؤول المشتريات"
+            },
+            {
+              "option": "slow_moving",
+              "report": "الراكدة",
+              "purpose": "تصريف البضاعة",
+              "figures": "آخر حركة، الكمية، القيمة",
+              "filter": "أيام بلا حركة (الافتراضي 90)، مكان",
+              "frequency": "شهري",
+              "reader": "المالك"
+            },
+            {
+              "option": "near_expiry",
+              "report": "القريبة من انتهاء الصلاحية",
+              "purpose": "منع التلف",
+              "figures": "الصنف، التاريخ، الكمية، المكان",
+              "filter": "أيام حتى الانتهاء، مكان",
+              "frequency": "أسبوعي",
+              "reader": "أمين المستودع"
+            },
+            {
+              "option": "count_variances",
+              "report": "فروقات الجرد",
+              "purpose": "ضبط الفاقد",
+              "figures": "المتوقع، المعدود، الفرق كمية وقيمة",
+              "filter": "جرد، مكان، صنف",
+              "frequency": "بعد كل جرد",
+              "reader": "المالك"
+            },
+            {
+              "option": "transfers",
+              "report": "التحويلات",
+              "purpose": "متابعة النقل",
+              "figures": "المرسَل، المستلَم، الفرق، في الطريق",
+              "filter": "فترة، مكان مرسِل ومستلم، الحالة",
+              "frequency": "أسبوعي",
+              "reader": "أمين المستودع"
+            },
+            {
+              "option": "non_sales_issues",
+              "report": "الصرف غير البيعي حسب السبب",
+              "purpose": "ضبط المصروف من المخزون",
+              "figures": "الكمية والقيمة لكل سبب",
+              "filter": "فترة، سبب، مكان",
+              "frequency": "شهري",
+              "reader": "المالك"
+            },
+            {
+              "option": "vehicle_stock",
+              "report": "مخزون كل سيارة",
+              "purpose": "متابعة العهد",
+              "figures": "الأصناف والكميات والقيمة، آخر عدّ",
+              "filter": "سيارة، حامل العهدة",
+              "frequency": "أسبوعي",
+              "reader": "المحاسب"
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "option": "stock_balance",
+                "report": "أرصدة الأصناف حسب المكان",
+                "purpose": "معرفة الموجود",
+                "figures": "الرصيد، المحجوز، المتاح",
+                "filter": "مكان، صنف، مجموعة",
+                "frequency": "عند الطلب",
+                "reader": "أمين المستودع"
+              },
+              {
+                "option": "stock_value",
+                "report": "قيمة المخزون",
+                "purpose": "قيمة البضاعة",
+                "figures": "الكمية، المتوسط، القيمة",
+                "filter": "تاريخ، مكان، مجموعة",
+                "frequency": "شهري",
+                "reader": "المالك"
+              },
+              {
+                "option": "item_card",
+                "report": "كرت الصنف",
+                "purpose": "تتبع الحركة",
+                "figures": "الوارد، الصادر، الرصيد المتراكم، المستند",
+                "filter": "فترة، صنف، مكان",
+                "frequency": "عند الطلب",
+                "reader": "أمين المستودع"
+              },
+              {
+                "option": "below_reorder",
+                "report": "تحت حد إعادة الطلب",
+                "purpose": "التخطيط للشراء",
+                "figures": "المتاح، الحد، الفرق",
+                "filter": "مستودع، مجموعة، مورّد معتاد",
+                "frequency": "يومي",
+                "reader": "مسؤول المشتريات"
+              },
+              {
+                "option": "slow_moving",
+                "report": "الراكدة",
+                "purpose": "تصريف البضاعة",
+                "figures": "آخر حركة، الكمية، القيمة",
+                "filter": "أيام بلا حركة (الافتراضي 90)، مكان",
+                "frequency": "شهري",
+                "reader": "المالك"
+              },
+              {
+                "option": "near_expiry",
+                "report": "القريبة من انتهاء الصلاحية",
+                "purpose": "منع التلف",
+                "figures": "الصنف، التاريخ، الكمية، المكان",
+                "filter": "أيام حتى الانتهاء، مكان",
+                "frequency": "أسبوعي",
+                "reader": "أمين المستودع"
+              },
+              {
+                "option": "count_variances",
+                "report": "فروقات الجرد",
+                "purpose": "ضبط الفاقد",
+                "figures": "المتوقع، المعدود، الفرق كمية وقيمة",
+                "filter": "جرد، مكان، صنف",
+                "frequency": "بعد كل جرد",
+                "reader": "المالك"
+              },
+              {
+                "option": "transfers",
+                "report": "التحويلات",
+                "purpose": "متابعة النقل",
+                "figures": "المرسَل، المستلَم، الفرق، في الطريق",
+                "filter": "فترة، مكان مرسِل ومستلم، الحالة",
+                "frequency": "أسبوعي",
+                "reader": "أمين المستودع"
+              },
+              {
+                "option": "non_sales_issues",
+                "report": "الصرف غير البيعي حسب السبب",
+                "purpose": "ضبط المصروف من المخزون",
+                "figures": "الكمية والقيمة لكل سبب",
+                "filter": "فترة، سبب، مكان",
+                "frequency": "شهري",
+                "reader": "المالك"
+              },
+              {
+                "option": "vehicle_stock",
+                "report": "مخزون كل سيارة",
+                "purpose": "متابعة العهد",
+                "figures": "الأصناف والكميات والقيمة، آخر عدّ",
+                "filter": "سيارة، حامل العهدة",
+                "frequency": "أسبوعي",
+                "reader": "المحاسب"
+              }
+            ],
+            "reason": "",
+            "when": [],
+            "text": "بطاقات التقارير (ع-09) — الغرض | الأرقام | التصفية | التكرار والقارئ"
+          },
+          "required": false
+        },
+        {
+          "key": "extra",
+          "label": "تقارير إضافية",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "report",
+              "label": "التقرير",
+              "type": "text"
+            },
+            {
+              "key": "purpose",
+              "label": "الغرض",
+              "type": "text"
+            },
+            {
+              "key": "figures",
+              "label": "الأرقام",
+              "type": "text"
+            },
+            {
+              "key": "filter",
+              "label": "التصفية",
+              "type": "text"
+            },
+            {
+              "key": "frequency",
+              "label": "التكرار",
+              "type": "text"
+            },
+            {
+              "key": "reader",
+              "label": "القارئ",
+              "type": "role"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [],
+            "reason": "",
+            "when": [],
+            "text": ""
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R014x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «{{Q:INV-014#cards.report}}» لغرض {{Q:INV-014#cards.purpose}}، يعرض {{Q:INV-014#cards.figures}}، ويُصفّى بـ{{Q:INV-014#cards.filter}}، ويُتاح {{Q:INV-014#cards.frequency}} لدور {{Q:INV-014#cards.reader}}.",
+          "whenText": "قالب لكل صف (x): بطاقة لكل تقرير مختار."
+        }
+      ],
+      "workshopNote": "بطاقة «التحويلات»: يُسقَط منها «الفرق» و«في الطريق» عند INV-009 = «تحويل بخطوة واحدة» (STD-GEN-24)، لأن الإرسال والاستلام يقعان معاً. «قيمة المخزون» تُحسب بالمبالغ قبل الضريبة (STD-GEN-37 (٢))، ويُحجب ما يعتمد على التكلفة عمّن حُجبت عنه «تكلفة الأصناف وهامش الربح» في ROL-004 (STD-GEN-28)."
+    },
+    {
+      "id": "INV-015",
+      "section": "INV",
+      "order": 15,
+      "title": "ما التنبيهات التي تحتاجونها في المخزون؟",
+      "help": "انظر هيكل التنبيهات (م-10).",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد قواعد التنبيه؛ «حد إعادة الطلب» يجعل حقل الحد في INV-002 فعّالاً (STD-INV-13، تع-INV-07).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "reorder_reached",
+              "label": "صنف وصل حد إعادة الطلب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "out_of_stock",
+              "label": "صنف نفد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "near_expiry",
+              "label": "صنف يقترب انتهاء صلاحيته (قبل… يوماً)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "transfer_unconfirmed",
+              "label": "تحويل لم يؤكَّد استلامه",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "large_count_variance",
+              "label": "فروقات جرد كبيرة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "reorder_reached",
+              "out_of_stock"
+            ],
+            "reason": "يمنع انقطاع البضاعة.",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "has": [
+                        "INV-005",
+                        "expiry"
+                      ]
+                    },
+                    {
+                      "in": [
+                        "INV-009",
+                        [
+                          "two_step",
+                          "request_flow"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  "reorder_reached",
+                  "out_of_stock",
+                  "near_expiry",
+                  "transfer_unconfirmed"
+                ],
+                "reason": "يمنع انقطاع البضاعة."
+              },
+              {
+                "if": {
+                  "has": [
+                    "INV-005",
+                    "expiry"
+                  ]
+                },
+                "value": [
+                  "reorder_reached",
+                  "out_of_stock",
+                  "near_expiry"
+                ],
+                "reason": "يمنع انقطاع البضاعة."
+              },
+              {
+                "if": {
+                  "in": [
+                    "INV-009",
+                    [
+                      "two_step",
+                      "request_flow"
+                    ]
+                  ]
+                },
+                "value": [
+                  "reorder_reached",
+                  "out_of_stock",
+                  "transfer_unconfirmed"
+                ],
+                "reason": "يمنع انقطاع البضاعة."
+              }
+            ],
+            "text": "صنف وصل حد إعادة الطلب، وصنف نفد — لمسؤول المشتريات وأمين المستودع، داخل النظام — السبب: يمنع انقطاع البضاعة. ويُضاف «يقترب انتهاء صلاحيته» عند INV-005 تتضمن الصلاحية، و«تحويل لم يؤكَّد» عند INV-009 بخطوتين أو بطلب."
+          },
+          "required": false
+        },
+        {
+          "key": "settings",
+          "label": "إعدادات كل خيار (م-10)",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "event",
+              "label": "الحدث",
+              "type": "single",
+              "options": [
+                {
+                  "key": "reorder_reached",
+                  "label": "صنف وصل حد إعادة الطلب",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "out_of_stock",
+                  "label": "صنف نفد",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "near_expiry",
+                  "label": "صنف يقترب انتهاء صلاحيته (قبل… يوماً)",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "transfer_unconfirmed",
+                  "label": "تحويل لم يؤكَّد استلامه",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "large_count_variance",
+                  "label": "فروقات جرد كبيرة",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "recipient",
+              "label": "من يُنبَّه",
+              "type": "role"
+            },
+            {
+              "key": "channel",
+              "label": "الوسيلة",
+              "type": "multi",
+              "options": [
+                {
+                  "key": "in_app",
+                  "label": "داخل النظام",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "email",
+                  "label": "بريد إلكتروني",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "sms",
+                  "label": "رسالة نصية",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "whatsapp",
+                  "label": "واتساب",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "timing",
+              "label": "التوقيت",
+              "type": "text"
+            }
+          ],
+          "rows": [
+            {
+              "event": "reorder_reached",
+              "recipient": "مسؤول المشتريات وأمين المستودع",
+              "channel": [
+                "in_app"
+              ],
+              "timing": "ملخص يومي (STD-GEN-21: الساعة 08:00 بتوقيت الكيان)"
+            },
+            {
+              "event": "out_of_stock",
+              "recipient": "مسؤول المشتريات وأمين المستودع",
+              "channel": [
+                "in_app"
+              ],
+              "timing": "فوراً، لكل مستودع أو معرض؛ أما نفاد صنف في سيارة فني فيدخل الملخص اليومي (STD-GEN-16) ولا يُرسل فوراً"
+            },
+            {
+              "event": "near_expiry",
+              "recipient": "أمين المستودع",
+              "channel": [
+                "in_app"
+              ],
+              "timing": "قبل 30 يوماً"
+            },
+            {
+              "event": "transfer_unconfirmed",
+              "recipient": "أمين المستودع المرسِل",
+              "channel": [
+                "in_app"
+              ],
+              "timing": "بعد يومين من الإرسال"
+            },
+            {
+              "event": "large_count_variance",
+              "recipient": "المالك",
+              "channel": [
+                "in_app",
+                "email"
+              ],
+              "timing": "فوراً عند فرق صنف تتجاوز قيمته 1,000 {{Q:GEN-001}}"
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "event": "reorder_reached",
+                "recipient": "مسؤول المشتريات وأمين المستودع",
+                "channel": [
+                  "in_app"
+                ],
+                "timing": "ملخص يومي (STD-GEN-21: الساعة 08:00 بتوقيت الكيان)"
+              },
+              {
+                "event": "out_of_stock",
+                "recipient": "مسؤول المشتريات وأمين المستودع",
+                "channel": [
+                  "in_app"
+                ],
+                "timing": "فوراً، لكل مستودع أو معرض؛ أما نفاد صنف في سيارة فني فيدخل الملخص اليومي (STD-GEN-16) ولا يُرسل فوراً"
+              },
+              {
+                "event": "near_expiry",
+                "recipient": "أمين المستودع",
+                "channel": [
+                  "in_app"
+                ],
+                "timing": "قبل 30 يوماً"
+              },
+              {
+                "event": "transfer_unconfirmed",
+                "recipient": "أمين المستودع المرسِل",
+                "channel": [
+                  "in_app"
+                ],
+                "timing": "بعد يومين من الإرسال"
+              },
+              {
+                "event": "large_count_variance",
+                "recipient": "المالك",
+                "channel": [
+                  "in_app",
+                  "email"
+                ],
+                "timing": "فوراً عند فرق صنف تتجاوز قيمته 1,000 {{Q:GEN-001}}"
+              }
+            ],
+            "reason": "يمنع انقطاع البضاعة.",
+            "when": [],
+            "text": "إعدادات كل خيار (م-10)"
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R015x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يُنبّه النظام {{Q:INV-015#settings.recipient}} عبر {{Q:INV-015#settings.channel}} {{Q:INV-015#settings.timing}} عند {{Q:INV-015#settings.event}}.",
+          "whenText": "قالب لكل صف (x)."
+        }
+      ],
+      "workshopNote": "الدور بلا مستخدم يُنبَّه بدلاً منه المالك (STD-GEN-19، تع-INV-09)."
+    },
+    {
+      "id": "INV-016",
+      "section": "INV",
+      "order": 16,
+      "title": "من يعتمد تسويات المخزون؟",
+      "help": "التسوية تغيّر الكمية دون بيع أو شراء: فروق الجرد، ونقص التحويل، والتالف، والاستخدام الداخلي، ونقص عهدة القطع.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "INV"
+          },
+          {
+            "flag": "F_MULTIUSER"
+          }
+        ]
+      },
+      "conditionText": "M(INV) وF_MULTIUSER. تُعرض الصفوف بحسب ظهور مصدرها: الجرد عند INV-008 = «تُعتمد»؛ نقص التحويل عند INV-009 بخطوتين أو بطلب؛ أسباب الصرف من INV-010؛ نقص العهدة عند INV-018.ب = الخيار الأول. ويُسقَط صف «صرف تالف» وفق STD-GEN-24 (الحالة ٦)، وصف «استخدام في أعمال الخدمة» وفق الحالة ٩.",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مسار اعتماد كل تسوية وحالة «بانتظار الاعتماد» فيها. عند عدم F_MULTIUSER: «المستخدم الوحيد» (ع-04)، وتُرحَّل التسوية مباشرة. ونقص عدّ السيارة (INV-018) يُعتمد بصف «نقص عهدة القطع» وحده، لا بصف «تسوية فروق الجرد»، ويُحمَّل عند الخيار الأول في INV-018.ب على حساب نقص الجرد (4.9 أ-٧). وتُعتمد سطور الزيادة في عدّ السيارة مع نقصه بالصف نفسه («نقص عهدة القطع»)، وتُوجَّه الزيادة إلى حساب زيادة الجرد (4.9 أ-٧). و«قيمة» التسوية التي تُقارن بشرائح عمود الشرط مجموع القيم المطلقة لفروق سطورها (زيادةً ونقصاً، ولكل تاريخ صلاحية سطره) بالمتوسط لحظة الترحيل (STD-INV-05)، لا صافيها؛ فلا تمحو زيادةُ صنف نقصَ آخر. والصف الوحيد لعملية (كالموصى به «بلا حد قيمة») يُكتب شرطه «أياً كانت قيمته» (§٣.٢ (١١))، فلا تُرحَّل تسوية دون اعتماد صفها ولو كانت قيمتها صفراً (ق ع-103).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "operation",
+              "label": "العملية",
+              "type": "single",
+              "options": [
+                {
+                  "key": "count_variance",
+                  "label": "تسوية فروق الجرد",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "transfer_shortage",
+                  "label": "نقص استلام التحويل",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "damaged_issue",
+                  "label": "صرف تالف أو منتهي الصلاحية",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "internal_use_issue",
+                  "label": "صرف استخدام داخلي",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "samples_gifts_issue",
+                  "label": "صرف عينات أو هدايا",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "parts_custody_shortage",
+                  "label": "نقص عهدة القطع",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "dont_know",
+                  "label": "لا أعلم",
+                  "other": false,
+                  "dontKnow": true
+                }
+              ]
+            },
+            {
+              "key": "from",
+              "label": "القيمة من",
+              "type": "number"
+            },
+            {
+              "key": "to",
+              "label": "إلى",
+              "type": "number"
+            },
+            {
+              "key": "approver",
+              "label": "الدور المعتمِد",
+              "type": "role"
+            },
+            {
+              "key": "on_reject",
+              "label": "عند الرفض",
+              "type": "single",
+              "options": [
+                {
+                  "key": "return_to_creator",
+                  "label": "يعود للمُنشئ",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "cancel",
+                  "label": "يُلغى",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "reminder_hours",
+              "label": "التذكير بالساعات",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            {
+              "operation": "count_variance",
+              "from": null,
+              "to": null,
+              "approver": "المالك",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            {
+              "operation": "transfer_shortage",
+              "from": null,
+              "to": null,
+              "approver": "المالك",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            {
+              "operation": "damaged_issue",
+              "from": null,
+              "to": null,
+              "approver": "المالك",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            {
+              "operation": "internal_use_issue",
+              "from": null,
+              "to": null,
+              "approver": "المالك",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            {
+              "operation": "samples_gifts_issue",
+              "from": null,
+              "to": null,
+              "approver": "المالك",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            {
+              "operation": "parts_custody_shortage",
+              "from": null,
+              "to": null,
+              "approver": "المالك",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "operation": "count_variance",
+                "from": null,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              },
+              {
+                "operation": "transfer_shortage",
+                "from": null,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              },
+              {
+                "operation": "damaged_issue",
+                "from": null,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              },
+              {
+                "operation": "internal_use_issue",
+                "from": null,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              },
+              {
+                "operation": "samples_gifts_issue",
+                "from": null,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              },
+              {
+                "operation": "parts_custody_shortage",
+                "from": null,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              }
+            ],
+            "reason": "التسوية تُنقص قيمة المخزون دون مقابل، فهي قرار مالك في المنشأة الصغيرة.",
+            "when": [],
+            "text": "صف لكل عملية ظاهرة، بلا حد قيمة: الدور «المالك»؛ عند الرفض يعود للمُنشئ؛ التذكير بعد 24 ساعة — السبب: التسوية تُنقص قيمة المخزون دون مقابل، فهي قرار مالك في المنشأة الصغيرة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R016x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب ألا يرحّل النظام {{Q:INV-016#main.operation}} التي قيمتها من {{Q:INV-016#main.from}} إلى {{Q:INV-016#main.to}} {{Q:GEN-001}} إلا بعد اعتماد {{Q:INV-016#main.approver}}؛ وعند الرفض {{Q:INV-016#main.on_reject}}، والتذكير بعد {{Q:INV-016#main.reminder_hours}} ساعة.",
+          "whenText": "قالب لكل صف (x)."
+        }
+      ],
+      "workshopNote": "تُعرض الصفوف بحسب ظهور مصدرها: الجرد عند INV-008 = «تُعتمد»؛ نقص التحويل عند INV-009 بخطوتين أو بطلب؛ أسباب الصرف من INV-010؛ نقص العهدة عند INV-018.ب = الخيار الأول. والصف الوحيد لعملية يُكتب شرطه «أياً كانت قيمته»."
+    },
+    {
+      "id": "INV-017",
+      "section": "INV",
+      "order": 17,
+      "title": "كيف تُسجَّل القطع والأصناف المستخدمة في أعمال الخدمة أو الصيانة؟",
+      "help": "مثل قطعة غيار يركّبها الفني عند العميل.",
+      "detail": true,
+      "condition": {
+        "all": [
+          {
+            "module": "INV"
+          },
+          {
+            "module": "SAL"
+          },
+          {
+            "eqLabel": [
+              "SAL-015",
+              "نعم"
+            ]
+          },
+          {
+            "any": [
+              {
+                "has": [
+                  "PRF-006",
+                  "services"
+                ]
+              },
+              {
+                "has": [
+                  "INV-010",
+                  "service_maintenance_use"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(INV) وM(SAL) وSAL-015 = «نعم» و(PRF-006 تتضمن «خدمات» أو INV-010 تتضمن «استخدام في أعمال الخدمة أو الصيانة»).",
+      "regulatory": true,
+      "verify": [
+        "يحتاج تحقق من معالجة القطعة غير المسعّرة في الفاتورة الضريبية"
+      ],
+      "impact": "يحدد ربط القطع بفاتورة الخدمة، ومكان خصمها، وتكلفة الخدمة. يغني عن مستند «أمر صيانة» في هذا الإصدار (PRJ مؤجلة)، ويُكتب «أمر الصيانة المستقل» في «خارج النطاق» (ق ع-25: فاتورة الخدمة تُصدر عند الإتمام، والقطع سطور فيها تُصرف آلياً من سيارة الفني). وكل خياراته سطور في الفاتورة، فظهوره يُسقط سبب «استخدام في أعمال الخدمة أو الصيانة» من الصرف المخزني (STD-GEN-24، الحالة ٩). وحركة «الاستخدام» من سيارة الفني تُسجَّل آلياً من سطر الفاتورة، و«مكان الصرف» في السطر سيارة الفني المذكور في الفاتورة. وإن نقص رصيد السيارة عن سطر قطعة لها فاتورة مورّد «بانتظار الاعتماد» إلى السيارة نفسها، تبقى فاتورة الخدمة مسودة، ويُنبَّه معتمِد فاتورة المورّد (STD-PUR-08 (٦)). وسند قبض الفني على فاتورة موقوفة بنقص الرصيد، وتنبيه الدور في INV-018.ج بنقص السيارة، وفق STD-SAL-23 (١).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "طريقة التسجيل",
+          "type": "single",
+          "options": [
+            {
+              "key": "invoice_line_priced",
+              "label": "تُكتب في فاتورة العميل سطراً بسعر بيعها، وتُخصم من المكان الذي أُخذت منه",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "invoice_line_unpriced",
+              "label": "تُكتب في فاتورة الخدمة سطراً بلا سعر (ثمنها داخل أجر الخدمة)، وتُخصم وتُحمَّل تكلفتها على الخدمة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "per_item",
+              "label": "بحسب الصنف (علامة في بطاقته: «يُفوتر للعميل» أو «داخل أجر الخدمة»)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "invoice_line_priced",
+            "reason": "يُظهر للعميل ما رُكّب، ويحسب ربح القطعة منفصلاً عن أجر الخدمة.",
+            "when": [],
+            "text": "(أ) الأول — السبب: يُظهر للعميل ما رُكّب، ويحسب ربح القطعة منفصلاً عن أجر الخدمة. (ب) إلزامي عند وجود صف «سيارة فني» في INV-001، وإلا اختياري — السبب: به يُعرف مكان الخصم. عند F_VAT والخيار الثاني: [يحتاج تحقق من معالجة القطعة غير المسعّرة في الفاتورة الضريبية]."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "اسم الفني في الفاتورة",
+          "type": "single",
+          "options": [
+            {
+              "key": "mandatory",
+              "label": "إلزامي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "optional",
+              "label": "اختياري",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "optional",
+            "reason": "به يُعرف مكان الخصم.",
+            "when": [
+              {
+                "if": {
+                  "rowsAny": [
+                    "INV-001",
+                    "type",
+                    "==",
+                    "technician_car"
+                  ]
+                },
+                "value": "mandatory",
+                "reason": "به يُعرف مكان الخصم."
+              }
+            ],
+            "text": "(ب) إلزامي عند وجود صف «سيارة فني» في INV-001، وإلا اختياري — السبب: به يُعرف مكان الخصم."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R017a",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يسجّل النظام القطع المستخدمة في الخدمة {{Q:INV-017}}، ويخصمها من سيارة فني الفاتورة الموسومة «خدمة في موقع العميل» (STD-SAL-30)، وإلا من المكان الافتراضي (STD-INV-03)."
+        },
+        {
+          "id": "INV-R017b",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يكون اسم الفني في الفاتورة الموسومة «خدمة في موقع العميل» (STD-SAL-30) {{Q:INV-017#b}}، مختاراً من قائمة الأشخاص غير المستخدمين، ويُطبع دون جواله (STD-SAL-18 (١٠))."
+        }
+      ],
+      "workshopNote": "عند F_VAT والخيار الثاني: [يحتاج تحقق من معالجة القطعة غير المسعّرة في الفاتورة الضريبية]."
+    },
+    {
+      "id": "INV-018",
+      "section": "INV",
+      "order": 18,
+      "title": "كيف يُضبط المخزون الذي يحمله الفنيون أو مندوبو المبيعات في سياراتهم؟",
+      "help": "القطع في السيارة عهدة على من يحملها حتى تُستخدم أو تُعاد. (وهي «عهدة قطع»، مستقلة عن عهدة المصروفات وعهدة التحصيل، بلا مقاصة بينها — STD-GEN-32.)",
+      "detail": true,
+      "condition": {
+        "all": [
+          {
+            "module": "INV"
+          },
+          {
+            "any": [
+              {
+                "rowsAny": [
+                  "INV-001",
+                  "type",
+                  "==",
+                  "technician_car"
+                ]
+              },
+              {
+                "rowsAny": [
+                  "INV-001",
+                  "type",
+                  "==",
+                  "sales_rep_car"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(INV) وINV-001 فيه صف نوعه «سيارة فني» أو «سيارة مندوب»، أو سريان STD-INV-20.",
+      "regulatory": true,
+      "verify": [
+        "يحتاج تحقق من جواز التحميل على الموظف وحدوده"
+      ],
+      "impact": "يحدد جدولة عدّ السيارات (جرد جزئي بمكان واحد)، ومعالجة نقصها (ويُعتمد بصف «نقص عهدة القطع» في INV-016 وحده، ويُحمَّل عند الخيار الأول في (ب) على حساب نقص الجرد، 4.9 أ-٧)، ومن يملك تسجيل حركاتها نيابة عن حاملها. الخيار الثاني في (ب) مع عدم M(PAY): يُثبت المستحق في سجل العهدة، والخصم من الراتب «خارج النطاق». نطاق (ج) حين يكون INV-017 «سطوراً في فاتورة الخدمة»: تُسجَّل حركة «الاستخدام» من سيارة الفني آلياً من سطر الفاتورة (ق ع-25)، ويكون «مكان الصرف» في السطر سيارة الفني المذكور في الفاتورة؛ ويبقى للدور المختار في INV-018.ج (المحاسب أو أمين المستودع) تسجيل التحميل والإرجاع والتسوية فقط. وجرد السيارة الشهري يُنشأ آلياً وفق STD-INV-21. ويظهر عند ظهوره «عدّ الجرد» في موصى به GEN-008.ب.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "عدّ مخزون كل سيارة",
+          "type": "single",
+          "options": [
+            {
+              "key": "weekly",
+              "label": "أسبوعياً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "monthly",
+              "label": "شهرياً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "with_general_count",
+              "label": "مع الجرد العام فقط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "monthly",
+            "reason": "القطع الصغيرة تُفقد بسرعة، وعدّ السيارة قصير.",
+            "when": [],
+            "text": "(أ) شهرياً — السبب: القطع الصغيرة تُفقد بسرعة، وعدّ السيارة قصير."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "النقص في عدّ السيارة",
+          "type": "single",
+          "options": [
+            {
+              "key": "expense_after_approval",
+              "label": "يُسجَّل مصروفاً بعد الاعتماد، ويُدوَّن في سجل عهدة القطع لحاملها (تقرير «مخزون كل سيارة وحامل عهدتها»)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "receivable_from_holder",
+              "label": "يُثبت مبلغاً مستحقاً على حامل العهدة بعد اعتماد المالك [يحتاج تحقق من جواز التحميل على الموظف وحدوده]",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "expense_after_approval",
+            "reason": "لا يُحمَّل الموظف قبل التحقق والإجراء النظامي.",
+            "when": [],
+            "text": "(ب) الأول — السبب: لا يُحمَّل الموظف قبل التحقق والإجراء النظامي."
+          },
+          "required": false
+        },
+        {
+          "key": "c",
+          "label": "من يسجّل حركات السيارة (تحميل، إعادة، استخدام) حين لا يكون حاملها مستخدماً",
+          "type": "single",
+          "options": [
+            {
+              "key": "storekeeper",
+              "label": "أمين المستودع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "accountant",
+              "label": "المحاسب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other_role",
+              "label": "دور آخر من ROL-001",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "storekeeper",
+            "reason": "في المنشأة الصغيرة جداً المحاسب هو من يتسلم أوراق العمل اليومية.",
+            "when": [
+              {
+                "if": {
+                  "eq": [
+                    "PRF-004",
+                    "users_2_5"
+                  ]
+                },
+                "value": "accountant",
+                "reason": "في المنشأة الصغيرة جداً المحاسب هو من يتسلم أوراق العمل اليومية."
+              }
+            ],
+            "text": "(ج) «المحاسب» عند PRF-004 = «2–5»، وإلا «أمين المستودع» — السبب: في المنشأة الصغيرة جداً المحاسب هو من يتسلم أوراق العمل اليومية."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R018a",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن ينشئ النظام جرداً لكل سيارة {{Q:INV-018}}، بقواعد STD-INV-07 (وعند «شهرياً»: آلياً في آخر يوم من الشهر الميلادي، ويُعدّ خلال يومي العمل التاليين — STD-INV-21)."
+        },
+        {
+          "id": "INV-R018b",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعالج النظام نقص عدّ السيارة بـ{{Q:INV-018#b}}، بعد اعتماد {{Q:INV-016#main[parts_custody_shortage].approver}}."
+        },
+        {
+          "id": "INV-R018c",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يقصر النظام تسجيل حركات السيارة التي حاملها شخص غير مستخدم على دور {{Q:INV-018#c}}{{IF:{\"visible\":\"INV-017\"}|، وهي التحميل والإرجاع والتسوية وحدها حين تُسجَّل حركة «الاستخدام» آلياً من سطر فاتورة الخدمة}}.",
+          "whenText": "والخانة الأخيرة عند ظهور INV-017."
+        }
+      ],
+      "workshopNote": "سريان STD-INV-20 يُعدّ صفاً من نوع «سيارة فني» في شرط الظهور (STD-INV-20 (٥))."
+    },
+    {
+      "id": "INV-099",
+      "section": "INV",
+      "order": 99,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "وفق القاعدة م-4.",
+      "detail": false,
+      "condition": {
+        "module": "INV"
+      },
+      "conditionText": "M(INV)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "",
+            "reason": "",
+            "when": [],
+            "text": "نص الإضافة الحرة كما أُدخل، ومصدره «نص حر» (م-4)."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "INV-R9nn",
+          "when": {
+            "answered": "INV-099"
+          },
+          "noRequirement": false,
+          "text": "{{Q:INV-099}}",
+          "whenText": "نص الإضافة الحرة كما أُدخل، ومصدره «نص حر» (م-4)."
+        }
+      ],
+      "workshopNote": null
+    }
+  ],
+  "rules": [
+    {
+      "id": "STD-INV-01",
+      "scope": "INV",
+      "title": "حالات مستندات المخزون",
+      "text": "(تفصيل للنموذج العام STD-GEN-02/STD-GEN-29؛ و«مرحَّل» هنا = «معتمد/صادر» العامة): (1) الاستلام، والصرف المخزني، والرصيد الافتتاحي، والحجز: مسودة ← بانتظار الاعتماد (إن اشتُرط) ← مرحَّل ← ملغى (بمستند عكسي مرتبط). (2) التحويل: مسودة ← بانتظار الاعتماد (إن اشتُرط) ← مُرسَل «في الطريق» ← مستلَم، أو مستلَم بفرق. (3) الجرد: مفتوح ← العدّ مكتمل ← بانتظار اعتماد التسوية ← مُسوّى؛ ويجوز إلغاؤه قبل التسوية فقط. المرحَّل والمُسوّى لا يُعدَّلان. ويُقرأ «إن اشتُرط» للرصيد الافتتاحي: «لا» (STD-GEN-57/STD-GEN-61). ويُمنح الجرد رقمه عند «مفتوح» (STD-GEN-43 (١)).",
+      "applies": null,
+      "appliesText": "INV-008، INV-009، INV-016",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-02",
+      "scope": "INV",
+      "title": "توقيت تحديث الرصيد",
+      "text": "لا يتغير الرصيد إلا عند ترحيل مستند. يزيد بـ: الاستلام؛ وفاتورة المورّد فقط حين تكون خطوات الشراء «فاتورة المورّد مباشرة» (ومنها الفاتورة المصحِّحة بكميات في STD-PUR-10 (٥)(ب))؛ ومرتجع المبيعات؛ واستلام التحويل؛ وزيادة الجرد؛ والرصيد الافتتاحي. ينقص بـ: فاتورة البيع في موضع الخصم المحدد في STD-SAL-08؛ ومرتجع المشتريات عند «خرج» (STD-GEN-05)، وعند «معتمد» لمرتجع الكميات الخاطئة في STD-PUR-10 (٥)(ب)؛ وإرسال التحويل؛ والصرف المخزني؛ ونقص الجرد. المسودة و«بانتظار الاعتماد» لا تحرّكان الرصيد.",
+      "applies": null,
+      "appliesText": "PUR-001، SAL-002، SAL-024",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-03",
+      "scope": "INV",
+      "title": "المكان الافتراضي",
+      "text": "لكل فرع مكان افتراضي هو أول صف من نوع «رئيسي» أو «فرعي» تابع له في INV-001. يأخذ مستند البيع والاستلام مكان فرعه، ويجوز تغييره قبل الترحيل لمن يملك «إنشاء». عند PUR-013 = «شراء مركزي»، وللأصناف المشتراة مركزياً عند «مختلط»: يكون الاستلام في المكان الافتراضي للفرع الذي نوعه «مقر رئيسي» في GEN-003، وإلا لأول فرع فيه؛ ويجوز تغييره قبل الترحيل لمن يملك «إنشاء» في الاستلام. الفاتورة الموسومة «خدمة في موقع العميل» (STD-SAL-30) تُصرف من سيارة فنيها (INV-017.ب)، وغيرها من المكان الافتراضي ولو ذُكر فيها فني. وفاتورة المورّد المدفوعة من الصندوق أو من عهدة مصروفات يختار مُنشئها مكان الاستلام، ومنه سيارة الحامل (STD-PUR-08 (٥)، STD-GEN-34 (٣)). ومرتجع المشتريات يخرج من مكان استلام سطره الأصلي، ويجوز تغييره قبل «خرج» لمن يملك هذا الانتقال (STD-GEN-05).",
+      "applies": null,
+      "appliesText": "INV-001، PUR-013، INV-017، PUR-011",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-04",
+      "scope": "INV",
+      "title": "الوحدات",
+      "text": "الوحدة الأساسية للصنف أصغر وحداته، وبها يُحفظ الرصيد والتكلفة ويُجرى العدّ. كل وحدة تحمل «تقبل الكسور: نعم/لا» (الافتراضي: لا)، والكسر حتى ثلاث منازل عشرية. الوحدة الافتراضية في البيع وفي الشراء هي الأساسية ما لم تُحدَّد في بطاقة الصنف (INV-004).",
+      "applies": null,
+      "appliesText": "INV-004",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-05",
+      "scope": "INV",
+      "title": "التكلفة",
+      "text": "عند INV-006 = «المتوسط المرجح» يُحسب المتوسط للصنف على مستوى الكيان كله، لا لكل مكان؛ والتحويل لا يغيّر التكلفة. مرتجع المبيعات يدخل بتكلفة سطر البيع الأصلي. مرتجع المشتريات يخرج بسعر شرائه في فاتورة المورّد الأصلية، إلا مرتجع ما اشتُري قبل التشغيل فبالمتوسط يوم الخروج (STD-PUR-13)، ويُعاد حساب المتوسط. الصرف المخزني وفروق الجرد ونقص التحويل تُقيَّم بالمتوسط لحظة الترحيل. {{IF:{\"flag\":\"F_TAXREADY\"}|وتكلفة الصنف لا تشمل ضريبة المدخلات القابلة للخصم، وتشمل غير القابلة للخصم [يحتاج تحقق من شروط الخصم] (STD-GEN-37 (٣))}}؛ وعند عدمه يدخل الإجمالي كله التكلفة (STD-GEN-37 (٥)).",
+      "applies": null,
+      "appliesText": "INV-006",
+      "regulatory": true
+    },
+    {
+      "id": "STD-INV-06",
+      "scope": "INV",
+      "title": "التحقق من الرصيد",
+      "text": "(حين INV-007 ≠ «يُسمح مع تنبيه»): يجري لكل مكان على حدة عند الترحيل، وينبّه فقط عند حفظ المسودة. الكمية المتاحة = الرصيد − المحجوز − المنتهي الصلاحية.",
+      "applies": {
+        "ne": [
+          "INV-007",
+          "allow_warn"
+        ]
+      },
+      "appliesText": "INV-007، INV-012، INV-005",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-07",
+      "scope": "INV",
+      "title": "الجرد",
+      "text": "(1) يحفظ النظام رصيد كل صنف لحظة فتح الجرد؛ و«المتوقع» = ذلك الرصيد + الحركات المرحَّلة بعده حتى إدخال العدّ؛ و«الفرق» = المعدود − المتوقع. (2) العدّ أعمى: ورقة العدّ لا تُظهر الرصيد المسجّل. وللصنف المتتبَّع تاريخ صلاحيته سطر لكل تاريخ انتهاء (STD-INV-10 (٥)). (3) الجرد الكامل يعرض كل صنف له رصيد في المكان؛ ولا يكتمل العدّ وفيه صنف بلا كمية إلا بوسمه «لم يُعدّ»، فيبقى رصيده دون تسوية. (4) تُوجَّه الزيادة والنقص إلى حسابين يعيّنهما المحاسب عند الإعداد (STD-GEN-23). (5) لا تُسوّى الفروق إلا وفق INV-008 ومعتمِد INV-016.",
+      "applies": null,
+      "appliesText": "INV-008 «تجميد الحركة»، INV-016",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-08",
+      "scope": "INV",
+      "title": "التحويل",
+      "text": "(1) بخطوتين: الإرسال ينقص المصدر ويضع الكمية «في الطريق» باسم المستلم؛ لا تُباع ولا تُصرف، وتُحسب في قيمة المخزون. (2) يُستلم بالكمية الفعلية، ولا يُقبل أكثر مما أُرسل. (3) النقص يبقى «فرق تحويل» حتى يُعتمد وفق INV-016، ثم يُعالج كنقص الجرد. (4) بخطوة واحدة: ينقص المصدر ويزيد المستلم معاً. (5) التحويل من مكان أو إليه مسؤوله «شخص غير مستخدم» يكون بخطوة واحدة دائماً، ويسجّله الدور في INV-018.ج.",
+      "applies": {
+        "visible": "INV-009"
+      },
+      "appliesText": "INV-009، INV-018",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-09",
+      "scope": "INV",
+      "title": "الحجز",
+      "text": "(INV-012 ≠ «لا»): (1) التلقائي يقع عند ترحيل أمر البيع، ويُفك بقدر ما يُحوَّل إلى فاتورة أو تسليم، أو بإلغاء الأمر. (2) اليدوي مستند «حجز» (العميل، الصنف، المكان، الكمية)، يُفك بالفاتورة المرتبطة، أو بإلغائه، أو تلقائياً بانتهاء مدته {{Q:INV-012#b}}. والربط: عند إنشاء فاتورة لعميل يقترح النظام حجوزاته المفتوحة للأصناف نفسها، ويختار المُنشئ ما يرتبط بها، فيُفك المختار بقدر كمية سطره عند صدور الفاتورة. (3) لا يُحجز أكثر من المتاح. (4) يظهر المحجوز عموداً في تقرير الأرصدة.",
+      "applies": {
+        "in": [
+          "INV-012",
+          [
+            "auto_on_so",
+            "manual_doc"
+          ]
+        ]
+      },
+      "appliesText": "INV-012",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-10",
+      "scope": "INV",
+      "title": "الصلاحية",
+      "text": "(INV-005 تتضمن «تاريخ انتهاء الصلاحية»): (1) علامة «يُتتبَّع تاريخ صلاحيته» في بطاقة الصنف (الافتراضي: لا). (2) التاريخ إلزامي لهذه الأصناف في الاستلام والرصيد الافتتاحي والمرتجع. (3) يقترح الصرف الأقرب انتهاءً، ويجوز تغييره يدوياً. (4) المنتهي لا يُباع ولا يُحوَّل، ويخرج فقط بصرف «تالف أو منتهي الصلاحية». (5) الجرد والتحويل: تحمل ورقة العدّ (STD-INV-07) للصنف الموسوم سطراً لكل تاريخ انتهاء له رصيد في المكان، ويُعدّ كل تاريخ على حدة عدّاً أعمى، ويُضيف العادّ سطراً بتاريخ ما وجده بلا سطر؛ ويُسوّى الفرق لكل تاريخ. وإرسال التحويل والبيع والصرف تنقل التاريخ مع الكمية، ويقترح النظام الأقرب انتهاءً (البند (٣))، ويُستلم التحويل بتواريخ إرساله (ق ع-95). وكذلك خروج مرتجع المشتريات (ويُقترح تاريخ سطر الاستلام الأصلي)، ونقص استلام التحويل يُسوّى لكل تاريخ.",
+      "applies": {
+        "has": [
+          "INV-005",
+          "expiry"
+        ]
+      },
+      "appliesText": "INV-005",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-11",
+      "scope": "INV",
+      "title": "الصرف غير البيعي",
+      "text": "كل صرف يحمل سبباً من INV-010؛ ولكل سبب حساب مصروف يعيّنه المحاسب عند الإعداد (STD-GEN-23)؛ ويُقيَّم بالمتوسط؛ ويُعتمد وفق INV-016. ولا يدخله سبب «استخدام في أعمال الخدمة أو الصيانة» عند ظهور INV-017 (STD-GEN-24، الحالة ٩).",
+      "applies": {
+        "not": {
+          "has": [
+            "INV-010",
+            "none"
+          ]
+        }
+      },
+      "appliesText": "INV-010، INV-016",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-12",
+      "scope": "INV",
+      "title": "مرتجع المبيعات",
+      "text": "يعود إلى مكان الصرف الأصلي، إلا المرتجع المقبول في غير فرع الفاتورة (STD-SAL-15) فيعود إلى المكان الافتراضي للفرع المستلم (STD-INV-03)، ومرتجع فاتورة خدمة صُرفت قطعها من سيارة فني يعود إلى المكان الافتراضي لفرع الفاتورة لا إلى السيارة عند غياب «تالف» من INV-010، فلا يظهر تلف القطعة نقصاً في عهدة الفني (INV-018.ب)، عدا مرتجع خطأ الصنف (STD-SAL-27 (٤)) فيعود إلى مكان صرفه الأصلي ولو كان سيارة فني (ق ع-127)؛ ويجوز تغييره قبل الترحيل لمن يملك «إنشاء»، في حدود رؤيته (ROL-003). السطر الموسوم «غير صالح للبيع» يُثبت ثم يُنشأ عنه تلقائياً صرف «تالف» بانتظار اعتماد INV-016. ويُسقَط الوسم والصرف الآلي عند غياب «تالف» من INV-010 (STD-GEN-24، الحالة ٦).",
+      "applies": null,
+      "appliesText": "SAL-012",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-13",
+      "scope": "INV",
+      "title": "حد إعادة الطلب",
+      "text": "لكل صنف في كل مستودع من نوع «رئيسي» أو «فرعي» (لا للسيارات والمعارض). الحقل الفارغ = لا تنبيه، ولا يظهر الصنف في تقرير «تحت حد الطلب». يُقارن الحد بالكمية المتاحة (STD-INV-06).",
+      "applies": null,
+      "appliesText": "INV-002، INV-015",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-14",
+      "scope": "INV",
+      "title": "رؤية الأماكن الأخرى",
+      "text": "المستخدم المقيَّد بفرعه (ROL-003) يرى الكمية المتاحة في كل الأماكن الأخرى دون التكلفة، ولا ينشئ عليها حركة غير طلب التحويل.",
+      "applies": null,
+      "appliesText": "ROL-003، ROL-004",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-15",
+      "scope": "INV",
+      "title": "رمز الصنف وإيقافه",
+      "text": "عند INV-003 = «رقم تسلسلي تلقائي» يبدأ الترقيم من 1 دون بادئة، ولا يُعاد استخدام رقم. الصنف الذي له حركة لا يُحذف بل يُوقف: يختفي من المستندات الجديدة ويبقى في التقارير.",
+      "applies": null,
+      "appliesText": "INV-003",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-16",
+      "scope": "INV",
+      "title": "التأريخ",
+      "text": "يحمل كل مستند مخزني تاريخ وقوعه، ولا يُرحَّل مستند بتاريخ يسبق آخر جرد مُسوّى للمكان نفسه؛ وفيما عدا ذلك يسري قفل الفترات العام (STD-GEN-22).",
+      "applies": null,
+      "appliesText": "—",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-17",
+      "scope": "INV",
+      "title": "الرصيد الافتتاحي",
+      "text": "مستند «رصيد افتتاحي» لكل مكان (الكمية بالوحدة الأساسية، وتكلفة الوحدة، وتاريخ الصلاحية عند تتبعها)، يُرحَّل قبل أول حركة في المكان؛ وكل تصحيح بعده بالجرد لا بتعديله. مصدر بياناته MIG-001. ويُدخل الكمياتِ مَن عدّها وفق STD-GEN-58 (١) (أمين المستودع لمستودعه، وإلا المحاسب)، ويُدخل المحاسب تكلفة الوحدة (STD-GEN-28 (٣)). ويُدخل مسودةً قبل اعتماد القيد الافتتاحي، وينفذ آلياً مع اعتماد المالك للقيد وكشف المطابقة؛ وتصحيحه قبل أول حركة عليه بتعديل التفصيل مع قيد «تعديل افتتاحي»، وبعدها بالجرد (STD-GEN-61 (٢)، (٦)، (٧)). والكميات من العدّ الافتتاحي وفق STD-GEN-58.",
+      "applies": null,
+      "appliesText": "MIG-001",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-18",
+      "scope": "INV",
+      "title": "مخزون السيارات",
+      "text": "(INV-001 فيه صف «سيارة فني» أو «سيارة مندوب»): (1) السيارة مكان تخزين برصيد منفصل، وما فيها عهدة قطع على مسؤولها (STD-GEN-32)، ويظهر في تقرير «مخزون كل سيارة وحامل عهدتها». (2) التحميل من المستودع والإعادة إليه تحويلان (STD-INV-08). (3) لا يُصرف من سيارة إلا على مستند يحمل اسم مسؤولها. (4) العدّ والنقص وفق INV-018.",
+      "applies": {
+        "any": [
+          {
+            "rowsAny": [
+              "INV-001",
+              "type",
+              "==",
+              "technician_car"
+            ]
+          },
+          {
+            "rowsAny": [
+              "INV-001",
+              "type",
+              "==",
+              "sales_rep_car"
+            ]
+          }
+        ]
+      },
+      "appliesText": "INV-001، INV-018",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-19",
+      "scope": "INV",
+      "title": "مسؤول المكان",
+      "text": "عمود «المسؤول» في INV-001 دور من ROL-001 أو «شخص غير مستخدم» (STD-GEN-20). المسؤول يؤكد استلام التحويل ويعدّ مكانه في الجرد؛ فإن كان شخصاً غير مستخدم سجّل عنه الدور في INV-018.ج.",
+      "applies": null,
+      "appliesText": "INV-001",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-20",
+      "scope": "INV",
+      "title": "سيارات الفنيين",
+      "text": "يسري عند INV-001 فيه صف «سيارة فني» بلا مسؤول، أو إجابة تذكر سيارات الفنيين دون صفوف: (1) يُفهم ذلك قالباً: سيارة لكل فني. (2) إنشاء السيارة: يجب أن ينشئ النظام مكان تخزين من نوع «سيارة فني» تلقائياً عند إضافة شخص بصفة «فني» إلى «أشخاص غير مستخدمين»؛ الاسم «سيارة <اسم الفني>»؛ المسؤول الفني نفسه؛ الفرع فرع الفني، وافتراضه الفرع الذي نوعه «مقر رئيسي». (3) الحقل «يحمل قطعاً في سيارة» (نعم / لا): يُضاف إلى القائمة للفني، وافتراضه «نعم»؛ «لا»: لا تُنشأ له سيارة؛ الفني الموقوف تبقى سيارته في التقارير، ولا تقبل حركة جديدة إلا الإعادة إلى المستودع. (4) مهمة الإعداد: إدخال الفنيين في القائمة، ويقوم بها الدور في INV-018.ج. (5) السريان صفٌّ: سريان هذه القاعدة يُعدّ صفاً من نوع «سيارة فني» في كل شرط ظهور أو موصى به يذكره (INV-009، INV-014، INV-017.ب، INV-018، STD-GEN-56 (٢))، ولو لم يُدخل في INV-001 صف للسيارات.",
+      "applies": {
+        "text": "INV-001 فيه صف «سيارة فني» بلا مسؤول، أو إجابة تذكر سيارات الفنيين دون صفوف"
+      },
+      "appliesText": "INV-001، INV-018",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-21",
+      "scope": "INV",
+      "title": "جرد سيارة الفني الشهري",
+      "text": "يجب أن يُنشأ جرد سيارة الفني الشهري (INV-R018a) آلياً في آخر يوم من الشهر الميلادي، ويُعدّ خلال يومي العمل التاليين. فإن لم يبلغ «العدّ مكتمل» بانقضائهما، يُنبَّه الدور في INV-018.ج والمالك داخل النظام، غير عاجل (الملخص اليومي، STD-GEN-16)، بحدث «جرد سيارة لم يُعدّ <السيارة>»، ويتكرر كل يوم عمل حتى اكتمال العدّ؛ ولا تُوقَف حركة السيارة (STD-INV-07 (١)).",
+      "applies": {
+        "eq": [
+          "INV-018",
+          "monthly"
+        ]
+      },
+      "appliesText": "INV-018.أ",
+      "regulatory": false
+    },
+    {
+      "id": "STD-INV-22",
+      "scope": "INV",
+      "title": "جدولة الجرد الدوري",
+      "text": "(INV-008 تتضمن «جرد كامل سنوي» أو «جرد كامل كل ربع سنة»): (1) يُنشئ النظام آلياً جرداً كاملاً «مفتوحاً» لكل مكان من نوع «رئيسي» أو «فرعي» أو «معرض» في آخر يوم من السنة المالية (GEN-004) عند «سنوي»، وفي آخر يوم من كل ربع منها عند «كل ربع سنة» (والربع ثلاثة أشهر تبدأ من أول السنة المالية)، ويُمنح رقمه عند «مفتوح» (STD-GEN-43 (١))؛ ولا يُنشأ للسيارات (حكمها STD-INV-21 وINV-018). (2) يُعدّ خلال يومي العمل التاليين؛ فإن لم يبلغ «العدّ مكتمل» بانقضائهما، يُنبَّه مسؤول المكان (STD-INV-19) والمالك داخل النظام، غير عاجل (الملخص اليومي، STD-GEN-16)، بحدث «جرد دوري لم يُعدّ <المكان>»، ويتكرر كل يوم عمل حتى اكتمال العدّ؛ ولا تُوقَف الحركة إلا عند اختيار «تجميد الحركة أثناء الجرد» (STD-INV-07). (3) «جرد جزئي دوري» يفتحه أمين المستودع يدوياً لمجموعات يختارها، دون إنشاء آلي ولا تنبيه؛ ويجوز فتح جرد كامل يدوياً في أي وقت. (ق ع-123)",
+      "applies": {
+        "hasAny": [
+          "INV-008",
+          [
+            "annual_full",
+            "quarterly_full"
+          ]
+        ]
+      },
+      "appliesText": "INV-008",
+      "regulatory": false
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "تع-INV-01",
+      "scope": "INV",
+      "condition": {
+        "all": [
+          {
+            "has": [
+              "INV-005",
+              "expiry"
+            ]
+          },
+          {
+            "any": [
+              {
+                "not": {
+                  "has": [
+                    "INV-014",
+                    "near_expiry"
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "has": [
+                    "INV-015",
+                    "near_expiry"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "INV-005 تتضمن «تاريخ انتهاء الصلاحية» و INV-014 لا تتضمن «القريبة من انتهاء الصلاحية» أو INV-015 لا تتضمن «يقترب انتهاء صلاحيته»",
+      "action": "flag",
+      "target": "INV-014",
+      "text": "إن كان السؤال الناقص «افتراضاً»: يُضاف الخيار بإعدادات INV-014/INV-015 ويُسجَّل افتراضاً مُعلناً. إن كان «إجابة»: تُفعَّل علامة: «اخترتم تتبع الصلاحية دون تقرير أو تنبيه بقرب الانتهاء؛ أضيفوهما أو أكّدوا الاستغناء عنهما»."
+    },
+    {
+      "id": "تع-INV-02",
+      "scope": "INV",
+      "condition": {
+        "all": [
+          {
+            "in": [
+              "INV-012",
+              [
+                "auto_on_so",
+                "manual_doc"
+              ]
+            ]
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "eqLabel": [
+                    "SAL-002",
+                    "عرض سعر ← أمر بيع (موافقة العميل) ← تسليم ← فاتورة"
+                  ]
+                },
+                {
+                  "eqLabel": [
+                    "SAL-002",
+                    "أمر بيع ← تسليم ← فاتورة"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "conditionText": "INV-012.أ إجابةٌ تثبت الحجز («نعم» بأي صيغة، أو «تلقائياً عند أمر البيع») و SAL-002 لا تتضمن «أمر بيع»",
+      "action": "note",
+      "target": "INV-012",
+      "text": "يُطبَّق «نعم، يدوياً بمستند حجز»، بمدة {{Q:INV-012#b}} من الإجابة؛ فإن لم تُذكر المدة، فالموصى به (7 أيام). يُسجَّل ذلك افتراضاً مُعلناً، ولا تُفعَّل علامة (STD-GEN-25). وموصى به INV-012.أ لا يُطبَّق إلا حين يكون INV-012 «افتراضاً»."
+    },
+    {
+      "id": "تع-INV-03",
+      "scope": "INV",
+      "condition": {
+        "all": [
+          {
+            "eq": [
+              "INV-009",
+              "request_flow"
+            ]
+          },
+          {
+            "eqLabel": [
+              "PUR-018",
+              "طلب احتياج من الفرع داخل النظام، تلبّيه الإدارة بتحويل مخزني أو بأمر شراء"
+            ]
+          }
+        ]
+      },
+      "conditionText": "INV-009 = «طلب تحويل ← اعتماد ← إرسال ← استلام» و PUR-018 = «طلب احتياج فرع داخل النظام»",
+      "action": "note",
+      "target": "INV-009",
+      "text": "مستند واحد: «طلب احتياج فرع» هو طلب التحويل. ينشئه الطالب في INV-009.ب (موصى به: مدير الفرع المستلم أو أمين المستودع فيه)، ويُقرأ PUR-018 (المُنشئ) وصف مدير الفرع في ROL-002 بهذا المعنى، ويُمنح الطالب «إنشاء» هذا المستند وحده في PUR (STD-GEN-68). ويراه أمين مستودع المقر ومسؤول المشتريات والمعتمِد في INV-009.ب، ولو كانوا مقيَّدين بفرع آخر (استثناء من ROL-003 كاستثناء STD-INV-14). إن لُبّي بتحويل طُبّق اعتماد INV-009.ب، وإن لُبّي بشراء طُبّق PUR-007 ثم STD-PUR-09. لا تُفعَّل علامة."
+    },
+    {
+      "id": "تع-INV-04",
+      "scope": "INV",
+      "condition": {
+        "all": [
+          {
+            "not": {
+              "flag": "F_MULTIBRANCH"
+            }
+          },
+          {
+            "text": "INV-001 فيه أكثر من صف"
+          }
+        ]
+      },
+      "conditionText": "عدم F_MULTIBRANCH و INV-001 فيه أكثر من صف",
+      "action": "show",
+      "target": "INV-009",
+      "text": "يظهر INV-009؛ ق-ت6 يخفي أسئلة التوزيع على الفروع فقط، لا التحويل بين أماكن التخزين. (يُضاف هذا الإيضاح إلى نص ق-ت6.)"
+    },
+    {
+      "id": "تع-INV-05",
+      "scope": "INV",
+      "condition": {
+        "all": [
+          {
+            "in": [
+              "INV-009",
+              [
+                "two_step",
+                "request_flow"
+              ]
+            ]
+          },
+          {
+            "text": "مسؤول المكان المرسِل أو المستلم «شخص غير مستخدم»"
+          }
+        ]
+      },
+      "conditionText": "INV-009 بخطوتين أو بطلب و مسؤول المكان المرسِل أو المستلم «شخص غير مستخدم»",
+      "action": "note",
+      "target": "INV-009",
+      "text": "يكون التحويل من ذلك المكان أو إليه بخطوة واحدة، يسجّله دور INV-018.ج (STD-INV-08). لا تُفعَّل علامة."
+    },
+    {
+      "id": "تع-INV-06",
+      "scope": "INV",
+      "condition": {
+        "all": [
+          {
+            "has": [
+              "INV-010",
+              "other"
+            ]
+          },
+          {
+            "text": "INV-010 «أخرى» تتضمن أحد الألفاظ: «صيانة»، «فني»، «تركيب»، «أمر عمل»"
+          }
+        ]
+      },
+      "conditionText": "INV-010 «أخرى» تتضمن أحد الألفاظ: «صيانة»، «فني»، «تركيب»، «أمر عمل»",
+      "action": "flag",
+      "target": "INV-010",
+      "text": "تُفعَّل علامة على INV-010: «يبدو أن المقصود «استخدام في أعمال الخدمة أو الصيانة»؛ اختاروه لتظهر أسئلته، أو أكّدوا أن الإضافة احتياج مختلف»."
+    },
+    {
+      "id": "تع-INV-07",
+      "scope": "INV",
+      "condition": {
+        "all": [
+          {
+            "has": [
+              "INV-015",
+              "reorder_reached"
+            ]
+          },
+          {
+            "not": {
+              "has": [
+                "INV-002",
+                "reorder_level"
+              ]
+            }
+          },
+          {
+            "not": {
+              "has": [
+                "INV-002#optional",
+                "reorder_level"
+              ]
+            }
+          }
+        ]
+      },
+      "conditionText": "INV-015 تتضمن «وصل حد إعادة الطلب» و «حد إعادة الطلب» غير مختار في INV-002",
+      "action": "note",
+      "target": "INV-002",
+      "text": "يُضاف الحقل اختيارياً تلقائياً، مع تنبيه في الواجهة: «أُضيف حقل حد إعادة الطلب لأنكم اخترتم تنبيهه»، ويُطبَّق STD-INV-13 على الحقل الفارغ."
+    },
+    {
+      "id": "تع-INV-08",
+      "scope": "INV",
+      "condition": {
+        "all": [
+          {
+            "eq": [
+              "INV-018#b",
+              "receivable_from_holder"
+            ]
+          },
+          {
+            "not": {
+              "module": "PAY"
+            }
+          }
+        ]
+      },
+      "conditionText": "INV-018.ب = «مبلغ مستحق على حامل العهدة» و M(PAY) غير صحيح",
+      "action": "note",
+      "target": "INV-018",
+      "text": "يُثبت المستحق في سجل العهدة، ويُكتب «الخصم من الراتب» في «خارج النطاق». لا تُفعَّل علامة."
+    },
+    {
+      "id": "تع-INV-09",
+      "scope": "INV",
+      "condition": {
+        "text": "دور مذكور في INV-001 أو INV-009.ب أو INV-014 أو INV-015 أو INV-016 أو INV-018.ج بلا مستخدم"
+      },
+      "conditionText": "دور مذكور في INV-001 أو INV-009.ب أو INV-014 أو INV-015 أو INV-016 أو INV-018.ج بلا مستخدم",
+      "action": "note",
+      "target": null,
+      "text": "يُطبَّق STD-GEN-19 (الإسناد إلى المالك)؛ وإلى اعتماده يُطبَّق ع-04 إن كان الدور محذوفاً من ROL-001."
+    }
+  ]
+}
