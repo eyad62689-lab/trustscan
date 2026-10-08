@@ -1,0 +1,27 @@
+{
+  "name": "requirements-workshop",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ورشة المتطلبات — static offline workshop app",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build && node scripts/check-dist-urls.mjs",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "validate": "node scripts/validate-bank.mjs",
+    "validate:fixtures": "node scripts/validate-bank.mjs --dir test/fixtures",
+    "check:dist": "node scripts/check-dist-urls.mjs"
+  },
+  "dependencies": {
+    "docx": "9.5.1",
+    "preact": "10.26.4"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "2.10.6",
+    "jszip": "3.10.1",
+    "typescript": "5.7.3",
+    "vite": "6.4.4",
+    "vitest": "4.1.11"
+  }
+}
