@@ -112,7 +112,7 @@
                 "name": "المستودع الرئيسي",
                 "branch": "<الفرع الذي نوعه «مقر رئيسي» في GEN-003>",
                 "type": "main",
-                "responsible": "أمين المستودع"
+                "responsible": "storekeeper"
               }
             ],
             "reason": "الحالة الأشيع.",
@@ -126,7 +126,7 @@
                     "name": "المستودع الرئيسي — <اسم الفرع>",
                     "branch": "<كل فرع في GEN-003>",
                     "type": "main",
-                    "responsible": "أمين المستودع"
+                    "responsible": "storekeeper"
                   }
                 ],
                 "reason": "الشراء المركزي والتحويل للفروع يحتاجان رصيداً لكل فرع."
@@ -1194,7 +1194,7 @@
           "recommended": {
             "value": [
               {
-                "role": "المالك"
+                "role": "owner"
               }
             ],
             "reason": "تجاوز الرصيد يمس دقة التكلفة، فهو قرار مالك كتسويات المخزون (ق ع-26).",
@@ -1467,8 +1467,11 @@
           },
           "recommended": {
             "value": {
-              "requester": "مدير الفرع المستلم، أمين المستودع",
-              "approver": "مدير الفرع المرسِل",
+              "requester": [
+                "branch_manager",
+                "storekeeper"
+              ],
+              "approver": "branch_manager",
               "on_reject": "return_to_creator",
               "reminder_hours": 24
             },
@@ -1481,8 +1484,11 @@
                   }
                 },
                 "value": {
-                  "requester": "مدير الفرع المستلم، أمين المستودع",
-                  "approver": "المالك",
+                  "requester": [
+                    "branch_manager",
+                    "storekeeper"
+                  ],
+                  "approver": "owner",
                   "on_reject": "return_to_creator",
                   "reminder_hours": 24
                 },
@@ -2445,7 +2451,7 @@
               "figures": "الرصيد، المحجوز، المتاح",
               "filter": "مكان، صنف، مجموعة",
               "frequency": "عند الطلب",
-              "reader": "أمين المستودع"
+              "reader": "storekeeper"
             },
             {
               "option": "stock_value",
@@ -2454,7 +2460,7 @@
               "figures": "الكمية، المتوسط، القيمة",
               "filter": "تاريخ، مكان، مجموعة",
               "frequency": "شهري",
-              "reader": "المالك"
+              "reader": "owner"
             },
             {
               "option": "item_card",
@@ -2463,7 +2469,7 @@
               "figures": "الوارد، الصادر، الرصيد المتراكم، المستند",
               "filter": "فترة، صنف، مكان",
               "frequency": "عند الطلب",
-              "reader": "أمين المستودع"
+              "reader": "storekeeper"
             },
             {
               "option": "below_reorder",
@@ -2472,7 +2478,7 @@
               "figures": "المتاح، الحد، الفرق",
               "filter": "مستودع، مجموعة، مورّد معتاد",
               "frequency": "يومي",
-              "reader": "مسؤول المشتريات"
+              "reader": "purchasing_officer"
             },
             {
               "option": "slow_moving",
@@ -2481,7 +2487,7 @@
               "figures": "آخر حركة، الكمية، القيمة",
               "filter": "أيام بلا حركة (الافتراضي 90)، مكان",
               "frequency": "شهري",
-              "reader": "المالك"
+              "reader": "owner"
             },
             {
               "option": "near_expiry",
@@ -2490,7 +2496,7 @@
               "figures": "الصنف، التاريخ، الكمية، المكان",
               "filter": "أيام حتى الانتهاء، مكان",
               "frequency": "أسبوعي",
-              "reader": "أمين المستودع"
+              "reader": "storekeeper"
             },
             {
               "option": "count_variances",
@@ -2499,7 +2505,7 @@
               "figures": "المتوقع، المعدود، الفرق كمية وقيمة",
               "filter": "جرد، مكان، صنف",
               "frequency": "بعد كل جرد",
-              "reader": "المالك"
+              "reader": "owner"
             },
             {
               "option": "transfers",
@@ -2508,7 +2514,7 @@
               "figures": "المرسَل، المستلَم، الفرق، في الطريق",
               "filter": "فترة، مكان مرسِل ومستلم، الحالة",
               "frequency": "أسبوعي",
-              "reader": "أمين المستودع"
+              "reader": "storekeeper"
             },
             {
               "option": "non_sales_issues",
@@ -2517,7 +2523,7 @@
               "figures": "الكمية والقيمة لكل سبب",
               "filter": "فترة، سبب، مكان",
               "frequency": "شهري",
-              "reader": "المالك"
+              "reader": "owner"
             },
             {
               "option": "vehicle_stock",
@@ -2526,7 +2532,7 @@
               "figures": "الأصناف والكميات والقيمة، آخر عدّ",
               "filter": "سيارة، حامل العهدة",
               "frequency": "أسبوعي",
-              "reader": "المحاسب"
+              "reader": "accountant"
             }
           ],
           "rowsFrom": null,
@@ -2540,7 +2546,7 @@
                 "figures": "الرصيد، المحجوز، المتاح",
                 "filter": "مكان، صنف، مجموعة",
                 "frequency": "عند الطلب",
-                "reader": "أمين المستودع"
+                "reader": "storekeeper"
               },
               {
                 "option": "stock_value",
@@ -2549,7 +2555,7 @@
                 "figures": "الكمية، المتوسط، القيمة",
                 "filter": "تاريخ، مكان، مجموعة",
                 "frequency": "شهري",
-                "reader": "المالك"
+                "reader": "owner"
               },
               {
                 "option": "item_card",
@@ -2558,7 +2564,7 @@
                 "figures": "الوارد، الصادر، الرصيد المتراكم، المستند",
                 "filter": "فترة، صنف، مكان",
                 "frequency": "عند الطلب",
-                "reader": "أمين المستودع"
+                "reader": "storekeeper"
               },
               {
                 "option": "below_reorder",
@@ -2567,7 +2573,7 @@
                 "figures": "المتاح، الحد، الفرق",
                 "filter": "مستودع، مجموعة، مورّد معتاد",
                 "frequency": "يومي",
-                "reader": "مسؤول المشتريات"
+                "reader": "purchasing_officer"
               },
               {
                 "option": "slow_moving",
@@ -2576,7 +2582,7 @@
                 "figures": "آخر حركة، الكمية، القيمة",
                 "filter": "أيام بلا حركة (الافتراضي 90)، مكان",
                 "frequency": "شهري",
-                "reader": "المالك"
+                "reader": "owner"
               },
               {
                 "option": "near_expiry",
@@ -2585,7 +2591,7 @@
                 "figures": "الصنف، التاريخ، الكمية، المكان",
                 "filter": "أيام حتى الانتهاء، مكان",
                 "frequency": "أسبوعي",
-                "reader": "أمين المستودع"
+                "reader": "storekeeper"
               },
               {
                 "option": "count_variances",
@@ -2594,7 +2600,7 @@
                 "figures": "المتوقع، المعدود، الفرق كمية وقيمة",
                 "filter": "جرد، مكان، صنف",
                 "frequency": "بعد كل جرد",
-                "reader": "المالك"
+                "reader": "owner"
               },
               {
                 "option": "transfers",
@@ -2603,7 +2609,7 @@
                 "figures": "المرسَل، المستلَم، الفرق، في الطريق",
                 "filter": "فترة، مكان مرسِل ومستلم، الحالة",
                 "frequency": "أسبوعي",
-                "reader": "أمين المستودع"
+                "reader": "storekeeper"
               },
               {
                 "option": "non_sales_issues",
@@ -2612,7 +2618,7 @@
                 "figures": "الكمية والقيمة لكل سبب",
                 "filter": "فترة، سبب، مكان",
                 "frequency": "شهري",
-                "reader": "المالك"
+                "reader": "owner"
               },
               {
                 "option": "vehicle_stock",
@@ -2621,7 +2627,7 @@
                 "figures": "الأصناف والكميات والقيمة، آخر عدّ",
                 "filter": "سيارة، حامل العهدة",
                 "frequency": "أسبوعي",
-                "reader": "المحاسب"
+                "reader": "accountant"
               }
             ],
             "reason": "",
@@ -2928,7 +2934,10 @@
           "rows": [
             {
               "event": "reorder_reached",
-              "recipient": "مسؤول المشتريات وأمين المستودع",
+              "recipient": [
+                "purchasing_officer",
+                "storekeeper"
+              ],
               "channel": [
                 "in_app"
               ],
@@ -2936,7 +2945,10 @@
             },
             {
               "event": "out_of_stock",
-              "recipient": "مسؤول المشتريات وأمين المستودع",
+              "recipient": [
+                "purchasing_officer",
+                "storekeeper"
+              ],
               "channel": [
                 "in_app"
               ],
@@ -2944,7 +2956,7 @@
             },
             {
               "event": "near_expiry",
-              "recipient": "أمين المستودع",
+              "recipient": "storekeeper",
               "channel": [
                 "in_app"
               ],
@@ -2952,7 +2964,7 @@
             },
             {
               "event": "transfer_unconfirmed",
-              "recipient": "أمين المستودع المرسِل",
+              "recipient": "storekeeper",
               "channel": [
                 "in_app"
               ],
@@ -2960,7 +2972,7 @@
             },
             {
               "event": "large_count_variance",
-              "recipient": "المالك",
+              "recipient": "owner",
               "channel": [
                 "in_app",
                 "email"
@@ -2974,7 +2986,10 @@
             "value": [
               {
                 "event": "reorder_reached",
-                "recipient": "مسؤول المشتريات وأمين المستودع",
+                "recipient": [
+                  "purchasing_officer",
+                  "storekeeper"
+                ],
                 "channel": [
                   "in_app"
                 ],
@@ -2982,7 +2997,10 @@
               },
               {
                 "event": "out_of_stock",
-                "recipient": "مسؤول المشتريات وأمين المستودع",
+                "recipient": [
+                  "purchasing_officer",
+                  "storekeeper"
+                ],
                 "channel": [
                   "in_app"
                 ],
@@ -2990,7 +3008,7 @@
               },
               {
                 "event": "near_expiry",
-                "recipient": "أمين المستودع",
+                "recipient": "storekeeper",
                 "channel": [
                   "in_app"
                 ],
@@ -2998,7 +3016,7 @@
               },
               {
                 "event": "transfer_unconfirmed",
-                "recipient": "أمين المستودع المرسِل",
+                "recipient": "storekeeper",
                 "channel": [
                   "in_app"
                 ],
@@ -3006,7 +3024,7 @@
               },
               {
                 "event": "large_count_variance",
-                "recipient": "المالك",
+                "recipient": "owner",
                 "channel": [
                   "in_app",
                   "email"
@@ -3158,7 +3176,7 @@
               "operation": "count_variance",
               "from": null,
               "to": null,
-              "approver": "المالك",
+              "approver": "owner",
               "on_reject": "return_to_creator",
               "reminder_hours": 24
             },
@@ -3166,7 +3184,7 @@
               "operation": "transfer_shortage",
               "from": null,
               "to": null,
-              "approver": "المالك",
+              "approver": "owner",
               "on_reject": "return_to_creator",
               "reminder_hours": 24
             },
@@ -3174,7 +3192,7 @@
               "operation": "damaged_issue",
               "from": null,
               "to": null,
-              "approver": "المالك",
+              "approver": "owner",
               "on_reject": "return_to_creator",
               "reminder_hours": 24
             },
@@ -3182,7 +3200,7 @@
               "operation": "internal_use_issue",
               "from": null,
               "to": null,
-              "approver": "المالك",
+              "approver": "owner",
               "on_reject": "return_to_creator",
               "reminder_hours": 24
             },
@@ -3190,7 +3208,7 @@
               "operation": "samples_gifts_issue",
               "from": null,
               "to": null,
-              "approver": "المالك",
+              "approver": "owner",
               "on_reject": "return_to_creator",
               "reminder_hours": 24
             },
@@ -3198,7 +3216,7 @@
               "operation": "parts_custody_shortage",
               "from": null,
               "to": null,
-              "approver": "المالك",
+              "approver": "owner",
               "on_reject": "return_to_creator",
               "reminder_hours": 24
             }
@@ -3211,7 +3229,7 @@
                 "operation": "count_variance",
                 "from": null,
                 "to": null,
-                "approver": "المالك",
+                "approver": "owner",
                 "on_reject": "return_to_creator",
                 "reminder_hours": 24
               },
@@ -3219,7 +3237,7 @@
                 "operation": "transfer_shortage",
                 "from": null,
                 "to": null,
-                "approver": "المالك",
+                "approver": "owner",
                 "on_reject": "return_to_creator",
                 "reminder_hours": 24
               },
@@ -3227,7 +3245,7 @@
                 "operation": "damaged_issue",
                 "from": null,
                 "to": null,
-                "approver": "المالك",
+                "approver": "owner",
                 "on_reject": "return_to_creator",
                 "reminder_hours": 24
               },
@@ -3235,7 +3253,7 @@
                 "operation": "internal_use_issue",
                 "from": null,
                 "to": null,
-                "approver": "المالك",
+                "approver": "owner",
                 "on_reject": "return_to_creator",
                 "reminder_hours": 24
               },
@@ -3243,7 +3261,7 @@
                 "operation": "samples_gifts_issue",
                 "from": null,
                 "to": null,
-                "approver": "المالك",
+                "approver": "owner",
                 "on_reject": "return_to_creator",
                 "reminder_hours": 24
               },
@@ -3251,7 +3269,7 @@
                 "operation": "parts_custody_shortage",
                 "from": null,
                 "to": null,
-                "approver": "المالك",
+                "approver": "owner",
                 "on_reject": "return_to_creator",
                 "reminder_hours": 24
               }

@@ -1,0 +1,3783 @@
+{
+  "unit": "PUR",
+  "sections": [
+    {
+      "id": "PUR",
+      "title": "وحدة المشتريات والموردين",
+      "order": 50,
+      "condition": {
+        "module": "PUR"
+      },
+      "kind": "unit",
+      "opening": {
+        "attendees": "مسؤول المشتريات، وأمين المستودع، والمحاسب، والمالك.",
+        "mandatory": [],
+        "duration": "40–50 دقيقة.",
+        "minutes": 45,
+        "discussion": [
+          "هل حدث أن دُفعت فاتورة مورّد لبضاعة لم تصل كاملة؟",
+          "من يقرر الشراء اليوم، وكيف يُعرف أن الطلب ضروري؟"
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "PUR-001",
+      "section": "PUR",
+      "order": 1,
+      "title": "ما خطوات الشراء عندكم بالترتيب؟",
+      "help": "اختر التسلسل الأقرب لما يحدث فعلاً.",
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مستندات الشراء وتحويل كل منها إلى التالي، وحالاتها. ويحمل أمر الشراء حقل «تاريخ التوريد المتوقع»، اختيارياً يُعبَّأ عند الإنشاء (STD-PUR-05).\n- عند «فاتورة المورّد مباشرة»: يُسقَط ما يعتمد على أمر الشراء (STD-GEN-24 الحالة ٤: تقريرا «أوامر الشراء المفتوحة» و«الكميات غير المستلمة»، وتنبيه «أمر شراء تأخر استلامه»، والأسئلة PUR-009 وPUR-010 وPUR-017، والقواعد STD-PUR-01 وSTD-PUR-05 وSTD-PUR-06، وحالة المطابقة في فاتورة المورّد)؛ وينتقل اعتماد PUR-007 وPUR-008 وPUR-016 إلى فاتورة المورّد قبل ترحيلها (الحالة ٧). والفاتورة حينئذ تُدخل الصنف المخزون (STD-INV-02)، ولا يقع قيد «مشتريات مستلمة لم تُفوتر».\n- عند تضمّن «استلام»: يُقيَّم الاستلام وفق STD-PUR-01، ويتولد قيده وفق STD-ACC-02.\n- فاتورة المورّد التي كل سطورها «فئة مصروف» تُنشأ دون أمر شراء أياً كانت PUR-001 (STD-GEN-34 (٢)).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "supplier_invoice_direct",
+              "label": "فاتورة المورّد مباشرة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "po_receipt_invoice",
+              "label": "أمر شراء ← استلام ← فاتورة المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "pr_po_receipt_invoice",
+              "label": "طلب شراء داخلي ← أمر شراء ← استلام ← فاتورة المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "pr_rfq_po_receipt_invoice",
+              "label": "طلب شراء داخلي ← مقارنة عروض أسعار المورّدين ← أمر شراء ← استلام ← فاتورة المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد الخطوات بالترتيب)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "supplier_invoice_direct",
+            "reason": "يضبط الالتزام مع المورّد دون خطوات زائدة.",
+            "when": [
+              {
+                "if": {
+                  "flag": "F_MULTIUSER"
+                },
+                "value": "po_receipt_invoice",
+                "reason": "يضبط الالتزام مع المورّد دون خطوات زائدة."
+              }
+            ],
+            "text": "«فاتورة المورّد مباشرة» للمستخدم الواحد؛ و«أمر شراء ← استلام ← فاتورة» عند F_MULTIUSER — السبب: يضبط الالتزام مع المورّد دون خطوات زائدة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R001",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام تسلسل الشراء {{Q:PUR-001}}، مع تحويل كل مستند إلى التالي دون إعادة إدخال، وربط كل مستند بمصدره، وحالات كل مستند وفق STD-GEN-05."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-002",
+      "section": "PUR",
+      "order": 2,
+      "title": "هل تستوردون من خارج المملكة؟",
+      "help": "الشراء من مورّدين خارجيين مع شحن وتخليص جمركي.",
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "«نعم» يُظهر PUR-003، ويفعّل الشراء بعملة أجنبية (يرتبط بـGEN-002). وعند PUR-002 ≠ «لا» يصير موصى به GEN-002: «نعم، بصف عملة نموذجي «الدولار الأمريكي» يُعدَّل، وسعر الصرف يُدخل مع كل عملية»، وموصى به GEN-002.ج «الشراء» (انظر تع-08). ويُظهر GEN-013 (الجزء ب) عند اعتماد بحسب القيمة (تع-13). وعند F_VAT تُسجَّل ضريبة الاستيراد وفق STD-TAX-04.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "yes_sometimes",
+              "label": "نعم، أحياناً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "yes_regularly",
+              "label": "نعم، بانتظام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "no",
+            "reason": "الحالة الأشيع للمنشآت الصغيرة.",
+            "when": [],
+            "text": "لا — السبب: الحالة الأشيع للمنشآت الصغيرة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R002",
+          "when": {
+            "ne": [
+              "PUR-002",
+              "no"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام الشراء من مورّدين خارج المملكة بالعملات {{Q:GEN-002#العملات}}، بسعر صرف {{Q:GEN-002#سعر_الصرف}}، مع إظهار المبلغ بـ{{Q:GEN-001}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-003",
+      "section": "PUR",
+      "order": 3,
+      "title": "كيف تُحمَّل مصاريف الاستيراد على تكلفة البضاعة؟",
+      "help": "مصاريف الشحن والجمارك والتخليص تُضاف إلى تكلفة الأصناف لمعرفة ربحها الحقيقي. ضريبة القيمة المضافة على الاستيراد ليست من هذه المصاريف.",
+      "detail": true,
+      "condition": {
+        "ne": [
+          "PUR-002",
+          "no"
+        ]
+      },
+      "conditionText": "PUR-002 ≠ «لا»",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مستند «تكاليف الشحنة» وتوزيعها وتحديث تكلفة الأصناف. ولا تظهر «ضريبة الاستيراد» بين المصاريف الموزَّعة؛ تُسجَّل في المستند نفسه سطراً مستقلاً وفق STD-TAX-04. و«الشحنة» وفق STD-PUR-02، ولشحنة استُلمت قبل التشغيل وفق STD-PUR-15. ويحمل كل سطر تكلفة مورّداً من بطاقات المورّدين يُستحق له المبلغ (ومنها جهة الشحن والتخليص والتأمين، والجهة الحكومية للرسوم الجمركية)، ويُستحق وفق شرط دفع مورّده (PUR-019) ويُسدَّد بسند صرف لمورّد (TRS-008). وعند «لا تُحمَّل وتُسجَّل مصروفاً» لا يُنشأ مستند «تكاليف الشحنة»، وتُسجَّل كل تكلفة فاتورةَ مورّد بسطر يحمل فئة مصروف (STD-GEN-34 (٢)).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "by_value",
+              "label": "توزيع المصاريف على الأصناف حسب القيمة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "by_quantity",
+              "label": "حسب الكمية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "by_weight",
+              "label": "حسب الوزن",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "expense_not_loaded",
+              "label": "لا تُحمَّل وتُسجَّل مصروفاً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "by_value",
+            "reason": "الطريقة الأشيع والأسهل تبريراً.",
+            "when": [],
+            "text": "التوزيع حسب القيمة، ولكل المصاريف المذكورة — السبب: الطريقة الأشيع والأسهل تبريراً. (أ) الأول — السبب: لا يضخّم تكلفة ما بقي. (ب) كما ورد."
+          },
+          "required": false
+        },
+        {
+          "key": "costs",
+          "label": "المصاريف",
+          "type": "multi",
+          "options": [
+            {
+              "key": "freight",
+              "label": "شحن",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "insurance",
+              "label": "تأمين",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "customs_duty",
+              "label": "رسوم جمركية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "clearance",
+              "label": "تخليص",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "inland_transport",
+              "label": "نقل داخلي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "ne": [
+              "PUR-003",
+              "expense_not_loaded"
+            ]
+          },
+          "recommended": {
+            "value": [
+              "freight",
+              "insurance",
+              "customs_duty",
+              "clearance",
+              "inland_transport"
+            ],
+            "reason": "الطريقة الأشيع والأسهل تبريراً.",
+            "when": [],
+            "text": "التوزيع حسب القيمة، ولكل المصاريف المذكورة"
+          },
+          "required": false
+        },
+        {
+          "key": "a",
+          "label": "(أ) تكاليف تصل بعد بيع جزء من الشحنة",
+          "type": "single",
+          "options": [
+            {
+              "key": "split_remaining_and_cogs",
+              "label": "يُحمَّل على الكمية المتبقية نصيبها، ويُحمَّل نصيب المباع على تكلفة المبيعات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "all_to_remaining",
+              "label": "تُحمَّل كلها على الكمية المتبقية",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "split_remaining_and_cogs",
+            "reason": "لا يضخّم تكلفة ما بقي.",
+            "when": [],
+            "text": "(أ) الأول — السبب: لا يضخّم تكلفة ما بقي."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "(ب) أساس القيمة في التوزيع",
+          "type": "single",
+          "options": [
+            {
+              "key": "invoice_rate_base",
+              "label": "القيمة بالعملة الأساسية بسعر صرف فاتورة المورّد، وللاستلام الذي لم تُسجَّل فاتورته بعدُ قيمته في STD-PUR-01 (STD-PUR-02، ق ع-94).",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "invoice_rate_base",
+            "reason": null,
+            "when": [],
+            "text": "(ب) كما ورد."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R003a",
+          "when": {
+            "ne": [
+              "PUR-003",
+              "expense_not_loaded"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوزّع النظام تكاليف الشحنة على أصنافها {{Q:PUR-003}} في مستند «تكاليف الشحنة»، ويحدّث تكلفة الأصناف بنصيبها."
+        },
+        {
+          "id": "PUR-R003b",
+          "when": {
+            "ne": [
+              "PUR-003",
+              "expense_not_loaded"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يقبل مستند «تكاليف الشحنة» أنواع التكاليف {{Q:PUR-003#costs}}، ولكل سطر مورّده المستحق له (STD-PUR-02)."
+        },
+        {
+          "id": "PUR-R003c",
+          "when": {
+            "eq": [
+              "PUR-003",
+              "expense_not_loaded"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن تُسجَّل كل تكلفة استيراد فاتورةَ مورّد بسطر يحمل فئة مصروف، دون تحميلها على تكلفة الأصناف (STD-GEN-34 (٢))."
+        },
+        {
+          "id": "PUR-R003d",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعالج النظام تكاليف الشحنة المسجَّلة بعد بيع جزء منها بـ{{Q:PUR-003#a}}."
+        },
+        {
+          "id": "PUR-R003e",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يحسب النظام قيمة كل صنف لأغراض التوزيع بـ{{Q:PUR-003#b}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-004",
+      "section": "PUR",
+      "order": 4,
+      "title": "ما بيانات المورّد التي تسجلونها؟",
+      "help": "عدّل المؤشَّر عليه، وأضف حقولكم الخاصة.\n- «نوع المورّد»: محلي مسجّل في الضريبة / محلي غير مسجّل / خارجي؛ يظهر عند F_VAT أو PUR-002 ≠ «لا». وعند F_VAT_SOON يُبنى معطّلاً ويُفعَّل عند التسجيل (TAX-007).\n- «الاسم بالإنجليزية» (نص، اختياري، يُطبع): يُضاف عند DOC-002 ≠ «العربية فقط» (STD-GEN-42).\n- «لا يرغب في الرسائل» (نعم/لا، افتراضه «لا»): يُضاف إلى بطاقة المورّد عند سريان STD-GEN-50.\n- «شرط الدفع»: قائمة تُعبَّأ من PUR-019.",
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR)",
+      "regulatory": true,
+      "verify": [],
+      "impact": "يحدد بنية بطاقة المورّد وقواعد التحقق. وتعديل «شرط دفع المورّد» و«الحساب البنكي للمورّد (الآيبان)» مقصور على الأدوار في ROL-008، وتعديل الآيبان باعتماد المالك في الموصى به. وسجل «مورّد نقدي» مستثنى من إلزام حقول PUR-004 (STD-PUR-08 (٤)).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "name",
+              "label": "الاسم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "mobile",
+              "label": "رقم الجوال",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "email",
+              "label": "البريد الإلكتروني",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "vat_number",
+              "label": "الرقم الضريبي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "cr_number",
+              "label": "السجل التجاري",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "address",
+              "label": "العنوان",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "country",
+              "label": "الدولة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "currency",
+              "label": "العملة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "payment_term",
+              "label": "شرط الدفع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "iban",
+              "label": "الحساب البنكي (الآيبان)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "contact_name",
+              "label": "اسم مسؤول التواصل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_category",
+              "label": "فئة المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_rating",
+              "label": "تقييم المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_type",
+              "label": "نوع المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "attachments",
+              "label": "مرفقات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "name",
+              "mobile",
+              "email",
+              "vat_number",
+              "cr_number",
+              "address",
+              "country",
+              "currency",
+              "payment_term",
+              "iban",
+              "contact_name",
+              "supplier_category",
+              "supplier_rating",
+              "supplier_type",
+              "attachments"
+            ],
+            "reason": "الحد الأدنى للتعامل والسداد والخصم الضريبي.",
+            "when": [],
+            "text": "الاسم والجوال إلزاميان؛ والرقم الضريبي إلزامي عند F_VAT للمورّدين المحليين المسجلين؛ والآيبان اختياري؛ والدولة والعملة إلزاميتان للمورّد الخارجي عند PUR-002 ≠ «لا»؛ وشرط الدفع اختياري؛ والباقي اختياري؛ و«نوع المورّد» إلزامي، وقيمته الافتراضية «محلي مسجّل في الضريبة» — السبب: الأشيع، ويحدد إلزام الرقم الضريبي والدولة والعملة — السبب: الحد الأدنى للتعامل والسداد والخصم الضريبي.\n- النوع / يُطبع (ع-08): الاسم نص/يُطبع؛ الجوال رقم/لا؛ البريد نص/لا؛ الرقم الضريبي رقم/يُطبع؛ السجل التجاري رقم/يُطبع؛ العنوان نص/يُطبع؛ الدولة قائمة/يُطبع؛ العملة قائمة/يُطبع؛ شرط الدفع قائمة/يُطبع؛ الآيبان نص/لا؛ مسؤول التواصل نص/لا؛ الفئة قائمة/لا؛ التقييم قائمة (1–5)/لا؛ نوع المورّد قائمة/لا؛ مرفقات مرفق/لا.\n- عند عدم F_TAXREADY: يصير «الرقم الضريبي» اختيارياً لا يُطبع (STD-GEN-24 الحالة ٥).\n- كل حقل قياسي ورد في الخيارات يُعدّ مختاراً بحسب الإجابة أو الموصى به ما لم يُلغَ اختياره (STD-GEN-17)."
+          },
+          "required": false
+        },
+        {
+          "key": "mandatory",
+          "label": "الحقول الإلزامية (إلزامي/اختياري)",
+          "type": "multi",
+          "options": [
+            {
+              "key": "name",
+              "label": "الاسم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "mobile",
+              "label": "رقم الجوال",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "email",
+              "label": "البريد الإلكتروني",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "vat_number",
+              "label": "الرقم الضريبي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "cr_number",
+              "label": "السجل التجاري",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "address",
+              "label": "العنوان",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "country",
+              "label": "الدولة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "currency",
+              "label": "العملة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "payment_term",
+              "label": "شرط الدفع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "iban",
+              "label": "الحساب البنكي (الآيبان)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "contact_name",
+              "label": "اسم مسؤول التواصل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_category",
+              "label": "فئة المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_rating",
+              "label": "تقييم المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_type",
+              "label": "نوع المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "attachments",
+              "label": "مرفقات",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "name",
+              "mobile",
+              "supplier_type"
+            ],
+            "reason": "الحد الأدنى للتعامل والسداد والخصم الضريبي.",
+            "when": [],
+            "text": "الاسم والجوال إلزاميان؛ والرقم الضريبي إلزامي عند F_VAT للمورّدين المحليين المسجلين؛ والآيبان اختياري؛ والدولة والعملة إلزاميتان للمورّد الخارجي عند PUR-002 ≠ «لا»؛ وشرط الدفع اختياري؛ والباقي اختياري؛ و«نوع المورّد» إلزامي، وقيمته الافتراضية «محلي مسجّل في الضريبة» — السبب: الأشيع، ويحدد إلزام الرقم الضريبي والدولة والعملة — السبب: الحد الأدنى للتعامل والسداد والخصم الضريبي."
+          },
+          "required": false
+        },
+        {
+          "key": "supplier_type",
+          "label": "نوع المورّد",
+          "type": "single",
+          "options": [
+            {
+              "key": "local_vat_registered",
+              "label": "محلي مسجّل في الضريبة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "local_unregistered",
+              "label": "محلي غير مسجّل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "foreign",
+              "label": "خارجي",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "any": [
+              {
+                "flag": "F_VAT"
+              },
+              {
+                "ne": [
+                  "PUR-002",
+                  "no"
+                ]
+              }
+            ]
+          },
+          "recommended": {
+            "value": "local_vat_registered",
+            "reason": "الأشيع، ويحدد إلزام الرقم الضريبي والدولة والعملة",
+            "when": [],
+            "text": "«نوع المورّد» إلزامي، وقيمته الافتراضية «محلي مسجّل في الضريبة» — السبب: الأشيع، ويحدد إلزام الرقم الضريبي والدولة والعملة"
+          },
+          "required": false
+        },
+        {
+          "key": "field_meta",
+          "label": "النوع / يُطبع في المستند؟ (ع-08)",
+          "type": "matrix",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "type",
+              "label": "النوع",
+              "type": "text"
+            },
+            {
+              "key": "printed",
+              "label": "يُطبع في المستند؟",
+              "type": "bool"
+            }
+          ],
+          "rows": [
+            {
+              "key": "name",
+              "label": "الاسم"
+            },
+            {
+              "key": "mobile",
+              "label": "رقم الجوال"
+            },
+            {
+              "key": "email",
+              "label": "البريد الإلكتروني"
+            },
+            {
+              "key": "vat_number",
+              "label": "الرقم الضريبي"
+            },
+            {
+              "key": "cr_number",
+              "label": "السجل التجاري"
+            },
+            {
+              "key": "address",
+              "label": "العنوان"
+            },
+            {
+              "key": "country",
+              "label": "الدولة"
+            },
+            {
+              "key": "currency",
+              "label": "العملة"
+            },
+            {
+              "key": "payment_term",
+              "label": "شرط الدفع"
+            },
+            {
+              "key": "iban",
+              "label": "الحساب البنكي (الآيبان)"
+            },
+            {
+              "key": "contact_name",
+              "label": "اسم مسؤول التواصل"
+            },
+            {
+              "key": "supplier_category",
+              "label": "فئة المورّد"
+            },
+            {
+              "key": "supplier_rating",
+              "label": "تقييم المورّد"
+            },
+            {
+              "key": "supplier_type",
+              "label": "نوع المورّد"
+            },
+            {
+              "key": "attachments",
+              "label": "مرفقات"
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": {
+              "name": {
+                "type": "نص",
+                "printed": true
+              },
+              "mobile": {
+                "type": "رقم",
+                "printed": false
+              },
+              "email": {
+                "type": "نص",
+                "printed": false
+              },
+              "vat_number": {
+                "type": "رقم",
+                "printed": true
+              },
+              "cr_number": {
+                "type": "رقم",
+                "printed": true
+              },
+              "address": {
+                "type": "نص",
+                "printed": true
+              },
+              "country": {
+                "type": "قائمة",
+                "printed": true
+              },
+              "currency": {
+                "type": "قائمة",
+                "printed": true
+              },
+              "payment_term": {
+                "type": "قائمة",
+                "printed": true
+              },
+              "iban": {
+                "type": "نص",
+                "printed": false
+              },
+              "contact_name": {
+                "type": "نص",
+                "printed": false
+              },
+              "supplier_category": {
+                "type": "قائمة",
+                "printed": false
+              },
+              "supplier_rating": {
+                "type": "قائمة (1–5)",
+                "printed": false
+              },
+              "supplier_type": {
+                "type": "قائمة",
+                "printed": false
+              },
+              "attachments": {
+                "type": "مرفق",
+                "printed": false
+              }
+            },
+            "reason": null,
+            "when": [
+              {
+                "if": {
+                  "not": {
+                    "flag": "F_TAXREADY"
+                  }
+                },
+                "value": {
+                  "name": {
+                    "type": "نص",
+                    "printed": true
+                  },
+                  "mobile": {
+                    "type": "رقم",
+                    "printed": false
+                  },
+                  "email": {
+                    "type": "نص",
+                    "printed": false
+                  },
+                  "vat_number": {
+                    "type": "رقم",
+                    "printed": false
+                  },
+                  "cr_number": {
+                    "type": "رقم",
+                    "printed": true
+                  },
+                  "address": {
+                    "type": "نص",
+                    "printed": true
+                  },
+                  "country": {
+                    "type": "قائمة",
+                    "printed": true
+                  },
+                  "currency": {
+                    "type": "قائمة",
+                    "printed": true
+                  },
+                  "payment_term": {
+                    "type": "قائمة",
+                    "printed": true
+                  },
+                  "iban": {
+                    "type": "نص",
+                    "printed": false
+                  },
+                  "contact_name": {
+                    "type": "نص",
+                    "printed": false
+                  },
+                  "supplier_category": {
+                    "type": "قائمة",
+                    "printed": false
+                  },
+                  "supplier_rating": {
+                    "type": "قائمة (1–5)",
+                    "printed": false
+                  },
+                  "supplier_type": {
+                    "type": "قائمة",
+                    "printed": false
+                  },
+                  "attachments": {
+                    "type": "مرفق",
+                    "printed": false
+                  }
+                },
+                "reason": "يصير «الرقم الضريبي» اختيارياً لا يُطبع (STD-GEN-24 الحالة ٥)."
+              }
+            ],
+            "text": "الاسم نص/يُطبع؛ الجوال رقم/لا؛ البريد نص/لا؛ الرقم الضريبي رقم/يُطبع؛ السجل التجاري رقم/يُطبع؛ العنوان نص/يُطبع؛ الدولة قائمة/يُطبع؛ العملة قائمة/يُطبع؛ شرط الدفع قائمة/يُطبع؛ الآيبان نص/لا؛ مسؤول التواصل نص/لا؛ الفئة قائمة/لا؛ التقييم قائمة (1–5)/لا؛ نوع المورّد قائمة/لا؛ مرفقات مرفق/لا."
+          },
+          "required": false
+        },
+        {
+          "key": "custom_fields",
+          "label": "حقول مخصصة (م-7)",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "اسم الحقل",
+              "type": "text"
+            },
+            {
+              "key": "type",
+              "label": "النوع",
+              "type": "text"
+            },
+            {
+              "key": "required",
+              "label": "إلزامي",
+              "type": "bool"
+            },
+            {
+              "key": "printed",
+              "label": "يُطبع في المستند؟",
+              "type": "bool"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R004a",
+          "when": {
+            "visible": "PUR-004#supplier_type"
+          },
+          "noRequirement": false,
+          "text": "يجب أن تحمل بطاقة المورّد حقل «نوع المورّد» إلزامياً بالقيم محلي مسجّل في الضريبة، ومحلي غير مسجّل، وخارجي، وقيمته الافتراضية {{Q:PUR-004#supplier_type}}."
+        },
+        {
+          "id": "PUR-R004b",
+          "when": {
+            "visible": "PUR-004#supplier_type"
+          },
+          "noRequirement": false,
+          "text": "يجب أن يمنع النظام حفظ مورّد من النوع «محلي مسجّل في الضريبة» دون رقمه الضريبي، ومورّد «خارجي» دون الدولة والعملة."
+        },
+        {
+          "id": "PUR-R004b-none",
+          "when": {
+            "not": {
+              "visible": "PUR-004#supplier_type"
+            }
+          },
+          "noRequirement": true,
+          "text": "لا أنواع للمورّدين؛ وإلزام الحقول من PUR-R004d."
+        },
+        {
+          "id": "PUR-R004c",
+          "when": null,
+          "noRequirement": true,
+          "text": "قصر تعديل «شرط دفع المورّد» و«الحساب البنكي للمورّد (الآيبان)» واعتماد تعديل الآيبان يولّده قالب ROL-R008x في ROL-008، فلا يُكرَّر هنا."
+        },
+        {
+          "id": "PUR-R004d",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يحتوي سجل المورّد على الحقول {{Q:PUR-004}}، الإلزامي منها {{Q:PUR-004#mandatory}} والباقي اختياري، ونوع كل حقل وظهوره في كل مستند مطبوع يحمل بيانات المورّد ({{IF:{\"ne\":[\"PUR-001\",\"supplier_invoice_direct\"]}|أمر الشراء، }}{{IF:{\"all\":[{\"visible\":\"PUR-005\"},{\"ne\":[\"PUR-005\",\"no\"]}]}|طلب عرض السعر من المورّد، }}مرتجع المشتريات، وسند الصرف لمورّد) وفق {{Q:PUR-004#field_meta}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-019",
+      "section": "PUR",
+      "order": 5,
+      "title": "ما شروط الدفع التي يمنحكم إياها المورّدون؟",
+      "help": null,
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR).",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد قائمة «شرط الدفع» في بطاقة المورّد، وتاريخ استحقاق فاتورة المورّد، ويغذي PUR-014 وPUR-015. وتعديل تاريخ الاستحقاق لمن يملك تعديل «شرط دفع المورّد» في ROL-008 (STD-PUR-03). ويسري على سطور «تكاليف الشحنة» بحسب مورّد كل سطر.",
+      "parts": [
+        {
+          "key": "terms",
+          "label": "شروط الدفع",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "اسم الشرط",
+              "type": "text"
+            },
+            {
+              "key": "days",
+              "label": "عدد الأيام",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "name": "نقدي",
+                "days": 0
+              },
+              {
+                "name": "30 يوماً",
+                "days": 30
+              },
+              {
+                "name": "60 يوماً",
+                "days": 60
+              }
+            ],
+            "reason": "يطابق SAL-009 ولا يؤخر سداداً مستحقاً.",
+            "when": [],
+            "text": "صفوف: نقدي (0)، 30 يوماً، 60 يوماً؛ والمورّد بلا شرط: تستحق في تاريخها؛ ويُحسب تاريخ الاستحقاق تلقائياً ويجوز تعديله في الفاتورة — السبب: يطابق SAL-009 ولا يؤخر سداداً مستحقاً."
+          },
+          "required": false
+        },
+        {
+          "key": "no_term",
+          "label": "المورّد بلا شرط دفع: تستحق فاتورته",
+          "type": "single",
+          "options": [
+            {
+              "key": "due_on_invoice_date",
+              "label": "في تاريخها",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "after_30_days",
+              "label": "بعد 30 يوماً",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "due_on_invoice_date",
+            "reason": "يطابق SAL-009 ولا يؤخر سداداً مستحقاً.",
+            "when": [],
+            "text": "والمورّد بلا شرط: تستحق في تاريخها"
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R019",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يحسب النظام تاريخ استحقاق فاتورة المورّد = تاريخها + أيام شرط دفع المورّد من {{Q:PUR-019#terms}}، وللمورّد بلا شرط {{Q:PUR-019#no_term}}، مع إتاحة تعديله في الفاتورة."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-005",
+      "section": "PUR",
+      "order": 6,
+      "title": "هل تقارنون عروض أسعار عدة مورّدين قبل الشراء؟",
+      "help": "طلب أسعار من أكثر من مورّد واختيار الأنسب.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "in": [
+              "PUR-001",
+              [
+                "pr_po_receipt_invoice",
+                "pr_rfq_po_receipt_invoice"
+              ]
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(PUR) و PUR-001 تتضمن «مقارنة عروض» أو «طلب شراء داخلي»",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مستند «طلب عرض سعر من مورّد» وجدول المقارنة وإلزامه فوق الحد. و«فوق» = أكبر من (STD-GEN-07)، ويُقارن المبلغ على أساس GEN-013. وحالات «طلب عرض سعر من مورّد» وانتقالاته (كلها لمسؤول المشتريات، واختيار عرض يُنهي بقية طلبات المقارنة نفسها) وفق STD-GEN-05. وتُدخل أسعاره قبل الضريبة عند F_VAT (STD-PUR-07 (١)).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "always",
+              "label": "نعم، دائماً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "above_amount",
+              "label": "نعم، للمشتريات فوق قيمة معيّنة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "above_amount",
+            "reason": "يضبط المشتريات الكبيرة دون إبطاء الصغيرة.",
+            "when": [],
+            "text": "نعم فوق 10,000 {GEN-001}، بثلاثة عروض — السبب: يضبط المشتريات الكبيرة دون إبطاء الصغيرة."
+          },
+          "required": false
+        },
+        {
+          "key": "min_quotes",
+          "label": "الحد الأدنى لعدد العروض",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": 1,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "in": [
+              "PUR-005",
+              [
+                "always",
+                "above_amount"
+              ]
+            ]
+          },
+          "recommended": {
+            "value": 3,
+            "reason": "يضبط المشتريات الكبيرة دون إبطاء الصغيرة.",
+            "when": [],
+            "text": "بثلاثة عروض"
+          },
+          "required": false
+        },
+        {
+          "key": "from_amount",
+          "label": "من قيمة",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "{GEN-001}",
+          "min": 0,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "PUR-005",
+              "above_amount"
+            ]
+          },
+          "recommended": {
+            "value": 10000,
+            "reason": "يضبط المشتريات الكبيرة دون إبطاء الصغيرة.",
+            "when": [],
+            "text": "نعم فوق 10,000 {GEN-001}"
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R005",
+          "when": {
+            "ne": [
+              "PUR-005",
+              "no"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام مستند «طلب عرض سعر من مورّد» وجدول مقارنة العروض، وألا يُنشأ أمر الشراء{{IF:{\"eq\":[\"PUR-005\",\"above_amount\"]}| الذي تتجاوز قيمته {{Q:PUR-005#from_amount}} {{Q:GEN-001}} {{Q:GEN-013#a}}،}} قبل تسجيل {{Q:PUR-005#min_quotes}} عروض على الأقل."
+        },
+        {
+          "id": "PUR-R005-none",
+          "when": {
+            "eq": [
+              "PUR-005",
+              "no"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا مقارنة عروض تُبنى."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-006",
+      "section": "PUR",
+      "order": 7,
+      "title": "من يستطيع رفع طلب شراء داخلي؟",
+      "help": "الطلب الداخلي يرفعه الموظف أو القسم قبل أن يتحول لأمر شراء.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "in": [
+              "PUR-001",
+              [
+                "pr_po_receipt_invoice",
+                "pr_rfq_po_receipt_invoice"
+              ]
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(PUR) و PUR-001 تتضمن «طلب شراء داخلي»",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد صلاحية إنشاء الطلب الداخلي في مصفوفة الأدوار. وحالات الطلب الداخلي وانتقالاته (التحويل والإقفال لمسؤول المشتريات) وفق STD-GEN-05.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "any_user",
+              "label": "أي موظف مستخدم للنظام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dept_heads",
+              "label": "مسؤولو الأقسام فقط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "purchasing_officer",
+              "label": "مسؤول المشتريات فقط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "dept_heads",
+            "reason": "يقلل الطلبات غير الضرورية.",
+            "when": [],
+            "text": "مسؤولو الأقسام فقط — السبب: يقلل الطلبات غير الضرورية."
+          },
+          "required": false
+        },
+        {
+          "key": "roles",
+          "label": "الأدوار",
+          "type": "multi",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": "ROL-001",
+          "condition": {
+            "eq": [
+              "PUR-006",
+              "dept_heads"
+            ]
+          },
+          "recommended": {
+            "value": [
+              "المالك",
+              "المدير العام",
+              "مدير الفرع",
+              "المحاسب",
+              "أمين المستودع",
+              "مسؤول المشتريات"
+            ],
+            "reason": "هي أدوار المسؤولين عن أقسام في الأدوار المولّدة (ق ع-69).",
+            "when": [],
+            "text": "الأدوار: الموجود في ROL-001 من: المالك، والمدير العام، ومدير الفرع، والمحاسب، وأمين المستودع، ومسؤول المشتريات — السبب: هي أدوار المسؤولين عن أقسام في الأدوار المولّدة (ق ع-69)."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R006",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يقصر النظام إنشاء «طلب شراء داخلي» على {{SW:PUR-006|any_user=كل مستخدم|dept_heads=الأدوار {{Q:PUR-006#roles}}|purchasing_officer=دور «مسؤول المشتريات»|other={{Q:PUR-006}}}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-007",
+      "section": "PUR",
+      "order": 8,
+      "title": "هل تحتاج مشترياتكم إلى اعتماد قبل إصدار أمر الشراء، أو قبل ترحيل فاتورة المورّد حين تشترون دون أمر شراء؟",
+      "help": "الاعتماد يعني أن شخصاً محدداً يعتمد الطلب قبل إرساله للمورّد.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "flag": "F_MULTIUSER"
+          }
+        ]
+      },
+      "conditionText": "M(PUR) و F_MULTIUSER",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد وجود سير اعتماد في المشتريات وعدد مستوياته؛ وإذا اختير «حسب القيمة» يظهر PUR-008. مستند الاعتماد: أمر الشراء؛ وعند PUR-001 = «فاتورة المورّد مباشرة»، فاتورة المورّد، وتُضاف إليها حالة «بانتظار الاعتماد» (STD-GEN-05). وفاتورة المورّد التي كل سطورها «فئة مصروف» لا تمر بهذا المسار، وتُعتمد بمسار EXP-009 بحسب قيمتها (STD-GEN-34 (٢)، STD-GEN-33).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "none",
+              "label": "لا حاجة للاعتماد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "single_approver",
+              "label": "اعتماد من شخص واحد لكل الطلبات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "by_value",
+              "label": "اعتماد حسب قيمة الطلب (مستويات)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "by_value",
+            "reason": "يسرّع الطلبات الصغيرة ويضبط الكبيرة.",
+            "when": [],
+            "text": "اعتماد حسب قيمة الطلب — السبب: يسرّع الطلبات الصغيرة ويضبط الكبيرة. صف الاعتماد (عند «شخص واحد»): المدير العام، وعند غيابه يُطبَّق ع-04؛ يعود للمُنشئ؛ التذكير بعد 24 ساعة — السبب: يطابق صفوف الاعتماد المفردة في SAL-008 وPUR-009 (ق ع-68)."
+          },
+          "required": false
+        },
+        {
+          "key": "approver",
+          "label": "صف الاعتماد (م-8)",
+          "type": "approvalRow",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "approver",
+              "label": "الدور",
+              "type": "role"
+            },
+            {
+              "key": "on_reject",
+              "label": "عند الرفض",
+              "type": "single",
+              "options": [
+                {
+                  "key": "return_to_creator",
+                  "label": "يعود للمُنشئ",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "other",
+                  "label": "أخرى (حدّد)",
+                  "other": true,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "reminder_hours",
+              "label": "التذكير (ساعة)",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "PUR-007",
+              "single_approver"
+            ]
+          },
+          "recommended": {
+            "value": {
+              "approver": "المدير العام",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            "reason": "يطابق صفوف الاعتماد المفردة في SAL-008 وPUR-009 (ق ع-68).",
+            "when": [],
+            "text": "صف الاعتماد (عند «شخص واحد»): المدير العام، وعند غيابه يُطبَّق ع-04؛ يعود للمُنشئ؛ التذكير بعد 24 ساعة — السبب: يطابق صفوف الاعتماد المفردة في SAL-008 وPUR-009 (ق ع-68)."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R007",
+          "when": {
+            "ne": [
+              "PUR-007",
+              "none"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب ألا يُصدر النظام {{SW:PUR-001|supplier_invoice_direct=فاتورة المورّد|*=أمر الشراء}} (أو يُرحَّل، إن كان فاتورة المورّد) إلا بعد اعتماده {{SW:PUR-007|single_approver=من دور {{Q:PUR-007#approver.approver}}؛ وعند الرفض {{Q:PUR-007#approver.on_reject}}، والتذكير بعد {{Q:PUR-007#approver.reminder_hours}} ساعة|by_value=وفق مستويات PUR-008 (PUR-R008x)}}، ويبقى «بانتظار الاعتماد» حتى ذلك؛ وتُستثنى فاتورة المورّد التي كل سطورها «فئة مصروف» (STD-GEN-34 (٢))."
+        },
+        {
+          "id": "PUR-R007-none",
+          "when": {
+            "eq": [
+              "PUR-007",
+              "none"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا مسار اعتماد يُبنى."
+        }
+      ],
+      "workshopNote": "{مستند الاعتماد} = «أمر الشراء»، وعند PUR-001 = «فاتورة المورّد مباشرة» «فاتورة المورّد» (أثر PUR-007)."
+    },
+    {
+      "id": "PUR-008",
+      "section": "PUR",
+      "order": 9,
+      "title": "حددوا مستويات اعتماد المشتريات",
+      "help": "سطر لكل مستوى (انظر م-8).",
+      "detail": true,
+      "condition": {
+        "eq": [
+          "PUR-007",
+          "by_value"
+        ]
+      },
+      "conditionText": "PUR-007 = «اعتماد حسب قيمة الطلب»",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد قواعد توجيه الطلب للمعتمِد بحسب قيمته، والتصعيد، وسجل الاعتماد. والشرائح وفق STD-GEN-07 (الواجهة تطلب «إلى» لكل صف وتشتق «من»). وتُقارن قيمة أمر الشراء وفاتورة المورّد بالحدود على أساس GEN-013.أ؛ فعند «شاملاً الضريبة» تُقدَّر ضريبة أمر الشراء وتُضاف للمقارنة (STD-PUR-07 (٥)). وإذا كان المعتمِد هو المُنشئ يُطبَّق بديل ROL-005 (تع-10)، وما يُنشئه المالك في مسار أول مستوياته دون رتبته ينفذ دون اعتماد، وما يُنشئه دور أعلى رتبة من دور المستوى المنطبق يعتمده أول مستوى أعلى رتبة منه، وإلا المالك (STD-GEN-66). وعند PUR-001 = «فاتورة المورّد مباشرة» يُطبَّق على فاتورة المورّد (STD-GEN-24 الحالة ٧).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "level",
+              "label": "المستوى",
+              "type": "number"
+            },
+            {
+              "key": "from",
+              "label": "القيمة من",
+              "type": "number"
+            },
+            {
+              "key": "to",
+              "label": "إلى",
+              "type": "number"
+            },
+            {
+              "key": "approver",
+              "label": "الدور المعتمِد",
+              "type": "role"
+            },
+            {
+              "key": "on_reject",
+              "label": "عند الرفض",
+              "type": "single",
+              "options": [
+                {
+                  "key": "return_to_creator",
+                  "label": "يعود للمُنشئ",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "other",
+                  "label": "أخرى (حدّد)",
+                  "other": true,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "reminder_hours",
+              "label": "مدة التذكير (ساعة)",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "level": 1,
+                "from": 0,
+                "to": 5000,
+                "approver": "مسؤول المشتريات",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              },
+              {
+                "level": 2,
+                "from": 5000,
+                "to": 50000,
+                "approver": "المدير العام",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              },
+              {
+                "level": 3,
+                "from": 50000,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "return_to_creator",
+                "reminder_hours": 24
+              }
+            ],
+            "reason": "توزيع شائع يتناسب مع حجم المخاطرة. و«المدير العام» مولّد في ROL-001 (ع-05)، وعند غيابه يُطبَّق ع-04.",
+            "when": [],
+            "text": "حتى 5,000: مسؤول المشتريات؛ أكثر من 5,000 حتى 50,000: المدير العام؛ أكثر من 50,000: المالك؛ وعند الرفض يعود للمُنشئ؛ والتذكير بعد 24 ساعة — السبب: توزيع شائع يتناسب مع حجم المخاطرة. و«المدير العام» مولّد في ROL-001 (ع-05)، وعند غيابه يُطبَّق ع-04."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R008x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يوجّه النظام {{SW:PUR-001|supplier_invoice_direct=فاتورة المورّد|*=أمر الشراء}} الذي قيمته من {{Q:PUR-008#main.from}} إلى {{Q:PUR-008#main.to}} {{Q:GEN-013}} إلى دور {{Q:PUR-008#main.approver}}؛ وعند الرفض {{Q:PUR-008#main.on_reject}}، والتذكير بعد {{Q:PUR-008#main.reminder_hours}} ساعة.",
+          "perRow": "PUR-008#main"
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-016",
+      "section": "PUR",
+      "order": 10,
+      "title": "هل يمر أمر الشراء الكبير على معتمِدي المستويات الأدنى قبل معتمِد مستواه؟",
+      "help": null,
+      "detail": true,
+      "condition": {
+        "all": [
+          {
+            "eq": [
+              "PUR-007",
+              "by_value"
+            ]
+          },
+          {
+            "text": "PUR-008 فيه أكثر من صف"
+          }
+        ]
+      },
+      "conditionText": "PUR-007 = «اعتماد حسب قيمة الطلب» وPUR-008 فيه أكثر من صف.",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد توجيه الأمر: مباشرة إلى معتمِد الشريحة أو تسلسلياً. ويسري على {مستند الاعتماد} (PUR-007)، ويبقى «تسلسلياً» حاكماً داخل مسار PUR-008 مع STD-GEN-11. ولا يُولَّد PUR-R016 إن بقي في PUR-008 بعد دمج الصفوف (STD-GEN-26) صف واحد، ويُسجَّل افتراضاً مُعلناً: «لا يُولَّد PUR-R016 لأن PUR-008 صار صفاً واحداً بعد دمج الصفوف (STD-GEN-26)».",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "single_by_tier",
+              "label": "لا، يذهب إلى معتمِد واحد بحسب قيمته",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sequential",
+              "label": "نعم، يمر بالمستويات بالتسلسل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "single_by_tier",
+            "reason": "أسرع، ومعتمِد المستوى الأعلى يملك صلاحية الأدنى.",
+            "when": [],
+            "text": "معتمِد واحد بحسب القيمة — السبب: أسرع، ومعتمِد المستوى الأعلى يملك صلاحية الأدنى."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R016",
+          "when": {
+            "text": "PUR-008 فيه أكثر من صف بعد دمج الصفوف (STD-GEN-26)"
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوجّه النظام {{SW:PUR-001|supplier_invoice_direct=فاتورة المورّد|*=أمر الشراء}} للاعتماد {{SW:PUR-016|single_by_tier=«إلى معتمِد شريحة قيمته فقط»|sequential=«عبر كل مستويات PUR-008 من الأدنى حتى مستوى قيمته»}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-009",
+      "section": "PUR",
+      "order": 11,
+      "title": "هل تتحققون قبل السداد من أن فاتورة المورّد تطابق ما طُلب وما استُلم؟",
+      "help": "مقارنة الكميات والأسعار بين أمر الشراء والاستلام والفاتورة.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "in": [
+              "PUR-001",
+              [
+                "po_receipt_invoice",
+                "pr_po_receipt_invoice",
+                "pr_rfq_po_receipt_invoice"
+              ]
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(PUR) و PUR-001 تتضمن «استلام»",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد منطق المطابقة وحالة «فرق يحتاج معالجة» في فاتورة المورّد. وحالة المطابقة (مطابقة / فرق يحتاج معالجة / فرق معتمد) بُعد مستقل في فاتورة المورّد، تقع عند وجود استلام فقط، و«فرق يحتاج معالجة ← فرق معتمد» للدور في {PUR-009.الدور} (STD-GEN-05). والتسامح بالمبلغ يُقدَّر بـ{GEN-001} ويُقارن به الفرق بعد تحويله بسعر صرف فاتورة المورّد (STD-GEN-15). وتُقارن أسعار الوحدة قبل الضريبة، ويُقاس تسامح السعر على مجموع الفرق قبل الضريبة (STD-PUR-07 (٤)، STD-GEN-37 (٢)). ومبلغ ضريبة المورّد الوارد يُعتمد إن كان الفرق ضمن {PUR-009.تسامح_السعر} (STD-PUR-07 (٣)). والفاتورة المكمّلة بزيادة القيمة تمر بمسار الفرق ما لم تقع ضمن التسامح (STD-PUR-07 (٦) عند F_VAT، وإلا STD-PUR-10 (٢)). وترتيب اعتماد الفرق مع اعتماد الصرف في PUR-012.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "block_until_approved",
+              "label": "نعم، ويُمنع السداد عند وجود فرق إلا باعتماد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "alert_only",
+              "label": "نعم، مع تنبيه فقط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "block_until_approved",
+            "reason": "أهم ضابط لمنع دفع ما لم يُستلم.",
+            "when": [],
+            "text": "نعم، ويُمنع السداد عند الفرق إلا باعتماد — السبب: أهم ضابط لمنع دفع ما لم يُستلم. صف الاعتماد: المدير العام؛ يعود للمُنشئ لمعالجة الفرق مع المورّد؛ 24 ساعة — السبب: قرار مالي يتجاوز صلاحية المحاسب ومسؤول المشتريات. التسامح: فرق السعر حتى 1 {GEN-001} للفاتورة (فروق التقريب)، وفرق الكمية صفر — السبب: يمنع إيقاف السداد بسبب التقريب دون التساهل في الكميات."
+          },
+          "required": false
+        },
+        {
+          "key": "approver",
+          "label": "صف الاعتماد (م-8)",
+          "type": "approvalRow",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "approver",
+              "label": "الدور",
+              "type": "role"
+            },
+            {
+              "key": "on_reject",
+              "label": "عند الرفض",
+              "type": "single",
+              "options": [
+                {
+                  "key": "return_to_creator",
+                  "label": "يعود للمُنشئ",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "other",
+                  "label": "أخرى (حدّد)",
+                  "other": true,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "reminder_hours",
+              "label": "التذكير (ساعة)",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "PUR-009",
+              "block_until_approved"
+            ]
+          },
+          "recommended": {
+            "value": {
+              "approver": "المدير العام",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            "reason": "قرار مالي يتجاوز صلاحية المحاسب ومسؤول المشتريات.",
+            "when": [],
+            "text": "صف الاعتماد: المدير العام؛ يعود للمُنشئ لمعالجة الفرق مع المورّد؛ 24 ساعة — السبب: قرار مالي يتجاوز صلاحية المحاسب ومسؤول المشتريات."
+          },
+          "required": false
+        },
+        {
+          "key": "price_tolerance",
+          "label": "التسامح: فرق السعر المقبول (مبلغ لكل فاتورة)",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "{GEN-001}",
+          "min": 0,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "ne": [
+              "PUR-009",
+              "no"
+            ]
+          },
+          "recommended": {
+            "value": 1,
+            "reason": "يمنع إيقاف السداد بسبب التقريب دون التساهل في الكميات.",
+            "when": [],
+            "text": "التسامح: فرق السعر حتى 1 {GEN-001} للفاتورة (فروق التقريب)، وفرق الكمية صفر — السبب: يمنع إيقاف السداد بسبب التقريب دون التساهل في الكميات."
+          },
+          "required": false
+        },
+        {
+          "key": "qty_tolerance",
+          "label": "التسامح: فرق الكمية المقبول (%)",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "%",
+          "min": 0,
+          "maxValue": 100,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "ne": [
+              "PUR-009",
+              "no"
+            ]
+          },
+          "recommended": {
+            "value": 0,
+            "reason": "يمنع إيقاف السداد بسبب التقريب دون التساهل في الكميات.",
+            "when": [],
+            "text": "وفرق الكمية صفر"
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R009a",
+          "when": {
+            "ne": [
+              "PUR-009",
+              "no"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يطابق النظام فاتورة المورّد بأمر الشراء والاستلام في الكميات وأسعار الوحدة، ويضع حالة المطابقة (STD-GEN-05)، وأن يطبّق عند فرق يتجاوز التسامح: {{SW:PUR-009|block_until_approved=PUR-R009b|alert_only=تنبيه دون منع السداد}}."
+        },
+        {
+          "id": "PUR-R009b",
+          "when": {
+            "eq": [
+              "PUR-009",
+              "block_until_approved"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يضع النظام فاتورة المورّد التي بها فرق يتجاوز التسامح في حالة «فرق يحتاج معالجة»، ويمنع سدادها إلا بعد اعتماد {{Q:PUR-009#approver.approver}}؛ وعند الرفض {{Q:PUR-009#approver.on_reject}}، والتذكير بعد {{Q:PUR-009#approver.reminder_hours}} ساعة."
+        },
+        {
+          "id": "PUR-R009c",
+          "when": {
+            "ne": [
+              "PUR-009",
+              "no"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يعدّ النظام الفرق ضمن {{Q:PUR-009#price_tolerance}} {{Q:GEN-001}} للفاتورة و{{Q:PUR-009#qty_tolerance}}% للكمية مطابقاً لا يمنع السداد."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-010",
+      "section": "PUR",
+      "order": 12,
+      "title": "هل يحدث أن تستلموا الطلب على دفعات؟",
+      "help": "مثلاً: يصل نصف الكمية اليوم والباقي الأسبوع القادم.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "in": [
+              "PUR-001",
+              [
+                "po_receipt_invoice",
+                "pr_po_receipt_invoice",
+                "pr_rfq_po_receipt_invoice"
+              ]
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(PUR) و PUR-001 تتضمن «استلام»",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد الاستلام الجزئي ورصيد الكمية المتبقية على أمر الشراء وإقفاله يدوياً. والإقفال وفق STD-PUR-06، وحالات أمر الشراء (مستلم جزئياً / مستلم كلياً / مقفل) وفق STD-GEN-05.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes_track_remaining",
+              "label": "نعم، ونتابع المتبقي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "yes_track_remaining",
+            "reason": "شائع ويحتاج متابعة وإلا ضاعت الكميات المتبقية.",
+            "when": [],
+            "text": "نعم، ونتابع المتبقي — السبب: شائع ويحتاج متابعة وإلا ضاعت الكميات المتبقية."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R010",
+          "when": {
+            "eq": [
+              "PUR-010",
+              "yes_track_remaining"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يقبل النظام أكثر من استلام لأمر الشراء الواحد، ويعرض الكمية المتبقية لكل صنف حتى استلامها أو إقفالها (STD-PUR-06)."
+        },
+        {
+          "id": "PUR-R010-none",
+          "when": {
+            "eq": [
+              "PUR-010",
+              "no"
+            ]
+          },
+          "noRequirement": true,
+          "text": "الأمر يُستلم مرة واحدة، فلا رصيد متبقٍ يُتابَع."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-017",
+      "section": "PUR",
+      "order": 13,
+      "title": "إذا وصلت كمية أكبر مما طُلب في أمر الشراء، ماذا تفعلون؟",
+      "help": null,
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "in": [
+              "PUR-001",
+              [
+                "po_receipt_invoice",
+                "pr_po_receipt_invoice",
+                "pr_rfq_po_receipt_invoice"
+              ]
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(PUR) وPUR-001 تتضمن «استلام».",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد التحقق من كمية الاستلام مقابل المتبقي في أمر الشراء.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "reject_excess",
+              "label": "تُرفض الزيادة ولا تُستلم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "accept_up_to_pct",
+              "label": "تُقبل حتى نسبة محددة (حدّد %)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "accept_with_approval",
+              "label": "تُقبل باعتماد (حدّد الدور)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "reject_excess",
+            "reason": "يمنع دفع ما لم يُطلب ويُبقي المطابقة سليمة.",
+            "when": [],
+            "text": "تُرفض الزيادة، ويُنشأ أمر شراء إضافي إن أُريدت — السبب: يمنع دفع ما لم يُطلب ويُبقي المطابقة سليمة."
+          },
+          "required": false
+        },
+        {
+          "key": "pct",
+          "label": "النسبة المقبولة (%)",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "%",
+          "min": 0,
+          "maxValue": 100,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "PUR-017",
+              "accept_up_to_pct"
+            ]
+          },
+          "recommended": null,
+          "required": false
+        },
+        {
+          "key": "role",
+          "label": "الدور المعتمِد",
+          "type": "single",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": "ROL-001",
+          "condition": {
+            "eq": [
+              "PUR-017",
+              "accept_with_approval"
+            ]
+          },
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R017",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يطبّق النظام على الكمية المستلمة الزائدة على المتبقي في أمر الشراء: {{SW:PUR-017|reject_excess=تُرفض الزيادة ولا تُستلم|accept_up_to_pct=تُقبل حتى نسبة {{Q:PUR-017#pct}}%|accept_with_approval=تُقبل باعتماد دور {{Q:PUR-017#role}}}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-011",
+      "section": "PUR",
+      "order": 14,
+      "title": "كيف تُعالَج مرتجعات المشتريات؟",
+      "help": "إرجاع بضاعة معيبة أو زائدة للمورّد.",
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مستند مرتجع المشتريات وأثره على المخزون ورصيد المورّد. وحالاته (مسودة، بانتظار الاعتماد عند PUR-007 = «اعتماد حسب قيمة الطلب» بمسار PUR-008 وPUR-016 بحسب قيمة المرتجع، معتمد، خرج، ملغى): ينشئه مسؤول المشتريات من فاتورة المورّد؛ و«معتمد ← خرج» لأمين المستودع عند تأكيد خروج البضاعة فعلاً، أو مسؤول المشتريات عند عدم M(INV)؛ وعند «خرج» ينقص المخزون بسعر الفاتورة الأصلية ويُثبت رصيد الكيان لدى المورّد؛ و«معتمد» لا يحرّك المخزون ولا رصيد المورّد (STD-GEN-05). وضريبة المرتجع بالكمية من سطر فاتورة المورّد الأصلية (STD-PUR-07 (٧)). وإشعار المورّد بتخفيض القيمة دون إرجاع بضاعة يُسجَّل «مرتجع مشتريات» بلا كميات (STD-PUR-07 (٦) عند F_VAT، وإلا STD-PUR-10 (١))، يُنشئه المحاسب، وحالته النافذة «معتمد»، ولا حالة «خرج» له. ومرتجع ما اشتُري قبل التشغيل بلا فاتورة مرتبطة وفق STD-PUR-13؛ وتطبيق رصيد الكيان لدى المورّد والاسترداد النقدي منه وفق STD-PUR-12 (٣) و(٤).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "return_linked_invoice",
+              "label": "مستند مرتجع مرتبط بفاتورة المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_credit",
+              "label": "رصيد لنا لدى المورّد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "cash_refund",
+              "label": "استرداد نقدي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "replacement",
+              "label": "استبدال",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no_returns",
+              "label": "لا مرتجعات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "return_linked_invoice",
+              "supplier_credit"
+            ],
+            "reason": "الأشيع ويحفظ الأثر على المخزون والحساب.",
+            "when": [],
+            "text": "مستند مرتجع مرتبط بالفاتورة، ورصيد لدى المورّد — السبب: الأشيع ويحفظ الأثر على المخزون والحساب."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R011",
+          "when": {
+            "not": {
+              "has": [
+                "PUR-011",
+                "no_returns"
+              ]
+            }
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام مستند «مرتجع مشتريات» مرتبطاً بفاتورة المورّد بحالات STD-GEN-05، وأن يعالج قيمته بـ{{SW:PUR-011|supplier_credit=رصيد لنا لدى المورّد|cash_refund=استرداد نقدي|replacement=استبدال|other={{Q:PUR-011}}}}{{IF:{\"eq\":[\"PUR-007\",\"by_value\"]}|، وأن يُعتمد قبل «معتمد» بمسار PUR-008 بحسب قيمته}}."
+        },
+        {
+          "id": "PUR-R011b",
+          "when": {
+            "all": [
+              {
+                "flag": "F_MIGRATE"
+              },
+              {
+                "not": {
+                  "has": [
+                    "PUR-011",
+                    "no_returns"
+                  ]
+                }
+              }
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يقبل النظام مرتجع مشتريات لبضاعة اشتُريت قبل التشغيل بلا فاتورة مرتبطة، ببيانات فاتورة المورّد السابقة ومرفقها إلزامياً، وأن يُخرجه بمتوسط تكلفة الصنف ويُثبت للكيان لدى المورّد قيمة الفاتورة السابقة، وفق STD-PUR-13."
+        },
+        {
+          "id": "PUR-R011-none",
+          "when": {
+            "has": [
+              "PUR-011",
+              "no_returns"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا مستند مرتجع يُبنى."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-012",
+      "section": "PUR",
+      "order": 15,
+      "title": "كيف تسددون للمورّدين؟",
+      "help": "اختر كل ما ينطبق.",
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد سند الصرف للمورّدين، وتوزيعه على الفواتير، والدفعات المقدمة، ومسار اعتماد السداد (تُحدد مستوياته في TRS-008). وتوزيع السند بالأقدم استحقاقاً، والدفعة المقدمة وربطها بأمر الشراء وخصمها، ورصيد الكيان لدى المورّد، وفق STD-PUR-12.\n- يقرأ المولّد مستويات TRS-008 من إجابته أو موصى به (حتى 5,000: المحاسب؛ أكثر من 5,000: المالك؛ عند الرفض يعود للمُنشئ؛ التذكير 24 ساعة بحكم ع-06). ويُضاف TRS-008 إلى القسم المصغّر ق-ت12 عند F_MULTIUSER وPUR-012 تتضمن «السداد يحتاج اعتماداً» (تع-12).\n- سند الصرف لمورّد يخضع لـTRS-008 بعد اعتماد فرق المطابقة إن وُجد (STD-GEN-33)، وحالاته (مسودة، بانتظار الاعتماد، معتمد، منفَّذ، ملغى) وفق STD-GEN-05، و«معتمد ← منفَّذ» للمحاسب بعد إتمام الدفع فعلاً. ويقبل السند الواحد أكثر من طريقة دفع (STD-GEN-13).\n- مصدر الدفع في فاتورة المورّد (آجل / الصندوق / عهدة مصروفات): وفق STD-PUR-08؛ وعند «الصندوق» يُنشأ سند صرف لمورّد بطريقة «نقداً» ولو لم تُختر «نقداً» هنا، ويُسجَّل افتراضاً مُعلناً.\n- «شيك» مع TRS-007 = «لا نتعامل بالشيكات» يُطبَّق تع-TRS-01. ومهمة الإعداد «ربط كل طريقة دفع بصندوق أو حساب بنكي أو حساب وسيط» للمحاسب (4.9).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "invoice_by_invoice",
+              "label": "سداد فاتورة بفاتورة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "batch_payment",
+              "label": "دفعة واحدة لعدة فواتير",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "weekly_schedule",
+              "label": "جدول سداد أسبوعي في يوم محدد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "advance_before_receipt",
+              "label": "دفعة مقدمة قبل الاستلام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "payment_needs_approval",
+              "label": "السداد يحتاج اعتماداً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "bank_transfer",
+              "label": "تحويل بنكي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "cheque",
+              "label": "شيك",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "cash",
+              "label": "نقداً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "batch_payment",
+              "bank_transfer"
+            ],
+            "reason": "يقلل التحويلات ويضبط خروج المال؛ والمورّد الخارجي يطلب غالباً دفعة قبل الشحن.",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "flag": "F_MULTIUSER"
+                    },
+                    {
+                      "ne": [
+                        "PUR-002",
+                        "no"
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  "batch_payment",
+                  "bank_transfer",
+                  "payment_needs_approval",
+                  "advance_before_receipt"
+                ],
+                "reason": "يقلل التحويلات ويضبط خروج المال؛ والمورّد الخارجي يطلب غالباً دفعة قبل الشحن."
+              },
+              {
+                "if": {
+                  "flag": "F_MULTIUSER"
+                },
+                "value": [
+                  "batch_payment",
+                  "bank_transfer",
+                  "payment_needs_approval"
+                ],
+                "reason": "يقلل التحويلات ويضبط خروج المال."
+              },
+              {
+                "if": {
+                  "ne": [
+                    "PUR-002",
+                    "no"
+                  ]
+                },
+                "value": [
+                  "batch_payment",
+                  "bank_transfer",
+                  "advance_before_receipt"
+                ],
+                "reason": "المورّد الخارجي يطلب غالباً دفعة قبل الشحن."
+              }
+            ],
+            "text": "دفعة واحدة لعدة فواتير، وتحويل بنكي، والسداد يحتاج اعتماداً عند F_MULTIUSER، ودفعة مقدمة قبل الاستلام عند PUR-002 ≠ «لا» — السبب: يقلل التحويلات ويضبط خروج المال؛ والمورّد الخارجي يطلب غالباً دفعة قبل الشحن. ترتيب الاعتمادين: الأول — السبب: كل اعتماد يجيب عن سؤال مختلف (صحة المبلغ، ثم خروج المال). يوم السداد: أول يوم عمل في الأسبوع — السبب: تُجمع المستحقات المعتمدة في الأسبوع السابق وتُسدَّد مرة واحدة (ق ع-71)."
+          },
+          "required": false
+        },
+        {
+          "key": "payment_day",
+          "label": "يوم السداد",
+          "type": "single",
+          "options": [
+            {
+              "key": "sat",
+              "label": "السبت",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sun",
+              "label": "الأحد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "mon",
+              "label": "الاثنين",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "tue",
+              "label": "الثلاثاء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "wed",
+              "label": "الأربعاء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "thu",
+              "label": "الخميس",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "fri",
+              "label": "الجمعة",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "has": [
+              "PUR-012",
+              "weekly_schedule"
+            ]
+          },
+          "recommended": {
+            "value": "sun",
+            "reason": "تُجمع المستحقات المعتمدة في الأسبوع السابق وتُسدَّد مرة واحدة (ق ع-71).",
+            "when": [],
+            "text": "يوم السداد: أول يوم عمل في الأسبوع — السبب: تُجمع المستحقات المعتمدة في الأسبوع السابق وتُسدَّد مرة واحدة (ق ع-71)."
+          },
+          "required": false
+        },
+        {
+          "key": "approval_order",
+          "label": "ترتيب الاعتمادين عند وجود فرق مطابقة",
+          "type": "single",
+          "options": [
+            {
+              "key": "diff_then_payment",
+              "label": "اعتماد الفرق (PUR-009) ثم اعتماد الصرف (TRS-008)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "single_approval",
+              "label": "اعتماد واحد يغني عنهما",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "diff_then_payment",
+            "reason": "كل اعتماد يجيب عن سؤال مختلف (صحة المبلغ، ثم خروج المال).",
+            "when": [],
+            "text": "ترتيب الاعتمادين: الأول — السبب: كل اعتماد يجيب عن سؤال مختلف (صحة المبلغ، ثم خروج المال)."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R012a",
+          "when": {
+            "hasAny": [
+              "PUR-012",
+              [
+                "invoice_by_invoice",
+                "batch_payment",
+                "weekly_schedule",
+                "advance_before_receipt"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام السداد للمورّدين بالأنماط {{SW:PUR-012|invoice_by_invoice=(سند صرف لكل فاتورة)|batch_payment=(سند صرف واحد موزَّع على عدة فواتير، بالأقدم استحقاقاً قابلاً للتعديل قبل الاعتماد (STD-PUR-12 (١)))|weekly_schedule=(قائمة أسبوعية بالمستحقات المعتمدة تُعرض للسداد يوم {{Q:PUR-012#payment_day}})|advance_before_receipt=(دفعة مقدمة قبل الاستلام مرتبطة بأمر شراء معتمد حيث وُجد، تُثبت رصيداً للكيان لدى المورّد وتُخصم من فاتورته وفق STD-PUR-12 (٢){{IF:{\"flag\":\"F_VAT\"}|، وضريبتها وفق STD-TAX-02 (٦)}})}}."
+        },
+        {
+          "id": "PUR-R012b",
+          "when": {
+            "hasAny": [
+              "PUR-012",
+              [
+                "bank_transfer",
+                "cheque",
+                "cash",
+                "other"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يقبل سند الصرف للمورّد طرق الدفع {{SW:PUR-012|bank_transfer=تحويل بنكي|cheque=شيك|cash=نقداً|other=أخرى}}، وأكثر من طريقة في السند الواحد (STD-GEN-13)."
+        },
+        {
+          "id": "PUR-R012c",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب ألا يُنفَّذ سند الصرف للمورّد قبل اعتماده وفق {{Q:TRS-008}}{{IF:{\"visible\":\"PUR-009\"}|؛ وعند وجود فرق مطابقة يكون الترتيب {{Q:PUR-012#approval_order}}}}."
+        }
+      ],
+      "workshopNote": "الخانتان: {PUR-012.الأنماط} = المختار من الخيارات الأربعة الأولى؛ و{PUR-012.الطرق} = المختار من «تحويل بنكي / شيك / نقداً / أخرى»."
+    },
+    {
+      "id": "PUR-013",
+      "section": "PUR",
+      "order": 16,
+      "title": "كيف يُدار الشراء عند تعدد الفروع؟",
+      "help": "من يشتري لمن.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "flag": "F_MULTIBRANCH"
+          }
+        ]
+      },
+      "conditionText": "M(PUR) و F_MULTIBRANCH",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد ربط مستندات الشراء بالفرع، وصلاحيات الفروع، وتدفق التحويل المخزني (INV-009).\n- عند «شراء مركزي»، وللأصناف المشتراة مركزياً عند «مختلط»: يكون الاستلام في المكان الافتراضي للفرع الذي نوعه «مقر رئيسي» في GEN-003، وإلا لأول فرع فيه؛ ويجوز تغييره قبل الترحيل لمن يملك «إنشاء» في الاستلام (STD-INV-03).\n- رؤية مسؤول المشتريات (ROL-003): كل البيانات عند PUR-013 ∈ {«شراء مركزي»، «مختلط»} أو عند عدم F_MULTIBRANCH، وبيانات فرعه فقط عند «كل فرع يشتري لنفسه». وفرعه في ROL-001 «لكل الفروع» إلا عند «كل فرع يشتري لنفسه» فـ«فرع محدد».\n- «شراء مركزي» دون «طلب شراء داخلي» في PUR-001 يُظهر PUR-018 (تع-09). ومع INV-001 بصف واحد يُطبَّق تع-14.\n- عند «مختلط بحسب الصنف»: يحمل الصنف بيان «يُشترى مركزياً» (نعم / لا، افتراضه «نعم»)، فيُعرف به «الأصناف المشتراة مركزياً» (ق ع-72).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "central",
+              "label": "شراء مركزي من الإدارة ثم تحويل للفروع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "branch_own",
+              "label": "كل فرع يشتري لنفسه",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "mixed_by_item",
+              "label": "مختلط بحسب الصنف",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "central",
+            "reason": "أسعار أفضل ورقابة أعلى.",
+            "when": [],
+            "text": "شراء مركزي — السبب: أسعار أفضل ورقابة أعلى."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R013",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يطبّق النظام الشراء بين الفروع {{SW:PUR-013|central=تُنشأ مستندات الشراء في الإدارة، ويُستلم في المكان الافتراضي للمقر الرئيسي (STD-INV-03)، ثم يُحوَّل إلى الفروع (INV-009)|branch_own=تُربط مستندات الشراء بفرعها، وتُقصر رؤية مسؤول المشتريات على فرعه (ROL-003)|mixed_by_item=يسلك الصنف الموسوم «يُشترى مركزياً» طريق الشراء المركزي، وغيره طريق الفرع}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-018",
+      "section": "PUR",
+      "order": 17,
+      "title": "كيف يُبلغ الفرع الإدارة بحاجته من البضاعة؟",
+      "help": null,
+      "detail": true,
+      "condition": {
+        "all": [
+          {
+            "eq": [
+              "PUR-013",
+              "central"
+            ]
+          },
+          {
+            "not": {
+              "in": [
+                "PUR-001",
+                [
+                  "pr_po_receipt_invoice",
+                  "pr_rfq_po_receipt_invoice"
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "conditionText": "PUR-013 = «شراء مركزي» وPUR-001 لا تتضمن «طلب شراء داخلي».",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مستند «طلب احتياج فرع» وحالاته (جديد / قيد التلبية / لُبّي / مرفوض) وتحويله إلى INV-009 أو PUR-001. وانتقالاته وفق STD-PUR-04. ويملك مدير الفرع إنشاءه لفرعه وإلغاءه وهو «جديد» (ROL-002). وعند INV-009 = «طلب تحويل ← اعتماد ← إرسال ← استلام» يكون المستندان مستنداً واحداً ينشئه الطالب في INV-009.ب (تع-INV-03، STD-GEN-68). والتلبية بأمر شراء تُستلم في المقر ثم تُحوَّل آلياً إلى الفرع (STD-PUR-09).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "branch_request_in_system",
+              "label": "طلب احتياج من الفرع داخل النظام، تلبّيه الإدارة بتحويل مخزني أو بأمر شراء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "outside_system",
+              "label": "تواصل خارج النظام (هاتف أو رسالة)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "branch_request_in_system",
+            "reason": "يوثّق الاحتياج دون إضافة اعتماد على كل شراء.",
+            "when": [],
+            "text": "طلب احتياج داخل النظام يرفعه دور «مدير الفرع» — السبب: يوثّق الاحتياج دون إضافة اعتماد على كل شراء."
+          },
+          "required": false
+        },
+        {
+          "key": "creator",
+          "label": "المُنشئ",
+          "type": "single",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": "ROL-001",
+          "condition": {
+            "eq": [
+              "PUR-018",
+              "branch_request_in_system"
+            ]
+          },
+          "recommended": {
+            "value": "مدير الفرع",
+            "reason": "يوثّق الاحتياج دون إضافة اعتماد على كل شراء.",
+            "when": [],
+            "text": "طلب احتياج داخل النظام يرفعه دور «مدير الفرع»"
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R018",
+          "when": {
+            "eq": [
+              "PUR-018",
+              "branch_request_in_system"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام مستند «طلب احتياج فرع» ينشئه دور {{Q:PUR-018#creator}} بالحالات: جديد / قيد التلبية / لُبّي / مرفوض، ويُحوَّل دون إعادة إدخال إلى تحويل مخزني أو أمر شراء."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-014",
+      "section": "PUR",
+      "order": 18,
+      "title": "ما تقارير المشتريات التي تحتاجونها؟",
+      "help": "انظر هيكل التقارير (م-9).",
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد تقارير المشتريات وتصفياتها.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multiPriority",
+          "options": [
+            {
+              "key": "by_supplier",
+              "label": "المشتريات حسب المورّد",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "حسب المورّد",
+                "purpose": "حجم التعامل",
+                "figures": "المشتريات، المرتجعات، الصافي",
+                "filters": "فترة، مورّد",
+                "frequency": "شهري",
+                "reader": "المالك"
+              }
+            },
+            {
+              "key": "by_item",
+              "label": "حسب الصنف",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "حسب الصنف",
+                "purpose": "تكلفة الشراء",
+                "figures": "الكمية، القيمة، متوسط السعر",
+                "filters": "فترة، صنف",
+                "frequency": "شهري",
+                "reader": "مسؤول المشتريات"
+              }
+            },
+            {
+              "key": "open_pos",
+              "label": "أوامر الشراء المفتوحة",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "أوامر الشراء المفتوحة",
+                "purpose": "الالتزامات القائمة",
+                "figures": "الأمر، القيمة، المستلم، المتبقي",
+                "filters": "مورّد، فرع",
+                "frequency": "أسبوعي",
+                "reader": "مسؤول المشتريات"
+              },
+              "condition": {
+                "ne": [
+                  "PUR-001",
+                  "supplier_invoice_direct"
+                ]
+              }
+            },
+            {
+              "key": "unreceived_qty",
+              "label": "الكميات غير المستلمة",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "الكميات غير المستلمة",
+                "purpose": "متابعة التوريد",
+                "figures": "الصنف، الكمية المتبقية، التأخر بالأيام",
+                "filters": "مورّد، صنف",
+                "frequency": "أسبوعي",
+                "reader": "أمين المستودع"
+              },
+              "condition": {
+                "ne": [
+                  "PUR-001",
+                  "supplier_invoice_direct"
+                ]
+              }
+            },
+            {
+              "key": "payables_aging",
+              "label": "أعمار مستحقات المورّدين",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "أعمار المستحقات",
+                "purpose": "تخطيط السداد",
+                "figures": "الرصيد موزعاً: غير مستحق، 1–30، 31–60، 61–90، أكثر من 90 يوماً",
+                "filters": "تاريخ، مورّد",
+                "frequency": "أسبوعي",
+                "reader": "المحاسب"
+              }
+            },
+            {
+              "key": "supplier_statement",
+              "label": "كشف حساب مورّد",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "كشف حساب مورّد",
+                "purpose": "مطابقة الرصيد",
+                "figures": "الحركات والرصيد المتراكم",
+                "filters": "فترة، مورّد",
+                "frequency": "عند الطلب",
+                "reader": "المحاسب"
+              }
+            },
+            {
+              "key": "price_trend",
+              "label": "تغيّر أسعار الشراء عبر الزمن",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "تغيّر الأسعار",
+                "purpose": "رقابة التكلفة",
+                "figures": "سعر الشراء عبر الزمن",
+                "filters": "فترة، صنف، مورّد",
+                "frequency": "شهري",
+                "reader": "المالك"
+              }
+            },
+            {
+              "key": "supplier_performance",
+              "label": "أداء المورّدين (التأخر والمرتجعات)",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "أداء المورّدين",
+                "purpose": "تقييم المورّد",
+                "figures": "نسبة التأخر، نسبة المرتجعات",
+                "filters": "فترة، مورّد",
+                "frequency": "ربع سنوي",
+                "reader": "المالك"
+              }
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "by_supplier",
+              "open_pos",
+              "payables_aging",
+              "supplier_statement"
+            ],
+            "reason": "أساس متابعة الالتزامات.",
+            "when": [],
+            "text": "المشتريات حسب المورّد، وأوامر الشراء المفتوحة، وأعمار المستحقات، وكشف حساب مورّد — السبب: أساس متابعة الالتزامات."
+          },
+          "required": false
+        },
+        {
+          "key": "extra",
+          "label": "تقارير إضافية",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "اسم التقرير",
+              "type": "text"
+            },
+            {
+              "key": "purpose",
+              "label": "الغرض",
+              "type": "text"
+            },
+            {
+              "key": "figures",
+              "label": "الأرقام",
+              "type": "text"
+            },
+            {
+              "key": "filters",
+              "label": "التصفية",
+              "type": "text"
+            },
+            {
+              "key": "frequency",
+              "label": "التكرار",
+              "type": "text"
+            },
+            {
+              "key": "reader",
+              "label": "القارئ",
+              "type": "role"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R014x-by_supplier",
+          "when": {
+            "has": [
+              "PUR-014",
+              "by_supplier"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «المشتريات حسب المورّد» لغرض حجم التعامل، يعرض المشتريات، المرتجعات، الصافي، ويُصفّى بـفترة، مورّد، ويُتاح شهري لدور المالك.",
+          "family": "PUR-R014x"
+        },
+        {
+          "id": "PUR-R014x-by_item",
+          "when": {
+            "has": [
+              "PUR-014",
+              "by_item"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «حسب الصنف» لغرض تكلفة الشراء، يعرض الكمية، القيمة، متوسط السعر، ويُصفّى بـفترة، صنف، ويُتاح شهري لدور مسؤول المشتريات.",
+          "family": "PUR-R014x"
+        },
+        {
+          "id": "PUR-R014x-open_pos",
+          "when": {
+            "has": [
+              "PUR-014",
+              "open_pos"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «أوامر الشراء المفتوحة» لغرض الالتزامات القائمة، يعرض الأمر، القيمة، المستلم، المتبقي، ويُصفّى بـمورّد، فرع، ويُتاح أسبوعي لدور مسؤول المشتريات.",
+          "family": "PUR-R014x"
+        },
+        {
+          "id": "PUR-R014x-unreceived_qty",
+          "when": {
+            "has": [
+              "PUR-014",
+              "unreceived_qty"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «الكميات غير المستلمة» لغرض متابعة التوريد، يعرض الصنف، الكمية المتبقية، التأخر بالأيام، ويُصفّى بـمورّد، صنف، ويُتاح أسبوعي لدور أمين المستودع.",
+          "family": "PUR-R014x"
+        },
+        {
+          "id": "PUR-R014x-payables_aging",
+          "when": {
+            "has": [
+              "PUR-014",
+              "payables_aging"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «أعمار مستحقات المورّدين» لغرض تخطيط السداد، يعرض الرصيد موزعاً: غير مستحق، 1–30، 31–60، 61–90، أكثر من 90 يوماً، ويُصفّى بـتاريخ، مورّد، ويُتاح أسبوعي لدور المحاسب.",
+          "family": "PUR-R014x"
+        },
+        {
+          "id": "PUR-R014x-supplier_statement",
+          "when": {
+            "has": [
+              "PUR-014",
+              "supplier_statement"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «كشف حساب مورّد» لغرض مطابقة الرصيد، يعرض الحركات والرصيد المتراكم، ويُصفّى بـفترة، مورّد، ويُتاح عند الطلب لدور المحاسب.",
+          "family": "PUR-R014x"
+        },
+        {
+          "id": "PUR-R014x-price_trend",
+          "when": {
+            "has": [
+              "PUR-014",
+              "price_trend"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «تغيّر أسعار الشراء عبر الزمن» لغرض رقابة التكلفة، يعرض سعر الشراء عبر الزمن، ويُصفّى بـفترة، صنف، مورّد، ويُتاح شهري لدور المالك.",
+          "family": "PUR-R014x"
+        },
+        {
+          "id": "PUR-R014x-supplier_performance",
+          "when": {
+            "has": [
+              "PUR-014",
+              "supplier_performance"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «أداء المورّدين (التأخر والمرتجعات)» لغرض تقييم المورّد، يعرض نسبة التأخر، نسبة المرتجعات، ويُصفّى بـفترة، مورّد، ويُتاح ربع سنوي لدور المالك.",
+          "family": "PUR-R014x"
+        },
+        {
+          "id": "PUR-R014x-extra",
+          "when": {
+            "answered": "PUR-014#extra"
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «{{Q:PUR-014#extra.name}}» لغرض {{Q:PUR-014#extra.purpose}}، يعرض {{Q:PUR-014#extra.figures}}، ويُصفّى بـ{{Q:PUR-014#extra.filters}}، ويُتاح {{Q:PUR-014#extra.frequency}} لدور {{Q:PUR-014#extra.reader}}.",
+          "family": "PUR-R014x",
+          "perRow": "PUR-014#extra"
+        }
+      ],
+      "workshopNote": "بطاقات التقارير (ع-09) — الغرض | الأرقام | التصفية | الموصى به للتكرار والقارئ؛ وأولوية التقرير الافتراضية = أولوية الوحدة:\nحسب المورّد: حجم التعامل | المشتريات، المرتجعات، الصافي | فترة، مورّد | شهري، المالك.\nحسب الصنف: تكلفة الشراء | الكمية، القيمة، متوسط السعر | فترة، صنف | شهري، مسؤول المشتريات.\nأوامر الشراء المفتوحة: الالتزامات القائمة | الأمر، القيمة، المستلم، المتبقي | مورّد، فرع | أسبوعي، مسؤول المشتريات.\nالكميات غير المستلمة: متابعة التوريد | الصنف، الكمية المتبقية، التأخر بالأيام | مورّد، صنف | أسبوعي، أمين المستودع.\nأعمار المستحقات: تخطيط السداد | الرصيد موزعاً: غير مستحق، 1–30، 31–60، 61–90، أكثر من 90 يوماً | تاريخ، مورّد | أسبوعي، المحاسب.\nكشف حساب مورّد: مطابقة الرصيد | الحركات والرصيد المتراكم | فترة، مورّد | عند الطلب، المحاسب.\nتغيّر الأسعار: رقابة التكلفة | سعر الشراء عبر الزمن | فترة، صنف، مورّد | شهري، المالك.\nأداء المورّدين: تقييم المورّد | نسبة التأخر، نسبة المرتجعات | فترة، مورّد | ربع سنوي، المالك.\nأحكام تسري على البطاقات: أسعار الشراء في مستندات PUR وتقاريرها ليست «تكلفة الأصناف» المحجوبة في ROL-004، ويراها من يملك «اطلاع» في PUR (ومنها «حسب الصنف: تكلفة الشراء»). وأمر الشراء المقفل يخرج متبقيه من «أوامر الشراء المفتوحة» و«الكميات غير المستلمة» (STD-PUR-06). وفاتورة المورّد المسدَّدة من العهدة لا تدخل «أعمار المستحقات» ما دام حقل مصدر الدفع مملوءاً (STD-PUR-08 (٣)). وسطور «تكاليف الشحنة» تظهر في «أعمار المستحقات» و«كشف حساب مورّد» بحسب مورّد كل سطر.\nإسقاط: عند PUR-001 = «فاتورة المورّد مباشرة»: «أوامر الشراء المفتوحة» و«الكميات غير المستلمة» (STD-GEN-24 الحالة ٤). وعند فرع واحد: تصفية «الفرع» (الحالة ١٠)."
+    },
+    {
+      "id": "PUR-015",
+      "section": "PUR",
+      "order": 19,
+      "title": "ما التنبيهات التي تحتاجونها في المشتريات؟",
+      "help": "انظر هيكل التنبيهات (م-10).",
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد قواعد التنبيه وقنواتها. وتاريخ الاستحقاق المعتمد في التنبيه من PUR-019. واختيار «أمر شراء تأخر استلامه» يجعل «تاريخ التوريد المتوقع» في أمر الشراء إلزامياً (STD-PUR-05). ويُصنَّف كل تنبيه عاجلاً أو للملخص اليومي وفق STD-GEN-16 («فرق بين فاتورة المورّد والاستلام» عاجل؛ «فاتورة مورّد يقترب استحقاقها» و«أمر شراء تأخر استلامه» للملخص). ومستلم «ينتظر اعتمادي» «المعتمِد المعني» دائماً، ويُرسل لكل طلب اعتماد تنبيه واحد. وفاتورة المورّد المسدَّدة من العهدة لا يُطلق عليها تنبيه الاستحقاق (STD-PUR-08 (٣)). وعند PUR-001 = «فاتورة المورّد مباشرة» يُسقَط «أمر شراء تأخر استلامه» (STD-GEN-24 الحالة ٤).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "awaiting_my_approval",
+              "label": "طلب ينتظر اعتمادي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "invoice_due_soon",
+              "label": "فاتورة مورّد يقترب استحقاقها",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "po_receipt_late",
+              "label": "أمر شراء تأخر استلامه",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "ne": [
+                  "PUR-001",
+                  "supplier_invoice_direct"
+                ]
+              }
+            },
+            {
+              "key": "invoice_receipt_diff",
+              "label": "فرق بين الفاتورة والاستلام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "awaiting_my_approval",
+              "invoice_due_soon"
+            ],
+            "reason": "يمنع تأخر الاعتماد والسداد.",
+            "when": [],
+            "text": "طلب ينتظر اعتمادي (فوراً)، وفاتورة يقترب استحقاقها (قبل 3 أيام، للمحاسب) — داخل النظام وبريد إلكتروني — السبب: يمنع تأخر الاعتماد والسداد."
+          },
+          "required": false
+        },
+        {
+          "key": "settings",
+          "label": "من يُنبَّه / الوسيلة / التوقيت",
+          "type": "matrix",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "recipient",
+              "label": "من يُنبَّه",
+              "type": "role"
+            },
+            {
+              "key": "channel",
+              "label": "الوسيلة",
+              "type": "text"
+            },
+            {
+              "key": "timing",
+              "label": "التوقيت",
+              "type": "text"
+            }
+          ],
+          "rows": [
+            {
+              "key": "awaiting_my_approval",
+              "label": "طلب ينتظر اعتمادي"
+            },
+            {
+              "key": "invoice_due_soon",
+              "label": "فاتورة مورّد يقترب استحقاقها"
+            },
+            {
+              "key": "po_receipt_late",
+              "label": "أمر شراء تأخر استلامه"
+            },
+            {
+              "key": "invoice_receipt_diff",
+              "label": "فرق بين الفاتورة والاستلام"
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": {
+              "awaiting_my_approval": {
+                "recipient": "المعتمِد المعني",
+                "channel": "داخل النظام وبريد",
+                "timing": "فوراً"
+              },
+              "invoice_due_soon": {
+                "recipient": "المحاسب",
+                "channel": "داخل النظام وبريد",
+                "timing": "قبل 3 أيام"
+              },
+              "po_receipt_late": {
+                "recipient": "مسؤول المشتريات",
+                "channel": "داخل النظام",
+                "timing": "بعد يوم من تاريخ التوريد المتوقع"
+              },
+              "invoice_receipt_diff": {
+                "recipient": "المحاسب",
+                "channel": "داخل النظام",
+                "timing": "فوراً"
+              }
+            },
+            "reason": null,
+            "when": [],
+            "text": "إعدادات كل خيار معبّأة في البنك: طلب ينتظر اعتمادي: المعتمِد المعني، داخل النظام وبريد، فوراً · فاتورة يقترب استحقاقها: المحاسب، داخل النظام وبريد، قبل 3 أيام · أمر شراء تأخر استلامه: مسؤول المشتريات، داخل النظام، بعد يوم من تاريخ التوريد المتوقع · فرق بين الفاتورة والاستلام: المحاسب، داخل النظام، فوراً."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R015x-awaiting_my_approval",
+          "when": {
+            "has": [
+              "PUR-015",
+              "awaiting_my_approval"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يُنبّه النظام {{Q:PUR-015#settings.awaiting_my_approval.recipient}} عبر {{Q:PUR-015#settings.awaiting_my_approval.channel}} {{Q:PUR-015#settings.awaiting_my_approval.timing}} عند طلب ينتظر اعتمادي.",
+          "family": "PUR-R015x"
+        },
+        {
+          "id": "PUR-R015x-invoice_due_soon",
+          "when": {
+            "has": [
+              "PUR-015",
+              "invoice_due_soon"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يُنبّه النظام {{Q:PUR-015#settings.invoice_due_soon.recipient}} عبر {{Q:PUR-015#settings.invoice_due_soon.channel}} {{Q:PUR-015#settings.invoice_due_soon.timing}} عند فاتورة مورّد يقترب استحقاقها، محسوباً من تاريخ الاستحقاق في PUR-R019.",
+          "family": "PUR-R015x"
+        },
+        {
+          "id": "PUR-R015x-po_receipt_late",
+          "when": {
+            "has": [
+              "PUR-015",
+              "po_receipt_late"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يُنبّه النظام {{Q:PUR-015#settings.po_receipt_late.recipient}} عبر {{Q:PUR-015#settings.po_receipt_late.channel}} {{Q:PUR-015#settings.po_receipt_late.timing}} عند أمر شراء تأخر استلامه.",
+          "family": "PUR-R015x"
+        },
+        {
+          "id": "PUR-R015x-invoice_receipt_diff",
+          "when": {
+            "has": [
+              "PUR-015",
+              "invoice_receipt_diff"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يُنبّه النظام {{Q:PUR-015#settings.invoice_receipt_diff.recipient}} عبر {{Q:PUR-015#settings.invoice_receipt_diff.channel}} {{Q:PUR-015#settings.invoice_receipt_diff.timing}} عند فرق بين الفاتورة والاستلام.",
+          "family": "PUR-R015x"
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PUR-099",
+      "section": "PUR",
+      "order": 20,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "وفق القاعدة م-4.",
+      "detail": false,
+      "condition": {
+        "module": "PUR"
+      },
+      "conditionText": "M(PUR)",
+      "regulatory": false,
+      "verify": [],
+      "impact": null,
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "text",
+              "label": "الإضافة أو الاحتياج",
+              "type": "text"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PUR-R9nn",
+          "when": {
+            "answered": "PUR-099"
+          },
+          "noRequirement": false,
+          "text": "يجب أن يتيح النظام «{{Q:PUR-099#main.text}}».",
+          "perRow": "PUR-099#main",
+          "note": "نص المستخدم بين علامتي تنصيص، ومصدره «نص حر»، وفق م-4."
+        }
+      ],
+      "workshopNote": null
+    }
+  ],
+  "rules": [
+    {
+      "id": "STD-PUR-01",
+      "scope": "PUR",
+      "title": "تقييم الاستلام قبل فاتورة المورّد",
+      "text": "يجب أن يُقيَّم الاستلام بسعر أمر الشراء وسعر صرفه، ويدخل المتوسط المرجح (INV-006) بهذه القيمة. وعند تسجيل فاتورة المورّد يُسوّى الفرق بين قيمتها (بسعر صرفها) وقيمة الاستلام: فما قابل الكمية الباقية يعدّل تكلفتها، وما قابل المبيع أو المصروف يُحمَّل على تكلفة المبيعات، قياساً على PUR-003.أ. (وقيده عند M(ACC) وفق STD-ACC-02: حساب «مشتريات مستلمة لم تُفوتر».)",
+      "applies": {
+        "all": [
+          {
+            "in": [
+              "PUR-001",
+              [
+                "po_receipt_invoice",
+                "pr_po_receipt_invoice",
+                "pr_rfq_po_receipt_invoice"
+              ]
+            ]
+          },
+          {
+            "flag": "F_STOCK"
+          }
+        ]
+      },
+      "appliesText": "PUR-001 تتضمن «استلام» وF_STOCK",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-02",
+      "scope": "PUR",
+      "title": "تعريف الشحنة",
+      "text": "يجب أن تكون «الشحنة» في مستند «تكاليف الشحنة» استلاماً واحداً أو أكثر يختاره المحاسب، ولو جاء من أكثر من أمر شراء، وتُوزَّع تكاليفها على أصناف تلك الاستلامات وحدها وفق {{Q:PUR-003}}. وافتراضها استلام واحد. (وسطر «ضريبة استيراد» لا يدخل التوزيع، STD-TAX-04.) وأساس القيمة في التوزيع (PUR-003.ب): للاستلام المفوتر قيمة فاتورة المورّد بسعر صرفها؛ وللاستلام الذي لم تُسجَّل فاتورته بعدُ قيمته في STD-PUR-01 (سعر أمر الشراء وسعر صرفه). ولا يُعاد توزيع «تكاليف الشحنة» المعتمدة عند تسجيل الفاتورة لاحقاً؛ ويُسوّى فرق الفاتورة وحده وفق STD-PUR-01 (ق ع-94).",
+      "applies": {
+        "ne": [
+          "PUR-002",
+          "no"
+        ]
+      },
+      "appliesText": "PUR-002 ≠ «لا»",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-03",
+      "scope": "PUR",
+      "title": "المورّد بلا شرط دفع",
+      "text": "يجب أن تستحق فاتورة المورّد الذي لا شرط في بطاقته وفق {{Q:PUR-019#no_term}}، وأن يعدّل تاريخ استحقاقها من يملك تعديل «شرط دفع المورّد» في ROL-008.",
+      "applies": {
+        "module": "PUR"
+      },
+      "appliesText": "M(PUR)",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-04",
+      "scope": "PUR",
+      "title": "انتقالات «طلب احتياج فرع»",
+      "text": "ينشئه {{Q:PUR-018#creator}} بحالة «جديد»، ويلغيه مُنشئه ما دام «جديداً». ويجب أن يصير «قيد التلبية» تلقائياً عند إنشاء تحويل مخزني منه (أمين المستودع) أو أمر شراء منه (مسؤول المشتريات). ويجوز أن يُنشأ منه أكثر من مستند (تحويلات وأوامر شراء)، ولا يتجاوز مجموع كميات المستندات غير الملغاة الناشئة عنه كمياته لكل صنف، قياساً على STD-SAL-09. ويصير «لُبّي» تلقائياً حين تبلغ الكميات المستلمة في مكان الفرع من كل المستندات الناشئة عنه (استلام التحويل، والتحويل الآلي في STD-PUR-09 (٢)، والاستلام المرحَّل في مكان الفرع في STD-PUR-09 (٥)، واستلام أمر الشراء عند عدم M(INV)) كمياته لكل صنف؛ ويبقى «قيد التلبية» ما بقي منها شيء؛ أو يدوياً بيد مسؤول المشتريات عند قبول تلبية جزئية. ويصير «مرفوضاً» من «جديد» فقط، بيد مسؤول المشتريات أو المدير العام، بسبب مكتوب يُنبَّه به مُنشئه. ويعود «جديداً» تلقائياً إن أُلغيت كل المستندات الناشئة عنه (التحويل أو أمر الشراء) قبل أي استلام.",
+      "applies": {
+        "eq": [
+          "PUR-018",
+          "branch_request_in_system"
+        ]
+      },
+      "appliesText": "PUR-018 = الخيار الأول",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-05",
+      "scope": "PUR",
+      "title": "تاريخ التوريد المتوقع",
+      "text": "يجب أن يحمل أمر الشراء دائماً حقل «تاريخ التوريد المتوقع»، وهو اختياري، ويصير إلزامياً إذا تضمنت PUR-015 «أمر شراء تأخر استلامه». (تُسقَط عند PUR-001 = «فاتورة المورّد مباشرة»، STD-GEN-24 الحالة ٤.)",
+      "applies": {
+        "module": "PUR"
+      },
+      "appliesText": "M(PUR)",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-06",
+      "scope": "PUR",
+      "title": "إقفال أمر الشراء",
+      "text": "يجب أن يملك إقفال المتبقي في أمر الشراء مسؤولُ المشتريات بسبب مكتوب. فينتقل الأمر إلى «منتهٍ» (يُعرض «مقفل»)، ويخرج المتبقي من تقريري «أوامر الشراء المفتوحة» و«الكميات غير المستلمة».",
+      "applies": {
+        "eq": [
+          "PUR-010",
+          "yes_track_remaining"
+        ]
+      },
+      "appliesText": "PUR-010 = «نعم»",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-07",
+      "scope": "PUR",
+      "title": "أساس أسعار الشراء ومبلغ ضريبة المورّد",
+      "text": "(1) الإدخال: تُدخل أسعار الوحدة في طلب الشراء الداخلي، وطلب عرض السعر، وأمر الشراء، وفاتورة المورّد، قبل الضريبة، أياً كانت إجابة TAX-004. (2) الحساب: تُحسب ضريبة كل سطر من رمز الشراء في STD-TAX-02، بطريقة STD-TAX-01 (١) و(٢) و(٤). (3) المبلغ الوارد: عند تسجيل فاتورة المورّد يجوز للمحاسب أن يستبدل بمجموع الضريبة المحسوب المبلغَ الوارد في فاتورة المورّد: إن كان الفرق ضمن {{Q:PUR-009#price_tolerance}}، فيُعتمد المبلغ الوارد، ويُسجَّل الفرق «فرق تقريب» دون مسار فرق؛ وإلا يُعامل الفرق فرقَ سعر، ويُطبَّق مسار الفرق في PUR-009 (وترتيبه في PUR-012). (4) المطابقة (PUR-009): تقارن أسعار الوحدة قبل الضريبة (STD-GEN-37 (٢)). ويُقاس تسامح السعر على مجموع الفرق قبل الضريبة. (5) حدود الاعتماد: تُقارن قيمة أمر الشراء وفاتورة المورّد بحدود PUR-008 على أساس GEN-013.أ. فعند «شاملاً الضريبة» تُقدَّر ضريبة أمر الشراء بالطريقة نفسها وتُضاف للمقارنة. (6) التصحيح بالقيمة: إشعار المورّد بتخفيض القيمة دون إرجاع بضاعة يُسجَّل «مرتجع مشتريات» بلا كميات ولا أثر مخزني. وإشعاره بزيادتها يُسجَّل فاتورة مورّد مكمّلة بلا كميات. ويرتبط كلاهما بفاتورة المورّد الأصلية، ويأخذ رمزها، ويوزَّع أثره على تكلفة أصنافها بنسبة قيمتها ما بقيت في المخزون، وإلا على تكلفة المبيعات. والفاتورة المكمّلة يُنشئها المحاسب، ولا تحمل حالة مطابقة. وتُعدّ زيادتها فرق سعر يمر بمسار اعتماد الفرق في PUR-009 (وترتيبه في PUR-012) قبل السداد، ما لم تقع ضمن {{Q:PUR-009#price_tolerance}}. (7) مرتجع المشتريات بالكمية: ضريبته من سطر فاتورة المورّد الأصلية.",
+      "applies": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "flag": "F_VAT"
+          }
+        ]
+      },
+      "appliesText": "M(PUR) وF_VAT",
+      "regulatory": true
+    },
+    {
+      "id": "STD-PUR-08",
+      "scope": "PUR",
+      "title": "مصدر الدفع في فاتورة المورّد، والشراء من العهدة",
+      "text": "(1) الحقل: تحمل فاتورة المورّد حقل «مصدر الدفع»: آجل (الافتراضي) / الصندوق <الصندوق> / عهدة مصروفات <الحامل>. ويعبّئه مُنشئ الفاتورة. (2) الصندوق: عند إرسال الفاتورة للاعتماد، أو عند «معتمد» إن لم يلزمها اعتماد، يُنشأ آلياً «سند صرف لمورّد» مسودةً مرتبطاً بها، بمبلغها وطريقة «نقداً» من الصندوق المختار، ولو لم تُختر «نقداً» في PUR-012، ويُسجَّل ذلك افتراضاً مُعلناً. ومُنشئ السند لأغراض ROL-005 وSTD-GEN-66 مُنشئ الفاتورة. ويُحدَّد معتمِد السند بـTRS-008 بعد تطبيق ROL-005 وSTD-GEN-66: فإن كان هو معتمِد الفاتورة، عُرض المستندان في طلب واحد، واعتماده ينقلهما معاً إلى «معتمد» (ق ع-22)؛ وإلا انتقل السند آلياً إلى «بانتظار الاعتماد» لمعتمِده لحظة «معتمد» الفاتورة. وإن رُفضت الفاتورة أو أُعيدت إلى «مسودة» أُلغي السند آلياً. ولا يصير السند «منفَّذاً» قبل «معتمد» الفاتورة (ق ع-98). (3) العهدة: لا يُنشأ للفاتورة سند صرف لمورّد، وتُعرض «تُسدَّد من العهدة»؛ ولا تدخل أعمار مستحقات المورّدين، ولا مؤشر «المستحق للمورّدين» (STD-GEN-45)، ولا تنبيه الاستحقاق، ما دام الحقل مملوءاً؛ وسطر «شراء صنف» في تسوية العهدة يحيل إليها بمبلغها، ولا تُحال فاتورة إلى أكثر من سطر تسوية؛ وعند اعتماد التسوية يتولد قيد من حساب المورّد إلى «عُهد الموظفين»، وتصير الفاتورة «مدفوعة» بقدره (STD-GEN-06)؛ وإن رُفض السطر يُفرَّغ الحقل، وتعود الفاتورة إلى مسار السداد المعتاد، ويبقى المبلغ على الحامل (STD-EXP-02 (٤)). (4) «مورّد نقدي»: سجل مورّد عام، مستثنى من إلزام حقول PUR-004، مقصور على مصدرَي «الصندوق» و«العهدة»، بلا رصيد. ويُكتب اسم المحل في الفاتورة. وعند F_VAT لا تُخصم ضريبة فاتورة ليس فيها رقم المورّد الضريبي (STD-TAX-03). ومرتجع المشتريات على فاتورة «مورّد نقدي» يُعالج استرداداً نقدياً أياً كانت PUR-011: عند حالته النافذة («خرج»، أو «معتمد» للمرتجع بلا كميات) يُنشأ آلياً «سند قبض عام» مسودةً بمبلغه، مرتبطاً بالمرتجع، طرفه «مورّد نقدي» فيُقفل أثر المرتجع على السجل فلا يبقى له رصيد (استثناءً من STD-GEN-34 (٧))؛ ووجهته الصندوق الذي صُرفت منه الفاتورة، أو عهدة حاملها إن كان مصدرها «عهدة مصروفات» فيُنقص المبلغ المستحق على الحامل في تسويتها (STD-EXP-02)؛ ويصدره مسؤول الصندوق (أو أمين صندوق الفرع، STD-TRS-13 (٣)) عند استلام النقد، أو المحاسب في تسوية العهدة. وما لم يُستلم خلال يومي عمل من نفاذ المرتجع يدخل الملخص اليومي للمحاسب «استرداد من مورّد نقدي لم يُستلم» (غير عاجل، STD-GEN-16). (ق ع-110) (5) المكان: يختار مُنشئ الفاتورة مكان الاستلام، ومنه سيارة الحامل (STD-INV-18). وعند PUR-001 = «أمر شراء ← استلام ← فاتورة» يُنشأ الاستلام آلياً مع الفاتورة لهذين المصدرين. (6) فاتورة الخدمة التي تنتظر الشراء: إن نقص رصيد السيارة عن سطر قطعة لها فاتورة مورّد «بانتظار الاعتماد» إلى السيارة نفسها، تبقى فاتورة الخدمة مسودة، ويُنبَّه معتمِد فاتورة المورّد: «فاتورة عميل تنتظر اعتماد شراء»، عاجل (طلب اعتماد). (7) سطر «شراء صنف» في تسوية العهدة (حقول «تسوية عهدة مصروفات» في EXP-003) يحيل إلى فاتورة المورّد المسجّلة في PUR بمصدر دفع «عهدة مصروفات <الحامل>» (STD-PUR-08). (8) مهمة إعداد (4.9): «إنشاء سجل «مورّد نقدي»» — المحاسب — STD-PUR-08.",
+      "applies": {
+        "module": "PUR"
+      },
+      "appliesText": "M(PUR)",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-09",
+      "scope": "PUR",
+      "title": "التلبية بالشراء المركزي",
+      "text": "(1) يُستلم أمر الشراء المنشأ من «طلب احتياج فرع» في المكان الافتراضي للمقر الرئيسي (STD-INV-03). (2) عند ترحيل الاستلام يُنشأ آلياً تحويل مخزني مسودةً من مستودع المقر إلى المكان الافتراضي لفرع الطلب، بكميات الطلب المستلمة، مرتبطاً بالطلب؛ فيُعدّ معتمداً بالطلب نفسه، ولا يحتاج طلباً ولا اعتماداً جديدين في INV-009.ب. ويرسله أمين مستودع المقر (STD-INV-08). (3) يبقى الطلب «قيد التلبية» حتى تأكيد استلام التحويل في مستودع الفرع؛ ويُحسب استلام هذا التحويل في كميات الطلب المستلمة (STD-PUR-04). (4) عند عدم M(INV): لا تحويل، ويُحسب استلام أمر الشراء في كميات الطلب المستلمة (STD-PUR-04). (5) إن رُحّل الاستلام في مكان فرع الطلب (بتغيير مكان الاستلام قبل الترحيل، STD-INV-03)، لا يُنشأ التحويل، ويصير الطلب «لُبّي» عند استلام الكميات المطلوبة.",
+      "applies": {
+        "eq": [
+          "PUR-018",
+          "branch_request_in_system"
+        ]
+      },
+      "appliesText": "PUR-018 = الخيار الأول",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-10",
+      "scope": "PUR",
+      "title": "تصحيح قيمة فاتورة المورّد عند عدم `F_VAT`",
+      "text": "(1) التخفيض: إشعار المورّد بتخفيض القيمة دون إرجاع بضاعة يُسجَّل «مرتجع مشتريات» بلا كميات ولا أثر مخزني، يُنشئه المحاسب مرتبطاً بفاتورة المورّد الأصلية، ولا يتجاوز ما بقي من قيمتها بعد مرتجعاتها؛ حالته النافذة «معتمد»، ولا حالة «خرج» له، ويُعتمد بمسار PUR-008 بحسب قيمته عند PUR-007 = «اعتماد حسب قيمة الطلب» (STD-GEN-05). (2) الزيادة: إشعاره بزيادة القيمة يُسجَّل «فاتورة مورّد مكمّلة» بلا كميات، يُنشئها المحاسب مرتبطة بالأصلية، بلا حالة مطابقة، وتُعتمد بمسار فاتورة المورّد (PUR-007، PUR-008)، وتمر زيادتها بمسار فرق PUR-009 (وترتيبه في PUR-012) قبل السداد عند ظهوره، ما لم تقع ضمن {{Q:PUR-009#price_tolerance}}. (3) الأثر على التكلفة: يوزَّع أثر كلٍّ منهما على تكلفة أصناف الفاتورة الأصلية بنسبة قيمتها ما بقيت في المخزون، وما قابل المبيع منها على تكلفة المبيعات (قياساً على STD-PUR-01)، ويُعاد حساب المتوسط (STD-INV-05). (4) خطأ المورّد أو الأصناف في فاتورة عليها سداد: «مرتجع مشتريات» بلا كميات بكامل قيمتها، وفاتورة صحيحة جديدة يُنقل إليها السداد آلياً دون رد ولا صرف جديد، ويُعتمدان بطلب واحد (ق ع-22)؛ والفاتورة التي لا سداد عليها تُلغى وفق STD-GEN-03. (ق ع-99) (5) عند PUR-001 = «فاتورة المورّد مباشرة» (الفاتورة تُدخل المخزون، STD-INV-02): (أ) خطأ المورّد وحده (الأصناف والكميات صحيحة): تصدر الفاتورة الصحيحة في البند (٤) بلا أثر مخزني ولا أثر على التكلفة، ولا يقع للمرتجع بكامل القيمة أثر على التكلفة؛ فينتقل الالتزام والسداد بين المورّدَين وحدهما (قياساً على STD-SAL-27 (٢)). (ب) خطأ الأصناف أو الكميات: يُسجَّل «مرتجع مشتريات» بكميات السطور الخاطئة وأسعارها، يُنقص المخزون من مكان استلامها عند «معتمد» دون حالة «خرج» (فالكميات الخاطئة لم تدخل المكان فعلاً)، يُنشئه المحاسب ويُعتمد بمسار PUR-008؛ مع «فاتورة مورّد مصحِّحة بكميات» (غير «الفاتورة المكمّلة» بلا كميات في البند (٢)) بالأصناف والكميات الصحيحة تُدخل المخزون (STD-INV-02)، ويُنقل إليها السداد آلياً، ويُعتمدان بطلب واحد (ق ع-22). فإن نقص رصيد المكان عن كمية سطر خاطئ، لا يُرحَّل المرتجع، ويُنبَّه المحاسب داخل النظام، ويُصحَّح الفرق بجرد المكان (STD-INV-07) ثم يُرحَّل المرتجع بالباقي. (ج) الإلغاء في البند (٤) لفاتورة لا سداد عليها لا يُرحَّل إلا إن بقيت كمياتها كلها في مكان استلامها، وإلا تُصحَّح بالبند (ب). (ق ع-109)",
+      "applies": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "not": {
+              "flag": "F_VAT"
+            }
+          }
+        ]
+      },
+      "appliesText": "M(PUR) وعدم F_VAT",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-11",
+      "scope": "PUR",
+      "title": "البيانات المقصورة للمورّدين المنقولة قبل التشغيل",
+      "text": "شرط دفع المورّد وحسابه البنكي (الآيبان) المنقولان بأداة الاستيراد (MIG-001) متى وُجدا في المصدر، يُحفظان بقيمهما مسوداتٍ مع مستندات الأرصدة الافتتاحية (STD-GEN-61 (٢))، ويُعرضان في كشف مطابقة الأرصدة الافتتاحية: عدد المورّدين بشرط وبلا شرط، وقائمة المورّدين بآيباناتهم (STD-GEN-57 (١)). ويعتمدها المالك مع الكشف في خطوة واحدة (STD-GEN-61 (٦))، فتنفذ دون اعتماد مستقل لكل آيبان، ويُسجَّل اعتمادها بقيمها (STD-GEN-54). وما لم يُنقل يُدخله بعد التشغيل من في صفه في ROL-008، والآيبان باعتماد المالك (ق ع-104).",
+      "applies": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "flag": "F_MIGRATE"
+          },
+          {
+            "flag": "F_MULTIUSER"
+          }
+        ]
+      },
+      "appliesText": "M(PUR) وF_MIGRATE وF_MULTIUSER",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-12",
+      "scope": "PUR",
+      "title": "توزيع سند الصرف للمورّد، والدفعة المقدمة، ورصيد الكيان لدى المورّد",
+      "text": "(1) التوزيع: عند إنشاء «سند صرف لمورّد» يقترح النظام توزيع مبلغه على فواتير المورّد المعتمدة المفتوحة بالأقدم استحقاقاً فالأحدث، ويجوز لمُنشئه تعديل التوزيع قبل إرساله للاعتماد؛ ويُعتمد السند بتوزيعه (TRS-008)، ولا يُوزَّع منه على فاتورة في «فرق يحتاج معالجة» (PUR-009). (2) الدفعة المقدمة (PUR-012 تتضمن «دفعة مقدمة قبل الاستلام»): «سند صرف لمورّد» نوعه «دفعة مقدمة»، مرتبط إلزامياً بأمر شراء معتمد عند PUR-001 ≠ «فاتورة المورّد مباشرة» (وإلا بلا أمر)، يُعتمد بـTRS-008 ويُثبت عند «منفَّذ» رصيداً للكيان لدى المورّد. وعند اعتماد أول فاتورة لذلك الأمر تُخصم منها الدفعة آلياً بقدر الأقل منهما{{IF:{\"flag\":\"F_VAT\"}| (إجمالياً شاملاً الضريبة في الطرفين، STD-TAX-02 (٦))}}، ويُعامل ما بقي منها بالبند (٣){{IF:{\"flag\":\"F_VAT\"}|، عدا باقي الدفعة الحاملة ضريبة مدخلات فيحكمه STD-TAX-02 (٦)}}؛ ولا تُخصم من فاتورة في «فرق يحتاج معالجة» (PUR-009) حتى «فرق معتمد». (3) رصيد الكيان لدى المورّد (من مرتجع مشتريات، أو مرتجع بلا كميات على فاتورة مسددة، أو باقي دفعة مقدمة، أو رصيد دائن أو دفعة مقدمة منقولين قبل التشغيل (MIG-006)): يُطبَّق آلياً عند نفاذه على أقدم فاتورة معتمدة مفتوحة للمورّد نفسه ليست في «فرق يحتاج معالجة» (PUR-009)، وإلا على أول فاتورة تُعتمد له بعده، دون مستند صرف ولا اعتماد TRS-008 لأنه لا يُخرج مالاً؛ ويجوز للمحاسب نقله إلى فاتورة أخرى للمورّد نفسه قبل أي سداد عليها، ويُسجَّل النقل (STD-GEN-54)؛ ويظهر غير المطبَّق في «كشف حساب مورّد» بإشارته. وبالعملة الأجنبية يُحسب فرق تطبيقه على فاتورة معتمدة قبل نشوئه وفق STD-ACC-03 (٦){{IF:{\"flag\":\"F_VAT\"}|؛ وباقي الدفعة الحاملة ضريبة مدخلات لا يُطبَّق بهذا البند، ويحكمه STD-TAX-02 (٦)}}. (4) الاسترداد النقدي (PUR-011 تتضمن «استرداد نقدي»): ما يردّه المورّد نقداً من رصيد الكيان لديه يُسجَّل «سند قبض عام» مرتبطاً بالمرتجع أو الدفعة، طرفه المورّد، فيُنقص الرصيد (استثناءً من STD-GEN-34 (٧)، قياساً على STD-PUR-08 (٤)). (5) بالعملة الأجنبية: وفق STD-ACC-03 (٦). {{IF:{\"flag\":\"F_VAT\"}|(6) الضريبة على الدفعة المقدمة وخصمها وفق STD-TAX-02 (٦)}} (ق ع-120؛ وق ع-130، ق ع-131)",
+      "applies": {
+        "module": "PUR"
+      },
+      "appliesText": "M(PUR)",
+      "regulatory": true
+    },
+    {
+      "id": "STD-PUR-13",
+      "scope": "PUR",
+      "title": "مرتجع مشتريات لبضاعة اشتُريت قبل التشغيل",
+      "text": "(1) يُسجَّل «مرتجع مشتريات» بلا فاتورة مرتبطة على بطاقة المورّد، يحمل إلزامياً رقم فاتورة المورّد السابقة وتاريخها وسعر وحدة الصنف فيها ومرفقها، ويُنشئه مسؤول المشتريات. (2) يُعتمد بمسار PUR-008 بحسب قيمته عند PUR-007 = «اعتماد حسب قيمة الطلب»، وإلا بيد مُنشئه (STD-GEN-05)؛ ويخرج («خرج») من المكان الذي يختاره المُنشئ (STD-INV-03) بيد أمين المستودع، أو الدور في INV-018.ج حين يكون المكان مسؤوله شخص غير مستخدم (STD-GEN-05، STD-INV-19). (3) يخرج من المخزون بمتوسط تكلفة الصنف يوم الخروج (استثناءً من STD-INV-05، قياساً على STD-SAL-28 (٤))، ويُثبت للكيان لدى المورّد قيمة السطر بسعر الفاتورة السابقة، ويُقيَّد الفرق بين القيمتين على تكلفة المبيعات. (4) لا تتجاوز كميته رصيد الصنف في مكانه. {{IF:{\"flag\":\"F_VAT\"}|(5) ضريبته بنسبة الفاتورة السابقة، وتُعامل في الإقرار معاملة مرتجع المشتريات [يحتاج تحقق من اشتراطات إشعار المورّد لفاتورة صدرت قبل التشغيل]}} (ق ع-121)",
+      "applies": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "flag": "F_MIGRATE"
+          },
+          {
+            "not": {
+              "has": [
+                "PUR-011",
+                "no_returns"
+              ]
+            }
+          }
+        ]
+      },
+      "appliesText": "M(PUR) وF_MIGRATE وPUR-011 لا تتضمن «لا مرتجعات»",
+      "regulatory": true,
+      "verify": [
+        "[يحتاج تحقق من اشتراطات إشعار المورّد لفاتورة صدرت قبل التشغيل]"
+      ]
+    },
+    {
+      "id": "STD-PUR-14",
+      "scope": "PUR",
+      "title": "فاتورة استلامٍ سابق للتشغيل",
+      "text": "(1) يُدخل المحاسب مع مسودات الأرصدة الافتتاحية (STD-GEN-61 (٢)) مستند «استلام افتتاحي غير مفوتر» لكل استلام سابق للتشغيل لم تصل فاتورته: المورّد، ورقم أمر الشراء في المصدر، والأصناف والكميات، والقيمة المقدَّرة بسعر الأمر وسعر صرفه؛ بلا أثر مخزني (فالكمية في الرصيد الافتتاحي بالعدّ، STD-GEN-58)، ولا يولّد قيداً (STD-GEN-35 (٨)). ومجموعه رصيد حساب «مشتريات مستلمة لم تُفوتر» في القيد الافتتاحي، ويُعرض في كشف المطابقة ويُعتمد معه (STD-GEN-57، STD-GEN-61 (٦)). (2) تُسجَّل فاتورة المورّد اللاحقة مرتبطة به، دون استلام جديد ودون أثر مخزني، وتُطابَق بكمياته وقيمته وفق PUR-009؛ ويُسوّى فرق القيمة وفق STD-PUR-01 (ما بقي من الكمية يعدّل تكلفتها، وما بيع إلى تكلفة المبيعات)، ويُقفل بها رصيده في الحساب الوسيط (STD-ACC-02). (3) يظهر غير المفوتر منه في تقرير «الاستلامات غير المفوترة» (ACC-006) عند اختياره. (ق ع-122)",
+      "applies": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "flag": "F_MIGRATE"
+          },
+          {
+            "flag": "F_STOCK"
+          },
+          {
+            "in": [
+              "PUR-001",
+              [
+                "po_receipt_invoice",
+                "pr_po_receipt_invoice",
+                "pr_rfq_po_receipt_invoice"
+              ]
+            ]
+          }
+        ]
+      },
+      "appliesText": "M(PUR) وF_MIGRATE وF_STOCK وPUR-001 تتضمن «استلام»",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-15",
+      "scope": "PUR",
+      "title": "تكاليف شحنة استُلمت قبل التشغيل",
+      "text": "(1) يجوز أن تكون «الشحنة» في مستند «تكاليف الشحنة» (STD-PUR-02) «شحنة سابقة للتشغيل» يعرّفها المحاسب في المستند: رقم فاتورة المورّد السابقة، أو الاستلام الافتتاحي غير المفوتر (STD-PUR-14)؛ وأصنافها وكمياتها المستلمة؛ وقيمتها بسعر فاتورتها وسعر صرفها (وللاستلام الافتتاحي غير المفوتر قيمته في STD-PUR-14)؛ مع مرفقها إلزامياً. (2) يُوزَّع المبلغ على أصنافها وفق {{Q:PUR-003}}؛ ونصيب كل صنف يُحمَّل على تكلفة الكمية الباقية منه بنسبة الأقل من (رصيد الصنف في الكيان يوم اعتماد المستند، وكميته في الشحنة) إلى كميته فيها، والباقي على تكلفة المبيعات (قياساً على PUR-003.أ وSTD-PUR-01)، ويُعاد حساب المتوسط (STD-INV-05). (3) يُعتمد المستند ويُستحق كل سطر لمورّده ويُسدَّد كما في صف «تكاليف الشحنة» في STD-GEN-05. (4) تكاليف الشحنة الافتتاحية في الطريق (STD-PUR-16) تُوزَّع على استلامها بعد ترحيله وفق STD-PUR-02، لا بهذه القاعدة. (ق ع-136)",
+      "applies": {
+        "all": [
+          {
+            "ne": [
+              "PUR-002",
+              "no"
+            ]
+          },
+          {
+            "flag": "F_MIGRATE"
+          },
+          {
+            "ne": [
+              "PUR-003",
+              "expense_not_loaded"
+            ]
+          }
+        ]
+      },
+      "appliesText": "PUR-002 ≠ «لا» وF_MIGRATE وPUR-003 ≠ «لا تُحمَّل وتُسجَّل مصروفاً»",
+      "regulatory": false
+    },
+    {
+      "id": "STD-PUR-16",
+      "scope": "PUR",
+      "title": "شحنة فوترها المورّد قبل التشغيل ولم تُستلم",
+      "text": "(1) يُدخل المحاسب مع مسودات الأرصدة الافتتاحية (STD-GEN-61 (٢)) مستند «شحنة افتتاحية في الطريق» لكل فاتورة مورّد سابقة لم تُستلم بضاعتها يوم العدّ: المورّد، ورقم فاتورته وتاريخها، والأصناف والكميات، والقيمة بسعر الفاتورة وسعر صرفها، ومرفقها؛ بلا أثر مخزني ولا قيد (STD-GEN-35 (٨))؛ ومجموعه رصيد حساب «بضاعة في الطريق» (4.9 أ-٣٧) في القيد الافتتاحي، ويُعرض في كشف المطابقة ويُعتمد معه (STD-GEN-57، STD-GEN-61 (٦)). ولا يُعاد له أمر شراء (STD-GEN-56 (٤))؛ وفاتورته إن بقيت مفتوحة تُنقل في MIG-006، والمسددة لا تُنقل. (2) عند الوصول: يُنشأ منه «استلام» بيد أمين المستودع (وعند عدم M(INV) مسؤول المشتريات)، دون أمر شراء ودون فاتورة جديدة، بكميات سطوره وقيمتها، فيزيد المخزون (STD-INV-02) ويُقفل بقدره رصيد «بضاعة في الطريق»؛ ولا يقع عليه STD-PUR-01 ولا مطابقة السعر في PUR-009، ولا تُقبل فيه كمية تزيد على كمية سطره{{IF:{\"flag\":\"F_VAT\"}|؛ ولا ضريبة فيه، فضريبته في فاتورته السابقة [يحتاج تحقق]}}. (3) نقص الكمية: إن لم يصل بعض الكمية، يُقفل أمين المستودع المستند بسبب مكتوب، ويبقى فرق قيمته في «بضاعة في الطريق» يعالجه المحاسب: «مرتجع مشتريات» بلا كميات مرتبط بالمستند على المورّد بقيمة النقص بمطالبته، أو تحميله على تكلفة المبيعات باعتماد المالك. (4) تكاليف الشحنة اللاحقة تُوزَّع على هذا الاستلام وفق STD-PUR-02. (5) يظهر غير المستلم منه في تقرير «الكميات غير المستلمة» (PUR-014) عند اختياره. (ق ع-137)",
+      "applies": {
+        "all": [
+          {
+            "module": "PUR"
+          },
+          {
+            "flag": "F_MIGRATE"
+          },
+          {
+            "flag": "F_STOCK"
+          }
+        ]
+      },
+      "appliesText": "M(PUR) وF_MIGRATE وF_STOCK",
+      "regulatory": true,
+      "verify": [
+        "[يحتاج تحقق]"
+      ]
+    }
+  ],
+  "conflicts": []
+}
