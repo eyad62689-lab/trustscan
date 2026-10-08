@@ -11,6 +11,7 @@ const hasBank = existsSync(bankDir) && readdirSync(bankDir).some((f) => f.endsWi
 const CSP = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
 
 export default defineConfig({
+  base: './',
   preview: { headers: { 'Content-Security-Policy': CSP, 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer' } },
   plugins: [preact(), swPlugin()],
   define: { __HAS_BANK__: JSON.stringify(hasBank) },

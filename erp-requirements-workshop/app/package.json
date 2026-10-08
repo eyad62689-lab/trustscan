@@ -6,7 +6,7 @@
   "description": "ورشة المتطلبات — static offline workshop app",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build && node scripts/check-dist-urls.mjs",
+    "build": "tsc --noEmit && vite build && node scripts/check-dist-urls.mjs && node scripts/escape-fffd.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "validate": "node scripts/validate-bank.mjs",

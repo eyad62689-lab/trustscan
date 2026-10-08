@@ -2,8 +2,25 @@ import { useEffect, useRef } from 'preact/hooks';
 import type { ComponentChildren } from 'preact';
 import { getState } from './store';
 
+type HostDownloads = { save(req: { filename: string; data: Blob | string }): Promise<unknown> };
+type HostClaude = { use(name: string): Promise<unknown> };
+
+/** Inside a claude.ai Artifact viewer, files are offered through the host's `downloads` capability; elsewhere a normal browser download. */
 export function download(name: string, data: Blob | string, type = 'application/octet-stream') {
   const blob = typeof data === 'string' ? new Blob([data], { type }) : data;
+  const host = (window as unknown as { claude?: HostClaude }).claude;
+  if (host?.use) {
+    host.use('downloads').then((d) => {
+      const dl = d as HostDownloads | null;
+      if (dl) return dl.save({ filename: name, data: blob });
+      browserDownload(name, blob);
+    }).catch(() => undefined);
+    return;
+  }
+  browserDownload(name, blob);
+}
+
+function browserDownload(name: string, blob: Blob) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
