@@ -19,6 +19,7 @@ const KNOWN = new Set([
   'verify', 'verifyItems', 'items48', 'section48', '4.8', 'checklist', 'setup', 'setupRows', 'rows49', 'section49', '4.9', 'setupTasks',
   'outOfScope', 'outOfScopeLines', 'workshop', 'guide', 'facilitatorGuide', 'privacy', 'privacyNotice', 'yamlKeys', 'yaml', 'appendix',
   'sectionChapters', 'chapterMap', 'meta', 'bankVersion', 'version', 'date', 'notes', 'note', 'part', 'source',
+  'rules', 'generationSummary', 'row47', 'items48', 'setup49',
 ]);
 
 function findArr(raw: any, names: string[]): any[] {
@@ -83,9 +84,9 @@ export function normalizeExport(raw: any): ExportSpec {
   const walkCh = (list: any[]) => {
     for (const c of list) {
       if (!c || typeof c !== 'object') continue;
-      const id = str(pick(c, 'id', 'number', 'key'));
       const title = str(pick(c, 'title', 'name', 'heading'));
-      if (id && title) spec.chapterTitles[id] = title;
+      const id = str(pick(c, 'number', 'id', 'key'));
+      if (title) for (const k of [c.number, c.id, c.key]) if (k !== undefined && k !== null) spec.chapterTitles[String(k)] = title;
       for (const k of ['children', 'subsections', 'sections', 'chapters']) if (Array.isArray(c[k])) walkCh(c[k]);
       const secs = pick(c, 'sectionIds', 'sectionsIncluded', 'fromSections');
       if (id && Array.isArray(secs)) for (const s of secs) spec.sectionChapters[String(s)] = id;
@@ -108,7 +109,7 @@ export function normalizeExport(raw: any): ExportSpec {
   if (sc && typeof sc === 'object') for (const [k, v] of Object.entries(sc)) spec.sectionChapters[k] = String(v);
 
   // 4.7
-  let r47 = findArr(raw, ['regulatoryRows', 'regulatory', 'rows47', 'section47', '4.7']);
+  let r47 = findArr(raw, ['regulatoryRows', 'row47', 'regulatory', 'rows47', 'section47', '4.7']);
   if (!r47.length) r47 = findChapterRows(raw, '4.7');
   spec.regulatoryRows = r47.map((r: any, i: number): RegRow => {
     const variants = asArr(pick(r, 'variants', 'cases', 'rulings', 'special', 'specialCases')).map((v: any) => ({
@@ -139,13 +140,13 @@ export function normalizeExport(raw: any): ExportSpec {
   spec.verifyItems = r48.map((r: any): VerifyItem => ({
     group: str(pick(r, 'group', 'table')),
     item: str(pick(r, 'item', 'title', 'text', 'label')) || '',
-    ref: str(pick(r, 'ref', 'refs', 'question', 'questions', 'related', 'source')),
+    ref: str(pick(r, 'ref', 'refs', 'related', 'question', 'questions')),
     what: str(pick(r, 'what', 'check', 'verify', 'toVerify')),
     when: exprOf(r),
   }));
 
   // 4.9
-  let r49 = findArr(raw, ['setupRows', 'setup', 'rows49', 'section49', '4.9', 'setupTasks']);
+  let r49 = findArr(raw, ['setupRows', 'setup49', 'setup', 'rows49', 'section49', '4.9', 'setupTasks']);
   if (!r49.length) r49 = findChapterRows(raw, '4.9');
   spec.setupRows = r49.map((r: any): SetupRow => ({
     group: str(pick(r, 'group', 'table')),
@@ -158,15 +159,16 @@ export function normalizeExport(raw: any): ExportSpec {
   }));
 
   // out of scope
-  spec.outOfScopeLines = asArr(pick(raw, 'outOfScopeLines', 'outOfScope'))
+  spec.outOfScopeLines = asArr(pick(raw, 'outOfScopeLines', 'outOfScope') ?? raw.fixedTexts?.outOfScopeLines)
     .map((r: any) => (typeof r === 'string' ? { text: r } : { when: exprOf(r), text: str(pick(r, 'text', 'line', 'item')) || '' }))
     .filter((r: any) => r.text);
 
   // workshop: privacy + guide
   const ws = raw.workshop || {};
-  spec.privacy = str(pick(ws, 'privacy', 'privacyNotice')) ?? str(pick(raw, 'privacy', 'privacyNotice'));
+  spec.privacy = spec.texts.privacyNotice ?? (typeof ws.privacy === 'string' ? ws.privacy : undefined) ?? str(pick(raw, 'privacy', 'privacyNotice'));
   const guide = pick(ws, 'guide', 'facilitatorGuide') ?? pick(raw, 'guide', 'facilitatorGuide');
-  spec.guide = asArr(guide)
+  const guideList = guide && !Array.isArray(guide) && typeof guide === 'object' ? guideFromObject(guide) : guide;
+  spec.guide = asArr(guideList)
     .map((g: any) =>
       typeof g === 'string'
         ? { title: '', body: g }
@@ -177,4 +179,24 @@ export function normalizeExport(raw: any): ExportSpec {
   const yk = pick(raw, 'yamlKeys', 'yaml', 'appendix');
   if (yk && typeof yk === 'object' && !Array.isArray(yk)) for (const [k, v] of Object.entries(yk)) if (typeof v === 'string') spec.yamlKeys[k] = v;
   return spec;
+}
+
+/** {title, before:{title,items}, sessions:{title,columns,rows,notes}, disagreement:{title,steps}, …} → [{title, body}] */
+function guideFromObject(g: any): { title: string; body: string }[] {
+  const out: { title: string; body: string }[] = [];
+  for (const [k, v] of Object.entries(g)) {
+    if (!v || typeof v !== 'object') continue;
+    const sec: any = v;
+    const lines: string[] = [];
+    if (typeof sec.intro === 'string') lines.push(sec.intro);
+    for (const it of sec.items || []) lines.push('- ' + (str(it) || ''));
+    (sec.steps || []).forEach((it: any, i: number) => lines.push(`${i + 1}. ${str(it) || ''}`));
+    if (Array.isArray(sec.rows)) {
+      const cols: any[] = sec.columns || Object.keys(sec.rows[0] || {}).map((key) => ({ key, label: key }));
+      for (const r of sec.rows) lines.push('- ' + cols.map((c) => `${c.label}: ${str(r[c.key]) ?? ''}`).join(' — '));
+    }
+    for (const it of sec.notes || []) lines.push('- ' + (str(it) || ''));
+    if (lines.length) out.push({ title: str(sec.title) || k, body: lines.join('\n') });
+  }
+  return out;
 }
