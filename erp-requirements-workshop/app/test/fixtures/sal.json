@@ -1,0 +1,589 @@
+{
+  "unit": "SAL",
+  "sections": [],
+  "questions": [
+    {
+      "id": "SAL-001",
+      "section": "SAL",
+      "order": 1,
+      "title": "ما طرق البيع لديكم؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "cash",
+              "label": "نقدي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "credit",
+              "label": "آجل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "delivery",
+              "label": "توصيل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "cash",
+              "credit"
+            ],
+            "reason": "الأشيع."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SAL-R001x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام طريقة البيع «{{Q:SAL-001}}».",
+          "perItem": "SAL-001#main"
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SAL-008",
+      "section": "SAL",
+      "order": 8,
+      "title": "كيف يُضبط البيع الآجل لكل عميل؟",
+      "help": "",
+      "detail": false,
+      "condition": {
+        "has": [
+          "SAL-001",
+          "credit"
+        ]
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "credit_block",
+              "label": "حد ائتمان يمنع البيع إلا باعتماد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "credit_warn",
+              "label": "حد يُنبّه فقط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no_credit",
+              "label": "لا حد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "credit_warn",
+            "reason": "لمستخدم واحد يكفي التنبيه.",
+            "when": [
+              {
+                "if": {
+                  "flag": "F_MULTIUSER"
+                },
+                "value": "credit_block",
+                "reason": "مع تعدد المستخدمين يحتاج اعتماداً."
+              }
+            ]
+          },
+          "required": false
+        },
+        {
+          "key": "approval",
+          "label": "الاعتماد",
+          "type": "approvalRow",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "approver",
+              "label": "الدور المعتمِد",
+              "type": "role"
+            },
+            {
+              "key": "on_reject",
+              "label": "عند الرفض",
+              "type": "single",
+              "options": [
+                {
+                  "key": "return_to_creator",
+                  "label": "يعود للمُنشئ",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "cancel",
+                  "label": "يُلغى",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "reminder_hours",
+              "label": "التذكير بعد (ساعة)",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "SAL-008",
+              "credit_block"
+            ]
+          },
+          "recommended": {
+            "value": {
+              "approver": "owner",
+              "on_reject": "return_to_creator",
+              "reminder_hours": 24
+            },
+            "reason": "المالك يتحمل المخاطرة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SAL-R008",
+          "when": {
+            "eq": [
+              "SAL-008",
+              "credit_block"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يمنع النظام إصدار فاتورة آجلة تجعل رصيد العميل {{Q:GEN-013#a}} يتجاوز حدّه، إلا بعد اعتماد دور «{{Q:SAL-008#approval.approver}}»؛ وعند الرفض {{Q:SAL-008#approval.on_reject}}، ويُذكَّر المعتمِد بعد {{Q:SAL-008#approval.reminder_hours}} ساعة{{IF:{\"not\":{\"flag\":\"F_VAT\"}}|، دون فصل الضريبة}}."
+        },
+        {
+          "id": "SAL-R008b",
+          "when": {
+            "eq": [
+              "SAL-008",
+              "credit_warn"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن ينبّه النظام عند تجاوز الحد {{SW:SAL-008|credit_warn=دون منع|*=}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SAL-009",
+      "section": "SAL",
+      "order": 9,
+      "title": "مستويات خصم البيع",
+      "help": "",
+      "detail": true,
+      "condition": {
+        "flag": "F_MULTIUSER"
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "level",
+              "label": "المستوى",
+              "type": "number"
+            },
+            {
+              "key": "from",
+              "label": "من",
+              "type": "number"
+            },
+            {
+              "key": "to",
+              "label": "إلى",
+              "type": "number"
+            },
+            {
+              "key": "approver",
+              "label": "الدور المعتمِد",
+              "type": "role"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "level": 1,
+                "from": 0,
+                "to": 5,
+                "approver": "accountant"
+              },
+              {
+                "level": 2,
+                "from": 5,
+                "to": null,
+                "approver": "owner"
+              }
+            ],
+            "reason": "شريحتان."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SAL-R009x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يوجّه النظام الخصم الذي نسبته من {{Q:SAL-009#main.from}} إلى {{Q:SAL-009#main.to}} إلى دور {{Q:SAL-009#main.approver}}.",
+          "forEach": {
+            "ref": "SAL-009#main",
+            "where": [
+              "approver",
+              "!=",
+              ""
+            ]
+          }
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SAL-018",
+      "section": "SAL",
+      "order": 18,
+      "title": "كيف يُحصَّل ثمن الطلبات الموصلة؟",
+      "help": "",
+      "detail": true,
+      "condition": {
+        "hasLabel": [
+          "SAL-001",
+          "توصيل"
+        ]
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "prepaid",
+              "label": "دفع مسبق",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "cod",
+              "label": "تحصيل عند التسليم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "prepaid",
+            "reason": "أقل مخاطرة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SAL-R018",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام {{SW:SAL-018|prepaid=الدفع المسبق قبل التوصيل|cod=التحصيل عند التسليم بعهدة السائق|dont_know=الدفع المسبق (افتراض)}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SAL-029",
+      "section": "SAL",
+      "order": 29,
+      "title": "ماذا يحدث إذا تجاوز التحصيل عند التسليم حد العميل؟",
+      "help": "",
+      "detail": true,
+      "condition": {
+        "eqLabel": [
+          "SAL-018",
+          "تحصيل عند التسليم"
+        ]
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "block",
+              "label": "يُمنع التسليم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "allow",
+              "label": "يُسمح ويُسجَّل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "block",
+            "reason": "يتسق مع حد الائتمان."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SAL-R029",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن {{SW:SAL-029|block=يمنع النظام|allow=يسمح النظام مع تسجيل}} تسليم طلب يتجاوز حد العميل، والمهلة {{MISSING:مهلة التسليم}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SAL-099",
+      "section": "SAL",
+      "order": 99,
+      "title": "إضافات في المبيعات",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SAL-R9nn",
+          "when": {
+            "answered": "SAL-099"
+          },
+          "noRequirement": false,
+          "text": "يجب أن «{{Q:SAL-099}}»."
+        }
+      ],
+      "workshopNote": null
+    }
+  ],
+  "rules": [
+    {
+      "id": "STD-SAL-01",
+      "scope": "SAL",
+      "title": "تسلسل مستندات البيع",
+      "text": "يجب أن تتبع مستندات البيع STD-GEN-01{{IF:{\"flag\":\"F_VAT\"}|، مع فاتورة ضريبية}}. العملة {GEN-001}.",
+      "applies": null,
+      "appliesText": "",
+      "regulatory": false,
+      "verify": [
+        "[يحتاج تحقق من شكل الفاتورة]"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "تع-SAL-01",
+      "scope": "SAL",
+      "title": "حد ائتمان مع تحصيل عند التسليم",
+      "condition": {
+        "all": [
+          {
+            "eq": [
+              "SAL-008",
+              "credit_block"
+            ]
+          },
+          {
+            "eq": [
+              "SAL-018",
+              "cod"
+            ]
+          }
+        ]
+      },
+      "action": "flag",
+      "target": "SAL-029",
+      "text": "اجتمع حد ائتمان يمنع البيع مع التحصيل عند التسليم: حدّدوا ما يحدث عند التجاوز."
+    },
+    {
+      "id": "تع-SAL-02",
+      "scope": "SAL",
+      "condition": {
+        "all": [
+          {
+            "eq": [
+              "SAL-008",
+              "credit_block"
+            ]
+          },
+          {
+            "eq": [
+              "SAL-018",
+              "cod"
+            ]
+          }
+        ]
+      },
+      "action": "show",
+      "target": "SAL-029",
+      "text": "يظهر SAL-029."
+    },
+    {
+      "id": "تع-SAL-03",
+      "scope": "SAL",
+      "title": "بيع نقدي فقط",
+      "condition": {
+        "all": [
+          {
+            "answered": "SAL-001"
+          },
+          {
+            "not": {
+              "has": [
+                "SAL-001",
+                "credit"
+              ]
+            }
+          }
+        ]
+      },
+      "action": "note",
+      "target": "SAL-001",
+      "text": "لا ذمم عملاء؛ تُبنى الفواتير النقدية فقط."
+    }
+  ]
+}

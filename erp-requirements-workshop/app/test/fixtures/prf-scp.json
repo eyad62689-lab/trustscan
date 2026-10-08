@@ -1,0 +1,608 @@
+{
+  "unit": "PRF",
+  "sections": [],
+  "rules": [],
+  "conflicts": [],
+  "questions": [
+    {
+      "id": "PRF-001",
+      "section": "PRF",
+      "order": 1,
+      "title": "ما اسم الكيان؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "text",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-001-NR1",
+          "when": true,
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-003",
+      "section": "PRF",
+      "order": 3,
+      "title": "ما وضع التسجيل في ضريبة القيمة المضافة؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": true,
+      "verify": [
+        "[يحتاج تحقق من حد التسجيل]"
+      ],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "vat_registered",
+              "label": "مسجّل في ضريبة القيمة المضافة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "not_registered_no_plan",
+              "label": "غير مسجّل، ولا نتوقع التسجيل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "not_registered_expected",
+              "label": "غير مسجّل، ونتوقع التسجيل لاحقاً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "vat_registered",
+            "reason": "الأشيع للمنشآت.",
+            "text": "مسجّل"
+          },
+          "required": false
+        }
+      ],
+      "templates": [],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-003.ب",
+      "section": "PRF",
+      "order": 4,
+      "title": "هل تريدون تنبيهاً عند الاقتراب من حد التسجيل؟",
+      "help": "",
+      "detail": true,
+      "condition": {
+        "in": [
+          "PRF-003",
+          [
+            "not_registered_no_plan",
+            "not_registered_expected"
+          ]
+        ]
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes",
+              "label": "نعم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "yes",
+            "reason": "لتجنب التبعات."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-R003b",
+          "when": {
+            "eq": [
+              "PRF-003.ب",
+              "yes"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن ينبّه النظام عند اقتراب المبيعات من حد التسجيل."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-004",
+      "section": "PRF",
+      "order": 5,
+      "title": "كم عدد المستخدمين؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "one_person",
+              "label": "شخص واحد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "users_2_5",
+              "label": "2–5",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "users_6_20",
+              "label": "6–20",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "users_2_5",
+            "reason": "الأشيع."
+          },
+          "required": false
+        }
+      ],
+      "templates": [],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-004.ب",
+      "section": "PRF",
+      "order": 6,
+      "title": "العدد التقريبي للمستخدمين",
+      "help": "",
+      "detail": true,
+      "condition": {
+        "flag": "F_MULTIUSER"
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": 2,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": 2,
+            "reason": "الحد الأدنى.",
+            "when": [
+              {
+                "if": {
+                  "eq": [
+                    "PRF-004",
+                    "users_6_20"
+                  ]
+                },
+                "value": 6,
+                "reason": "الحد الأدنى للنطاق"
+              }
+            ]
+          },
+          "required": false,
+          "rangeFrom": {
+            "ref": "PRF-004",
+            "ranges": {
+              "users_2_5": [
+                2,
+                5
+              ],
+              "users_6_20": [
+                6,
+                20
+              ]
+            }
+          }
+        }
+      ],
+      "templates": [],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-005",
+      "section": "PRF",
+      "order": 7,
+      "title": "كم عدد المواقع؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "one_site",
+              "label": "موقع واحد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sites_2_3",
+              "label": "2–3",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "one_site",
+            "reason": "الأشيع."
+          },
+          "required": false
+        }
+      ],
+      "templates": [],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-007",
+      "section": "PRF",
+      "order": 8,
+      "title": "هل تبيعون بضاعة من مخزون؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes",
+              "label": "نعم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "yes",
+            "reason": "الأشيع."
+          },
+          "required": false
+        }
+      ],
+      "templates": [],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-099",
+      "section": "PRF",
+      "order": 99,
+      "title": "إضافات",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [],
+      "workshopNote": null
+    },
+    {
+      "id": "SCP-001",
+      "section": "SCP",
+      "order": 1,
+      "title": "اختاروا الوحدات وأولوياتها",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multiPriority",
+          "options": [
+            {
+              "key": "sal",
+              "label": "المبيعات والفوترة",
+              "other": false,
+              "dontKnow": false,
+              "module": "SAL",
+              "desc": "الفواتير والتحصيل"
+            },
+            {
+              "key": "pos",
+              "label": "نقاط البيع",
+              "other": false,
+              "dontKnow": false,
+              "module": "POS",
+              "deferred": true,
+              "condition": {
+                "flag": "F_STOCK"
+              }
+            },
+            {
+              "key": "hr",
+              "label": "شؤون الموظفين",
+              "other": false,
+              "dontKnow": false,
+              "module": "HR",
+              "deferred": true
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": {
+              "sal": "must_day_one"
+            },
+            "reason": "باقة مقترحة."
+          },
+          "required": false,
+          "priorities": [
+            {
+              "key": "must_day_one",
+              "label": "ضروري من اليوم الأول"
+            },
+            {
+              "key": "later_phase",
+              "label": "مرحلة لاحقة"
+            },
+            {
+              "key": "nice_to_have",
+              "label": "مستحسن إن أمكن"
+            }
+          ],
+          "defaultPriority": "must_day_one",
+          "deferredDefaultPriority": "later_phase"
+        }
+      ],
+      "templates": [
+        {
+          "id": "SCP-001-NR1",
+          "when": null,
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يحدد الفصول."
+        },
+        {
+          "id": "SCP-R9nn",
+          "when": {
+            "has": [
+              "SCP-001",
+              "other"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام «{{Q:SCP-001#main.other}}»، بأولوية {{Q:SCP-001#main.other_priority}}."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SCP-099",
+      "section": "SCP",
+      "order": 99,
+      "title": "احتياجات أخرى",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SCP-R9nn-099",
+          "when": {
+            "answered": "SCP-099"
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام «{{Q:SCP-099}}»."
+        }
+      ],
+      "workshopNote": null
+    }
+  ]
+}

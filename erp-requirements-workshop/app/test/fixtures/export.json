@@ -1,0 +1,240 @@
+{
+  "bankVersion": "test-0.1",
+  "chapters": [
+    {
+      "id": "cover",
+      "number": "1",
+      "title": "الغلاف"
+    },
+    {
+      "id": "exec-summary",
+      "number": "2",
+      "title": "الملخص التنفيذي"
+    },
+    {
+      "id": "deferred-needs",
+      "title": "احتياجات مسجلة لم تُجمع متطلباتها"
+    },
+    {
+      "id": "free-text-needs",
+      "title": "احتياجات مالية أو إدارية خارج الفهرس"
+    },
+    {
+      "id": "units",
+      "number": "3",
+      "title": "المتطلبات حسب الوحدة",
+      "subsections": [
+        {
+          "number": "3.x.1",
+          "title": "المتطلبات"
+        }
+      ],
+      "prf003bChapterOrder": [
+        "SAL",
+        "POS"
+      ],
+      "taxSoonHeading": {
+        "condition": {
+          "flag": "F_VAT_SOON"
+        },
+        "unit": "TAX",
+        "title": "خصائص تُبنى معطّلة وتُفعَّل عند التسجيل",
+        "tag": "يُفعَّل عند التسجيل"
+      }
+    },
+    {
+      "id": "shared",
+      "number": "4",
+      "title": "الجوانب المشتركة",
+      "sections": [
+        {
+          "id": "4.7",
+          "number": "4.7",
+          "title": "البنود النظامية المنطبقة"
+        }
+      ]
+    },
+    {
+      "id": "assumptions",
+      "number": "5",
+      "title": "سجل الافتراضات",
+      "reasons": [
+        {
+          "key": "dont_know",
+          "label": "لا أعلم"
+        },
+        {
+          "key": "unanswered",
+          "label": "لم يُجب"
+        },
+        {
+          "key": "accepted_after_dispute",
+          "label": "قبول الموصى به بعد خلاف"
+        },
+        {
+          "key": "accepted_rest_of_section",
+          "label": "قبول الموصى به لباقي القسم"
+        },
+        {
+          "key": "prefilled_rows",
+          "label": "صفوف معبّأة قُبلت كما هي"
+        }
+      ]
+    },
+    {
+      "id": "workshop-log",
+      "number": "6",
+      "title": "سجل الورشة"
+    },
+    {
+      "id": "out-of-scope",
+      "number": "7",
+      "title": "خارج النطاق"
+    },
+    {
+      "id": "yaml",
+      "number": "8",
+      "title": "الملحق المهيكل (YAML)"
+    }
+  ],
+  "fixedTexts": {
+    "deferredNeedLine": "<الوحدة>: حاجة مسجلة؛ تُجمع متطلباتها في إصدار لاحق بعد إغلاقها",
+    "standardRulesLine": "طُبّقت القواعد القياسية لـ<الوحدة> ما لم تخالفها إجابة",
+    "singleUserLine": "مستخدم واحد بصلاحيات كاملة",
+    "missingSlotFlag": "خانة بلا مصدر في قالب <معرّف السؤال>: <اسم الخانة>",
+    "privacyNotice": "بياناتكم تُحفظ على هذا الجهاز وهذا المتصفح فقط، ولا تُرسل إلى أي جهة. مسح بيانات المتصفح يحذفها نهائياً. صدّروا ملف التقدّم واحتفظوا به.",
+    "outOfScopeLines": [
+      {
+        "id": "payroll",
+        "condition": {
+          "not": {
+            "module": "HR"
+          }
+        },
+        "text": "الرواتب: تُحسب خارج النظام (STD-GEN-36)"
+      }
+    ]
+  },
+  "row47": [
+    {
+      "id": "vat",
+      "title": "ضريبة القيمة المضافة",
+      "condition": {
+        "flag": "F_TAXREADY"
+      },
+      "phase": "الآن / لاحقاً",
+      "note": "[يحتاج تحقق من النسب]",
+      "variants": [
+        {
+          "if": {
+            "not": {
+              "flag": "F_TAXREADY"
+            }
+          },
+          "ruling": "ضريبة القيمة المضافة والفوترة الإلكترونية: لا تنطبق بحسب ملف الكيان",
+          "phase": "—",
+          "note": "—",
+          "outOfScope": true
+        },
+        {
+          "if": {
+            "flag": "F_VAT_SOON"
+          },
+          "ruling": "لا تنطبق الآن؛ وتُبنى الخصائص معطّلة",
+          "phase": "لاحقاً",
+          "note": null,
+          "outOfScope": false
+        },
+        {
+          "if": {
+            "flag": "F_VAT"
+          },
+          "ruling": "ينطبق",
+          "phase": "الآن",
+          "note": null,
+          "outOfScope": false
+        }
+      ]
+    },
+    {
+      "id": "records",
+      "title": "مدة حفظ السجلات",
+      "condition": true,
+      "phase": "—",
+      "note": "[يحتاج تحقق من المدة]",
+      "variants": []
+    }
+  ],
+  "items48": [
+    {
+      "id": "أ-1",
+      "group": "a",
+      "text": "تسلسل الفواتير الضريبية مع تعدد الفروع",
+      "related": [
+        "GEN-003"
+      ],
+      "verify": "الاشتراطات",
+      "condition": {
+        "all": [
+          {
+            "flag": "F_VAT"
+          },
+          {
+            "flag": "F_MULTIBRANCH"
+          }
+        ]
+      }
+    }
+  ],
+  "setup49": {
+    "a": [
+      {
+        "id": "أ-١",
+        "group": "a",
+        "task": "حسابات إيراد المبيعات",
+        "owner": "المحاسب",
+        "related": [
+          "SAL-001"
+        ],
+        "when": {
+          "module": "SAL"
+        },
+        "whenText": "`M(SAL)`"
+      }
+    ],
+    "b": [
+      {
+        "id": "ب-١",
+        "group": "b",
+        "task": "إدخال مدينة كل فرع ({{Q:GEN-003#main.name}})",
+        "owner": "مسؤول النظام",
+        "related": [
+          "GEN-003"
+        ],
+        "when": {
+          "visible": "GEN-003"
+        },
+        "whenText": "ظهور السؤال المرتبط"
+      }
+    ]
+  },
+  "workshop": {
+    "facilitatorGuide": {
+      "title": "دليل الميسّر",
+      "before": {
+        "title": "قبل الورشة",
+        "items": [
+          "اطلب نموذج فاتورة.",
+          "حدّد صاحب القرار."
+        ]
+      },
+      "disagreement": {
+        "title": "إدارة الخلاف",
+        "steps": [
+          "اسأل: ماذا يحدث اليوم؟",
+          "فعّل «يحتاج حسماً»."
+        ]
+      }
+    }
+  }
+}

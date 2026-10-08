@@ -28,11 +28,15 @@ export function parseRef(raw: string, hasQuestion?: (id: string) => boolean): Re
   let rest = s.slice(hash + 1);
   let row: string | undefined;
   const br = rest.match(/^([^\[.]+)\[([^\]]*)\](?:\.(.+))?$/);
+  // "QID#part.col[last]" (valueFrom style)
+  const br2 = rest.match(/^([^\[.]+)\.([^\[.]+)\[([^\]]*)\]$/);
+  if (br2) return { qid, part: br2[1], row: br2[3], sub: br2[2], raw: s };
   if (br) {
     return { qid, part: br[1], row: br[2], sub: br[3], raw: s };
   }
-  const dot = rest.indexOf('.');
-  if (dot >= 0) return { qid, part: rest.slice(0, dot), sub: rest.slice(dot + 1), row, raw: s };
+  const segs = rest.split('.');
+  if (segs.length >= 3) return { qid, part: segs[0], row: segs[1], sub: segs.slice(2).join('.'), raw: s };
+  if (segs.length === 2) return { qid, part: segs[0], sub: segs[1], row, raw: s };
   return { qid, part: rest, raw: s };
 }
 

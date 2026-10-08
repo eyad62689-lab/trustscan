@@ -1,0 +1,84 @@
+{
+  "unit": "TAX",
+  "sections": [],
+  "rules": [],
+  "conflicts": [],
+  "questions": [
+    {
+      "id": "TAX-001",
+      "section": "TAX",
+      "order": 1,
+      "title": "هل أنتم مرتبطون بمنصة الفوترة الإلكترونية؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": true,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "linked_now",
+              "label": "مرتبطون حالياً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "not_yet",
+              "label": "لم يصلنا إشعار",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "not_yet",
+            "reason": "الأشيع."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TAX-R001",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يرسل النظام الفواتير إلى منصة الفوترة الإلكترونية.",
+          "priority": {
+            "value": "later_phase",
+            "when": [
+              {
+                "if": {
+                  "eq": [
+                    "TAX-001",
+                    "linked_now"
+                  ]
+                },
+                "value": "must_day_one"
+              }
+            ]
+          }
+        }
+      ],
+      "workshopNote": null
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "bankVersion": "test-0.1",
+  "date": "2026-01-01",
+  "flags": [
+    {
+      "id": "F_BIZ",
+      "expr": true
+    },
+    {
+      "id": "F_VAT",
+      "expr": {
+        "eq": [
+          "PRF-003",
+          "vat_registered"
+        ]
+      }
+    },
+    {
+      "id": "F_VAT_SOON",
+      "expr": {
+        "eq": [
+          "PRF-003",
+          "not_registered_expected"
+        ]
+      }
+    },
+    {
+      "id": "F_TAXREADY",
+      "expr": {
+        "any": [
+          {
+            "flag": "F_VAT"
+          },
+          {
+            "flag": "F_VAT_SOON"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F_MULTIUSER",
+      "expr": {
+        "ne": [
+          "PRF-004",
+          "one_person"
+        ]
+      }
+    },
+    {
+      "id": "F_MULTIBRANCH",
+      "expr": {
+        "ne": [
+          "PRF-005",
+          "one_site"
+        ]
+      }
+    },
+    {
+      "id": "F_STOCK",
+      "expr": {
+        "eq": [
+          "PRF-007",
+          "yes"
+        ]
+      }
+    }
+  ],
+  "moduleRule": {
+    "deferredUnits": [
+      "POS",
+      "HR"
+    ]
+  },
+  "sections": [
+    {
+      "id": "PRF",
+      "title": "ملف الكيان",
+      "order": 0,
+      "condition": true,
+      "kind": "profile",
+      "opening": {
+        "attendees": "المالك، والمحاسب.",
+        "mandatory": [
+          "المالك"
+        ],
+        "duration": "15 دقيقة",
+        "minutes": 15,
+        "discussion": [
+          "ما الذي يحدث اليوم؟",
+          "ما الذي نريد تغييره؟"
+        ]
+      }
+    },
+    {
+      "id": "SCP",
+      "title": "اختيار النطاق",
+      "order": 10,
+      "condition": true,
+      "kind": "scope",
+      "opening": {
+        "attendees": "المالك، والمحاسب.",
+        "mandatory": [],
+        "duration": "20 دقيقة",
+        "minutes": 20,
+        "discussion": [
+          "ما الذي يحدث اليوم؟",
+          "ما الذي نريد تغييره؟"
+        ]
+      }
+    },
+    {
+      "id": "ROLES",
+      "title": "الأدوار",
+      "order": 20,
+      "condition": {
+        "flag": "F_MULTIUSER"
+      },
+      "kind": "roles",
+      "contains": [
+        {
+          "id": "ROL-001"
+        }
+      ]
+    },
+    {
+      "id": "GEN",
+      "title": "الإعدادات العامة",
+      "order": 30,
+      "condition": true,
+      "kind": "shared",
+      "opening": {
+        "attendees": "المالك، والمحاسب.",
+        "mandatory": [],
+        "duration": "15 دقيقة",
+        "minutes": 15,
+        "discussion": [
+          "ما الذي يحدث اليوم؟",
+          "ما الذي نريد تغييره؟"
+        ]
+      }
+    },
+    {
+      "id": "SAL",
+      "title": "المبيعات والفوترة",
+      "order": 40,
+      "condition": {
+        "module": "SAL"
+      },
+      "kind": "unit",
+      "opening": {
+        "attendees": "المالك، والمحاسب.",
+        "mandatory": [
+          "المحاسب"
+        ],
+        "duration": "60 دقيقة",
+        "minutes": 60,
+        "discussion": [
+          "ما الذي يحدث اليوم؟",
+          "ما الذي نريد تغييره؟"
+        ]
+      }
+    },
+    {
+      "id": "TAX",
+      "title": "ضريبة القيمة المضافة",
+      "order": 50,
+      "condition": {
+        "all": [
+          {
+            "flag": "F_TAXREADY"
+          },
+          {
+            "module": "SAL"
+          }
+        ]
+      },
+      "kind": "unit",
+      "autoAdded": true,
+      "opening": {
+        "attendees": "المالك، والمحاسب.",
+        "mandatory": [],
+        "duration": "20 دقيقة",
+        "minutes": 20,
+        "discussion": [
+          "ما الذي يحدث اليوم؟",
+          "ما الذي نريد تغييره؟"
+        ],
+        "notice": "هذا القسم يحدد احتياجكم فقط [يحتاج تحقق]"
+      }
+    },
+    {
+      "id": "ROL",
+      "title": "الأدوار والصلاحيات",
+      "order": 60,
+      "condition": {
+        "flag": "F_MULTIUSER"
+      },
+      "kind": "shared"
+    },
+    {
+      "id": "ADM",
+      "title": "الضبط الإداري",
+      "order": 70,
+      "condition": true,
+      "kind": "shared",
+      "opening": {
+        "attendees": "المالك، والمحاسب.",
+        "mandatory": [],
+        "duration": "10 دقيقة",
+        "minutes": 10,
+        "discussion": [
+          "ما الذي يحدث اليوم؟",
+          "ما الذي نريد تغييره؟"
+        ]
+      }
+    }
+  ],
+  "branching": [],
+  "glossary": [],
+  "generatorRules": [],
+  "durations": {}
+}

@@ -27,7 +27,14 @@ function clone<T>(x: T): T {
 export function findPart(q: Question | undefined, key?: string): Part | undefined {
   if (!q) return undefined;
   if (!key) return q.parts[0];
-  return q.parts.find((p) => p.key === key);
+  const exact = q.parts.find((p) => p.key === key);
+  if (exact) return exact;
+  // bank-style Arabic part names (e.g. "GEN-002#العملات"): match the part label
+  if (/[\u0600-\u06FF]/.test(key)) {
+    const n = normAr(key.replace(/_/g, ' '));
+    return q.parts.find((p) => p.label && (normAr(p.label) === n || normAr(p.label).includes(n) || n.includes(normAr(p.label))));
+  }
+  return undefined;
 }
 
 function matchOption(part: Part | undefined, label: string): string | undefined {
@@ -56,11 +63,15 @@ export function mergeBank(files: Record<string, unknown>): Bank {
   const deferredRaw = get('deferred.json');
 
   const sectionById = new Map<string, Section>();
+  const metaIds = new Set<string>((meta.sections || []).map((x: any) => x.id));
   const addSection = (s: Section, from: string) => {
     if (!s || !s.id) return;
     const prev = sectionById.get(s.id);
     if (prev) {
-      const merged = { ...prev, ...s, opening: { ...(prev.opening || {}), ...(s.opening || {}) } } as Section;
+      // meta.json is authoritative for id/title/order/condition/kind; unit files add the rest
+      const merged = (metaIds.has(s.id) && from !== 'meta.json'
+        ? { ...s, ...prev, opening: { ...(s.opening || {}), ...(prev.opening || {}) } }
+        : { ...prev, ...s, opening: { ...(prev.opening || {}), ...(s.opening || {}) } }) as Section;
       if (prev.contains || s.contains) merged.contains = [...(prev.contains || []), ...(s.contains || [])];
       sectionById.set(s.id, merged);
     } else sectionById.set(s.id, { ...s });
@@ -90,15 +101,19 @@ export function mergeBank(files: Record<string, unknown>): Bank {
       seen('question', q.id, base);
       if (questionById.has(q.id)) continue;
       q.parts = Array.isArray(q.parts) && q.parts.length ? q.parts : [{ key: 'main', type: 'text' }];
-      q.templates = [...(q.templates || []), ...(q.extraTemplates || [])];
+      q.templates = [...(q.templates || []), ...(q.extraTemplates || [])].map((t: any) => normalizeTemplate(t, q.id));
       q.__file = base;
       questions.push(q);
       questionById.set(q.id, q);
-      for (const t of q.templates) seen('template', t.id, base);
+      for (const t of q.templates) {
+        const k = `template:${t.id}`;
+        if (ids.has(k)) { if (!report.warnings.some((w) => w.detail.startsWith(`template ${t.id} `))) report.warnings.push({ kind: 'duplicate', where: base, detail: `template ${t.id} appears more than once in the same question (instances get a numeric suffix)` }); }
+        else ids.set(k, base);
+      }
     }
     for (const t of f.extraTemplates || []) {
       seen('template', t.id, base);
-      fileTemplates.push({ ...t, __unit: f.unit });
+      fileTemplates.push({ ...normalizeTemplate(t, t.question || ''), __unit: f.unit });
     }
     for (const r of f.rules || []) {
       seen('rule', r.id, base);
@@ -107,6 +122,22 @@ export function mergeBank(files: Record<string, unknown>): Bank {
     for (const c of f.conflicts || []) {
       seen('conflict', c.id, base);
       conflicts.push(c);
+    }
+  }
+
+  // «x» templates (one per row / option) whose iteration was not encoded: infer it
+  for (const q of questions) {
+    for (const t of q.templates || []) {
+      if ((t as any).iter || !/x$/.test(String(t.id)) || t.noRequirement) continue;
+      const esc = q.id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const m = new RegExp(`\\{\\{Q:${esc}#([a-z_]+)\\.[a-z_]+\\}\\}`).exec(t.text);
+      let ref: string | undefined;
+      if (m && q.parts.find((p) => p.key === m[1] && (p.type === 'list' || p.type === 'matrix'))) ref = `${q.id}#${m[1]}`;
+      else if (['multi', 'multiPriority'].includes(q.parts[0]?.type) && new RegExp(`\\{\\{(Q|SW):${esc}(#main)?[}|]`).test(t.text)) ref = `${q.id}#${q.parts[0].key}`;
+      if (ref) {
+        (t as any).iter = { ref };
+        report.warnings.push({ kind: 'inferred-iteration', where: `template ${t.id}`, detail: `no forEach/perItem; iterating ${ref}` });
+      }
     }
   }
 
@@ -242,15 +273,36 @@ export function mergeBank(files: Record<string, unknown>): Bank {
   return bank;
 }
 
+/** Normalise the iteration extensions used by the extraction agents into one shape:
+ *  t.iter = {ref, where?, itemWhen?}; t.rowFilter = {ref, where}; t.priority = {value, when}. */
+export function normalizeTemplate(t: any, qid: string): Template {
+  const out: any = { ...t };
+  let ref: string | undefined;
+  let where: any;
+  const fe = t.forEach ?? t.forEachRow ?? t.perRow ?? t.perItem;
+  if (typeof fe === 'string') ref = fe;
+  else if (fe && typeof fe === 'object') { ref = fe.ref; where = fe.where; }
+  if (ref) out.iter = { ref, where, itemWhen: t.itemWhen };
+  if (t.rowFilter && typeof t.rowFilter === 'object') out.rowFilter = t.rowFilter;
+  if (t.source === 'نص حر' || t.source === 'free_text') out.freeText = true;
+  if (/R9nn/i.test(String(t.id))) out.freeText = true;
+  if (t.priority && typeof t.priority === 'object' && !Array.isArray(t.priority)) out.priorityRule = t.priority;
+  else if (typeof t.priority === 'string') out.priorityRule = { value: t.priority, when: [] };
+  return out;
+}
+
 /** Validate references inside expressions (used by validate-bank and dev report). */
 export function checkExprRefs(bank: Bank) {
   const flags = new Set(bank.flags.map((f) => f.id));
   const units = new Set([...bank.sections.map((s) => s.id), ...bank.deferredIds]);
   const out: { where: string; detail: string; severity: 'error' | 'warning' }[] = [];
   const checkRef = (raw: string, where: string, keys?: string[]) => {
+    if (String(raw).startsWith('@item')) return;
     const r = parseRef(raw, (id) => bank.questionById.has(id));
     const q = bank.questionById.get(r.qid);
     if (!q) {
+      const unit = r.qid.split('-')[0];
+      if (bank.deferredIds.has(unit)) return; // deferred units: evaluates false/empty by design
       out.push({ where, detail: `unknown question ${r.qid}`, severity: 'warning' });
       return;
     }
@@ -259,8 +311,15 @@ export function checkExprRefs(bank: Bank) {
       out.push({ where, detail: `unknown part ${raw}`, severity: 'error' });
       return;
     }
-    if (keys) {
+    if (keys && !p.optionsFrom && !(r.row !== undefined)) {
       let opts = p.options || [];
+      if (p.type === 'list' || p.type === 'matrix') {
+        if (!r.sub) return;
+        const col = p.columns?.find((c) => c.key === r.sub);
+        if (!col || col.type === 'role' || col.optionsFrom || col.rowsFrom) return;
+        opts = col.options || [];
+        if (col.type === 'bool') opts = [{ key: 'yes', label: '' }, { key: 'no', label: '' }, { key: 'true', label: '' }, { key: 'false', label: '' }];
+      }
       if (r.sub && p.columns?.length) opts = p.columns.find((c) => c.key === r.sub)?.options || opts;
       if (opts.length) for (const k of keys) if (!opts.some((o) => o.key === k)) out.push({ where, detail: `unknown option ${k} in ${raw}`, severity: 'error' });
     }
@@ -268,9 +327,9 @@ export function checkExprRefs(bank: Bank) {
   walkBankExprs(bank, (e, where) =>
     eachNode(e, (n) => {
       for (const [op, v] of Object.entries(n)) {
-        if (op === 'flag' && !flags.has(v as string)) out.push({ where, detail: `unknown flag ${v}`, severity: 'error' });
-        else if (op === 'module' && !units.has(v as string)) out.push({ where, detail: `unknown module ${v}`, severity: 'warning' });
-        else if (op === 'eq' || op === 'ne' || op === 'has') checkRef((v as any[])[0], where, [String((v as any[])[1])]);
+        if (op === 'flag') { if (!flags.has(v as string)) out.push({ where, detail: `unknown flag ${v}`, severity: 'error' }); }
+        else if (op === 'module') { if (!units.has(v as string)) out.push({ where, detail: `unknown module ${v}`, severity: 'warning' }); }
+        else if (op === 'eq' || op === 'ne' || op === 'has') checkRef((v as any[])[0], where, typeof (v as any[])[1] === 'string' ? [String((v as any[])[1])] : undefined);
         else if (op === 'in' || op === 'hasAny' || op === 'hasAll') checkRef((v as any[])[0], where, ((v as any[])[1] as any[]).map(String));
         else if (op === 'num' || op === 'rowsAny') checkRef((v as any[])[0], where);
         else if (op === 'answered' || op === 'visible') checkRef(v as string, where);

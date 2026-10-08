@@ -3,10 +3,12 @@ import type { GenResult } from './generate';
 import { questionSource } from './generate';
 import { answerHasContent } from './compute';
 import { isoLocal, isoDate } from './format';
+import { renderTemplate } from './slots';
 
 export function buildAppendix(g: GenResult, exportedAt = new Date()): any {
   const { d } = g;
   const { bank, ws } = d;
+  renderCtx = (s: string) => renderTemplate(d, s).text;
   const flaggedQ = new Set([...ws.flags.map((f) => f.qid), ...g.allFlags.map((f) => f.qid)]);
   const answers: Record<string, any> = {};
   for (const q of bank.questions) {
@@ -55,7 +57,9 @@ export function buildAppendix(g: GenResult, exportedAt = new Date()): any {
   };
 }
 
+let renderCtx: ((s: string) => string) | undefined;
 function cleanValue(v: any): any {
+  if (typeof v === 'string' && v.includes('{{') && renderCtx) return renderCtx(v);
   if (Array.isArray(v)) return v.map(cleanValue);
   if (v && typeof v === 'object') {
     const o: any = {};

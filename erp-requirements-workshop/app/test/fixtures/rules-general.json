@@ -1,0 +1,49 @@
+{
+  "unit": "GEN",
+  "sections": [],
+  "questions": [],
+  "rules": [
+    {
+      "id": "STD-GEN-01",
+      "scope": "GEN",
+      "title": "السريان والمصدر",
+      "text": "تُطبَّق القواعد القياسية ما لم تخالفها إجابة{{IF:{\"flag\":\"F_TAXREADY\"}|، ومنها الإحالات الضريبية}}.",
+      "applies": null,
+      "appliesText": "",
+      "regulatory": false
+    },
+    {
+      "id": "STD-GEN-02",
+      "scope": "GEN",
+      "title": "قاعدة متعددة المستخدمين",
+      "text": "يجب أن يُعتمد كل مستند وفق الأدوار.",
+      "applies": {
+        "flag": "F_MULTIUSER"
+      },
+      "appliesText": "",
+      "regulatory": false
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "تع-01",
+      "scope": "GEN",
+      "condition": {
+        "all": [
+          {
+            "flag": "F_VAT"
+          },
+          {
+            "eq": [
+              "GEN-001",
+              "other"
+            ]
+          }
+        ]
+      },
+      "action": "note",
+      "target": "GEN-001",
+      "text": "عملة أخرى مع التسجيل الضريبي: تُحوَّل الضريبة إلى الريال."
+    }
+  ]
+}

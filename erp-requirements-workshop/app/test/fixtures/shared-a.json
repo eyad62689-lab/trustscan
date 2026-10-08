@@ -1,0 +1,348 @@
+{
+  "unit": "SHARED",
+  "sections": [],
+  "rules": [],
+  "conflicts": [],
+  "questions": [
+    {
+      "id": "ROL-001",
+      "section": "ROL",
+      "order": 1,
+      "title": "عرّفوا الأدوار",
+      "help": "",
+      "detail": false,
+      "condition": {
+        "flag": "F_MULTIUSER"
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "اسم الدور",
+              "type": "text"
+            },
+            {
+              "key": "users",
+              "label": "عدد المستخدمين",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            {
+              "key": "owner",
+              "name": "المالك",
+              "users": null,
+              "condition": true
+            },
+            {
+              "key": "accountant",
+              "name": "المحاسب",
+              "users": null,
+              "condition": true
+            },
+            {
+              "key": "sales_employee",
+              "name": "موظف المبيعات",
+              "users": null,
+              "condition": {
+                "module": "SAL"
+              }
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [],
+            "reason": "الأدوار المعتادة."
+          },
+          "required": false,
+          "distribution": {
+            "order": [
+              "owner",
+              "accountant",
+              "sales_employee"
+            ],
+            "surplusTo": [
+              "sales_employee"
+            ]
+          }
+        }
+      ],
+      "templates": [
+        {
+          "id": "ROL-R001",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعرّف النظام الأدوار {{Q:ROL-001#main.name}}."
+        }
+      ],
+      "workshopNote": null,
+      "alsoIn": [
+        "ROLES"
+      ]
+    },
+    {
+      "id": "GEN-001",
+      "section": "GEN",
+      "order": 1,
+      "title": "ما العملة الأساسية؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "sar",
+              "label": "الريال السعودي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "sar",
+            "reason": "عملة البلد."
+          },
+          "required": false
+        }
+      ],
+      "templates": [],
+      "workshopNote": null
+    },
+    {
+      "id": "GEN-003",
+      "section": "GEN",
+      "order": 3,
+      "title": "اذكروا الفروع",
+      "help": "",
+      "detail": false,
+      "condition": {
+        "flag": "F_MULTIBRANCH"
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "اسم الفرع",
+              "type": "text"
+            },
+            {
+              "key": "city",
+              "label": "المدينة",
+              "type": "text"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "name": "المقر الرئيسي",
+                "city": ""
+              },
+              {
+                "name": "الفرع 2",
+                "city": ""
+              }
+            ],
+            "reason": "صف لكل موقع."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "GEN-R003x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعرّف النظام الفرع «{{Q:GEN-003#main.name}}».",
+          "forEach": "GEN-003#main"
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "GEN-013",
+      "section": "GEN",
+      "order": 13,
+      "title": "أساس مقارنة المبالغ بالحدود",
+      "help": "",
+      "detail": false,
+      "condition": {
+        "flag": "F_TAXREADY"
+      },
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "a",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "incl_vat",
+              "label": "شاملاً الضريبة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "excl_vat",
+              "label": "قبل الضريبة",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "incl_vat",
+            "reason": "ما يدفعه العميل."
+          },
+          "required": false
+        }
+      ],
+      "templates": [],
+      "workshopNote": null
+    },
+    {
+      "id": "ADM-001",
+      "section": "ADM",
+      "order": 1,
+      "title": "هل تحتاجون سجل تعديلات؟",
+      "help": "",
+      "detail": false,
+      "condition": null,
+      "conditionText": "",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes",
+              "label": "نعم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "yes",
+            "reason": "للرقابة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "ADM-R001",
+          "when": {
+            "eq": [
+              "ADM-001",
+              "yes"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يحفظ النظام سجل تعديلات."
+        },
+        {
+          "id": "ADM-001-NR",
+          "when": {
+            "eq": [
+              "ADM-001",
+              "no"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا سجل تعديلات؛ يُكتب في «خارج النطاق»."
+        }
+      ],
+      "workshopNote": null
+    }
+  ]
+}

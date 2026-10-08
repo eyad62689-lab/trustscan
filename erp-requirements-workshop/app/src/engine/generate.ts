@@ -1,8 +1,8 @@
 // Requirements, standard rules, assumptions, verify items, setup tasks, out-of-scope, and the
 // review gate. Everything is computed from a Derived with assumeUnanswered=true (export view).
 import type { Bank, Question, Part, Template, Workshop, Option, Source, Rule } from './types';
-import { derive, isEmpty, keysOf, answerHasContent, type Derived, type AutoFlag, type LocalCtx } from './compute';
-import { renderTemplate, formatPartValue, type RenderIssue } from './slots';
+import { derive, isEmpty, keysOf, answerHasContent, rowMatches, type Derived, type AutoFlag, type LocalCtx } from './compute';
+import { renderTemplate, formatPartValue, formatCell, type RenderIssue } from './slots';
 import { parseRef } from './refs';
 import { findPart } from './load';
 
@@ -111,6 +111,7 @@ export function generate(bank: Bank, ws: Workshop): GenResult {
   const slotFlags: AutoFlag[] = [];
   const counters = new Map<string, number>();
   const freeCounters = new Map<string, number>();
+  const usedIds = new Set<string>();
 
   const resolvedFor = (key: string) => (desc: string) => {
     const r = res[`slot:${key}:${desc}`];
@@ -148,33 +149,46 @@ export function generate(bank: Bank, ws: Workshop): GenResult {
       if (home !== s.id) continue; // generate once, in its home section
       const chapter = chapterOf(q, home);
       const { source } = questionSource(d, q);
-      for (const t of q.templates || []) {
+      const tpls = q.templates || [];
+      const altActive = new Set(tpls.filter((t) => t.alternativeOf && d.evalExpr(t.when)).map((t) => t.alternativeOf as string));
+      for (const t of tpls) {
+        if (altActive.has(t.id)) continue; // replaced by its alternative
         if (!d.evalExpr(t.when)) continue;
         if (t.noRequirement) {
           noRequirement.push({ id: t.id, question: q.id, text: t.text });
           continue;
         }
-        const isFree = /R9nn/i.test(t.id);
+        const isFree = !!(t as any).freeText;
         const instances = expandInstances(d, q, t);
         instances.forEach((local, idx) => {
           let id = t.id;
           if (isFree) {
-            const unit = t.id.split('-R')[0];
+            const unit = t.id.split('-R')[0] || q.id.split('-')[0];
             const n = (freeCounters.get(unit) || 0) + 1;
             freeCounters.set(unit, n);
             id = `${unit}-R9${pad2(n)}`;
-          } else if (t.sourceTemplate) {
-            const n = (counters.get(t.sourceTemplate) || 0) + 1;
-            counters.set(t.sourceTemplate, n);
-            id = `${t.sourceTemplate}-${pad2(n)}`;
-          } else if (t.forEachRow || t.perItem || instances.length > 1) id = `${t.id}-${pad2(idx + 1)}`;
+          } else if (t.sourceTemplate || t.family || t.expandedFrom) {
+            const fam = String(t.sourceTemplate || t.family || t.expandedFrom);
+            const n = (counters.get(fam) || 0) + 1;
+            counters.set(fam, n);
+            id = `${fam}-${pad2(n)}`;
+          } else if ((t as any).iter || instances.length > 1) id = `${t.id}-${pad2(idx + 1)}`;
+          if (usedIds.has(id)) { let k = 2; while (usedIds.has(`${id}-${k}`)) k++; id = `${id}-${k}`; }
           const rr = renderTemplate(d, t.text, { local, resolved: resolvedFor(id) });
+          // a row that lacks the cells this per-row template needs is skipped (STD-GEN-24), not flagged
+          if (local?.rowPart && rr.issues.some((i) => i.kind === 'empty' && i.desc.startsWith(local.rowPart!.split('#')[0]))) return;
+          usedIds.add(id);
           addIssues(rr.issues, id, q.id);
           if (!rr.text) return;
           let priority = unitPriority(q, home);
           let priorityLabel = prLabel(priority);
           if (local?.item?.priority) { priority = local.item.priority; priorityLabel = prLabel(priority); }
-          if (t.priorityIf) {
+          const pr = (t as any).priorityRule as { value: string; when?: { if: any; value: string }[] } | undefined;
+          if (pr) {
+            let pv = pr.value;
+            for (const w of pr.when || []) if (d.evalExpr(w.if, local)) { pv = w.value; break; }
+            if (pv) { priority = pv; priorityLabel = prLabel(pv); }
+          } else if (t.priorityIf) {
             priorityLabel = d.evalExpr(t.priorityIf.if) ? t.priorityIf.value : t.priorityIf.else ?? priorityLabel;
             priority = bank.priorities.find((p) => p.label === priorityLabel)?.key ?? priorityLabel;
           } else if (t.priorityText) {
@@ -261,10 +275,11 @@ export function generate(bank: Bank, ws: Workshop): GenResult {
   for (const rm of ws.importReport?.roleMappings || []) assumptions.push({ question: bank.rolesQid, title: 'مطابقة أسماء الأدوار', value: `${rm.from} ← ${rm.to}`, valueRaw: rm, reason: 'role_mapping', reasonText: REASON_TEXT.role_mapping });
   for (const n of d.notes) if (/افتراض/.test(n.text) && n.scope) { /* conflict notes are written in 3.x.4 / 4.0 */ }
 
+  const R = (x?: string) => (x && x.includes('{') ? renderTemplate(d, x).text : x || '');
   // 4.7
   const regulatory: RegRowOut[] = spec.regulatoryRows.map((r) => {
     const v = r.variants.find((x) => d.evalExpr(x.when === undefined ? true : x.when));
-    if (v) return { item: r.item, ruling: v.ruling || '', phase: v.phase ?? '—', note: v.note ?? '—', outOfScope: !!v.outOfScope };
+    if (v) return { item: R(r.item), ruling: R(v.ruling), phase: R(v.phase ?? undefined) || '—', note: R(v.note ?? undefined) || '—', outOfScope: !!v.outOfScope };
     const applies = r.when === undefined ? true : d.evalExpr(r.when);
     return applies
       ? { item: r.item, ruling: r.ruling && !r.ruling.includes('/') ? r.ruling : 'ينطبق', phase: r.phase && !r.phase.includes('/') ? r.phase : '—', note: r.note ?? '—', outOfScope: false }
@@ -280,7 +295,7 @@ export function generate(bank: Bank, ws: Workshop): GenResult {
     vSeen.add(k);
     verify.push({ item, ref, what });
   };
-  for (const v of spec.verifyItems) if (v.when === undefined || d.evalExpr(v.when)) addV(v.item, v.ref || '—', v.what || '—');
+  for (const v of spec.verifyItems) if (v.when === undefined || d.evalExpr(v.when)) addV(R(v.item), R(v.ref) || '—', R(v.what) || '—');
   for (const q of bank.questions) {
     if (!d.visibleQuestions.has(q.id)) continue;
     for (const v of q.verify || []) {
@@ -318,7 +333,7 @@ export function generate(bank: Bank, ws: Workshop): GenResult {
     }
   }
   for (const r of regulatory) if (r.outOfScope) outOfScope.push(`${r.item}: ${r.ruling}`);
-  for (const l of spec.outOfScopeLines) if (l.when === undefined || d.evalExpr(l.when)) outOfScope.push(l.text.replace(/`/g, ''));
+  for (const l of spec.outOfScopeLines) if (l.when === undefined || d.evalExpr(l.when)) outOfScope.push(R(l.text).replace(/`/g, ''));
   for (const n of noRequirement) if (/خارج النطاق/.test(n.text)) {
     const q = bank.questionById.get(n.question);
     if (q) {
@@ -351,34 +366,48 @@ export function ruleApplies(d: Derived, bank: Bank, r: Rule): boolean {
 
 function expandInstances(d: Derived, q: Question, t: Template): (LocalCtx | undefined)[] {
   const hasQ = (id: string) => d.bank.questionById.has(id);
-  if (t.forEachRow) {
-    const r = parseRef(t.forEachRow, hasQ);
-    const rq = d.bank.questionById.get(r.qid);
-    const p = findPart(rq, r.part);
-    if (!rq || !p) return [];
-    const rows = d.partValue(rq, p);
-    const pk = `${rq.id}#${p.key}`;
-    return (Array.isArray(rows) ? rows : []).filter((x) => x && typeof x === 'object').map((row) => ({ row, rowPart: pk }));
+  const iter = (t as any).iter as { ref: string; where?: any; itemWhen?: any } | undefined;
+  const rf = (t as any).rowFilter as { ref: string; where: any } | undefined;
+  let rowFilter: LocalCtx['rowFilter'];
+  if (rf) {
+    const r = parseRef(rf.ref, hasQ);
+    const p = findPart(d.bank.questionById.get(r.qid), r.part);
+    if (p) rowFilter = { pk: `${r.qid}#${p.key}`, where: rf.where };
   }
-  if (t.perItem) {
-    const r = parseRef(t.perItem, hasQ);
+  if (iter) {
+    const r = parseRef(iter.ref, hasQ);
     const rq = d.bank.questionById.get(r.qid);
     const p = findPart(rq, r.part);
     if (!rq || !p) return [];
+    const pk = `${rq.id}#${p.key}`;
     const v = d.partValue(rq, p);
-    const pk = `${rq.id}#${p.key}`;
-    return keysOf(v)
-      .map((k) => p.options?.find((o) => o.key === k))
-      .filter((o): o is Option => !!o && !o.dontKnow)
-      .map((o) => ({ item: { ...o, priority: v && typeof v === 'object' && !Array.isArray(v) ? v[o.key] : undefined }, itemPart: pk }));
+    let out: LocalCtx[];
+    if (p.type === 'matrix' && /\{\{MISSING:[^}]*الخلية/.test(t.text)) {
+      // one instance per (row × visible column with a value)
+      out = [];
+      for (const row of d.toRows(p, v)) for (const c of d.visibleColumns(p)) {
+        const val = formatCell(c, row[c.key], d);
+        if (val && !/لا شيء/.test(val)) out.push({ row, rowPart: pk, cell: { key: c.key, label: c.label, value: val } });
+      }
+    } else if (p.type === 'list' || p.type === 'matrix') {
+      out = d.toRows(p, v).filter((row) => rowMatches(row, iter.where)).map((row) => ({ row, rowPart: pk, rowFilter }));
+    } else {
+      const all = d.allOptions(rq, p);
+      out = keysOf(v)
+        .map((k) => all.find((o) => o.key === k))
+        .filter((o): o is Option => !!o && !o.dontKnow)
+        .map((o) => ({ item: { ...o, priority: v && typeof v === 'object' && !Array.isArray(v) ? v[o.key] : undefined }, itemPart: pk, rowFilter }));
+    }
+    if (iter.itemWhen !== undefined) out = out.filter((l) => d.evalExpr(iter.itemWhen, l));
+    return out;
   }
-  // free text on a long text: one requirement per non-empty paragraph
-  if (/R9nn/i.test(t.id)) {
+  // free text on a list part: one requirement per row
+  if ((t as any).freeText) {
     const p = q.parts[0];
     const v = d.partValue(q, p);
-    if (p.type === 'list' && Array.isArray(v) && v.length > 1) return v.map((row) => ({ row, rowPart: `${q.id}#${p.key}` }));
+    if ((p.type === 'list') && Array.isArray(v) && v.length > 1) return v.map((row) => ({ row, rowPart: `${q.id}#${p.key}` }));
   }
-  return [undefined];
+  return [rowFilter ? { rowFilter } : undefined];
 }
 
 export function shortTitle(t: string, n = 90): string {

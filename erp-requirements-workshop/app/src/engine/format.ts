@@ -31,9 +31,11 @@ export function minutesBetween(a: string, b?: string): number {
 export function formatMinutes(m: number): string {
   const h = Math.floor(m / 60);
   const r = Math.round(m % 60);
-  if (!h) return `${r} دقيقة`;
-  if (!r) return `${h} ساعة`;
-  return `${h} ساعة و${r} دقيقة`;
+  const hours = h === 1 ? 'ساعة' : h === 2 ? 'ساعتان' : h <= 10 ? `${h} ساعات` : `${h} ساعة`;
+  const mins = r === 1 ? 'دقيقة' : r === 2 ? 'دقيقتان' : r <= 10 ? `${r} دقائق` : `${r} دقيقة`;
+  if (!h) return mins;
+  if (!r) return hours;
+  return `${hours} و${mins}`;
 }
 
 /** Safe file-name fragment (keeps Arabic letters). */

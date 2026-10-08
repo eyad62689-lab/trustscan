@@ -1,0 +1,15 @@
+{
+  "bankVersion": "test-0.1",
+  "units": [
+    {
+      "id": "POS",
+      "title": "نقاط البيع",
+      "order": 2
+    },
+    {
+      "id": "HR",
+      "title": "شؤون الموظفين",
+      "order": 1
+    }
+  ]
+}
