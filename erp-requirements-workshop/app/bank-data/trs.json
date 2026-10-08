@@ -1,0 +1,3688 @@
+{
+  "unit": "TRS",
+  "bankVersion": "2.6",
+  "sections": [
+    {
+      "id": "TRS",
+      "title": "الخزينة والبنوك",
+      "order": 130,
+      "condition": {
+        "module": "TRS"
+      },
+      "conditionText": "M(TRS)",
+      "kind": "unit",
+      "opening": {
+        "attendees": "المحاسب (إلزامي)، والمالك.",
+        "mandatory": [
+          "المحاسب"
+        ],
+        "duration": "25–35 دقيقة",
+        "minutes": 30,
+        "discussion": [
+          "كم مرة تطابقون رصيد البنك مع حساباتكم، وكم تستغرق؟",
+          "هل عرفتم مرة متأخرين أن النقد لن يكفي لالتزام قادم؟"
+        ]
+      },
+      "intro": "مستندات TRS: سند القبض العام، وسند الصرف العام، ونقل المال بين أماكن الكيان، والتحويل بين حساباته البنكية، والرسوم البنكية، وتوريد العهدة، والمطابقة البنكية (STD-GEN-27 (١))، ومعها مستندات STD-TRS في هذا الجزء. وللمحاسب في TRS «اطلاع، وإنشاء، وتعديل؛ وتنفيذ الصرف من الحسابات البنكية؛ واعتماد وفق TRS-008»، وللمدير العام «اطلاع»، ولمسؤول الصندوق صلاحية محصورة في صندوقه (تنفيذ الصرف منه، وإرسال النقل منه، واستلام ما يُنقل إليه، وتسجيل توريد العُهد إليه، وإنشاء سند قبض عام إليه)، و«حذف أو إلغاء» للمالك وحده (ROL-002). والعهدة ليست صندوقاً (STD-GEN-32 (٤)). وكل مبلغ مكتوب «ريال» في موصى به يُقرأ بـ{GEN-001}."
+    },
+    {
+      "id": "TRS-MINI",
+      "title": "الصناديق والحسابات البنكية",
+      "order": 120,
+      "condition": {
+        "all": [
+          {
+            "not": {
+              "module": "TRS"
+            }
+          },
+          {
+            "any": [
+              {
+                "module": "SAL"
+              },
+              {
+                "module": "POS"
+              },
+              {
+                "module": "PUR"
+              },
+              {
+                "module": "EXP"
+              },
+              {
+                "module": "PAY"
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "ق-ت12: إذا اختيرت أي من {SAL، POS، PUR، EXP، PAY} دون TRS، يظهر TRS-001 وTRS-002 في قسم مصغّر بعنوان «الصناديق والحسابات البنكية». ويُضاف TRS-008 إلى القسم المصغّر عند F_MULTIUSER وPUR-012 تتضمن «السداد يحتاج اعتماداً» (تع-12). ويُبنى منها ما في STD-TRS-12.",
+      "kind": "mini",
+      "opening": null
+    }
+  ],
+  "questions": [
+    {
+      "id": "TRS-001",
+      "section": "TRS",
+      "order": 1,
+      "title": "اذكروا حساباتكم البنكية",
+      "help": "سطر لكل حساب (لا تُدخلوا أرقام الحسابات هنا؛ تُدخل لاحقاً في النظام).",
+      "detail": false,
+      "condition": {
+        "any": [
+          {
+            "module": "TRS"
+          },
+          {
+            "all": [
+              {
+                "not": {
+                  "module": "TRS"
+                }
+              },
+              {
+                "any": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "module": "POS"
+                  },
+                  {
+                    "module": "PUR"
+                  },
+                  {
+                    "module": "EXP"
+                  },
+                  {
+                    "module": "PAY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(TRS) أو ق-ت12",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد الحسابات البنكية المعرّفة وعملاتها وربطها بالفروع وطرق الدفع. ويقصر «الفرع المرتبط» استخدام الحساب على فروعه. النوع / يُطبع (ع-08): الاسم المختصر نص/لا؛ البنك قائمة/يُطبع؛ العملة قائمة/يُطبع؛ الفرع المرتبط قائمة/لا؛ الاستخدام قائمة/لا؛ رقم الحساب (الآيبان) نص/يُطبع في التذييل عند اختيار «بيانات الحساب البنكي للتحويل» في DOC-001.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "اسم مختصر للحساب",
+              "type": "text"
+            },
+            {
+              "key": "bank",
+              "label": "البنك",
+              "type": "text"
+            },
+            {
+              "key": "currency",
+              "label": "العملة",
+              "type": "text"
+            },
+            {
+              "key": "branch",
+              "label": "الفرع المرتبط",
+              "type": "branch",
+              "condition": {
+                "flag": "F_MULTIBRANCH"
+              }
+            },
+            {
+              "key": "usage",
+              "label": "الاستخدام",
+              "type": "single",
+              "options": [
+                {
+                  "key": "collection",
+                  "label": "تحصيل",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "payroll",
+                  "label": "رواتب",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "expenses",
+                  "label": "مصروفات",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "general",
+                  "label": "عام",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "name": "الحساب الجاري الرئيسي",
+                "currency": "ريال",
+                "usage": "general"
+              }
+            ],
+            "reason": "الحد الأدنى.",
+            "when": [
+              {
+                "if": {
+                  "flag": "F_MULTIBRANCH"
+                },
+                "value": [
+                  {
+                    "name": "الحساب الجاري الرئيسي",
+                    "currency": "ريال",
+                    "usage": "general",
+                    "branch": "لكل الفروع"
+                  }
+                ],
+                "reason": "الحد الأدنى. وعمود «الفرع المرتبط»: «لكل الفروع» عند F_MULTIBRANCH."
+              }
+            ],
+            "text": "صف واحد: «الحساب الجاري الرئيسي» بالريال للاستخدام العام — السبب: الحد الأدنى. وعمود «الفرع المرتبط»: «لكل الفروع» عند F_MULTIBRANCH، ولا يظهر العمود عند عدمه (STD-GEN-24). وعمود «البنك» يُدخل عند الإعداد (مهمة إعداد)، ولا يُعبَّأ في الموصى به، ولا يوقف التصدير."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R001",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعرّف النظام الحسابات البنكية {{Q:TRS-001#main.name}}، لكلٍّ عملته {{Q:TRS-001#main.currency}} واستخدامه {{Q:TRS-001#main.usage}}{{IF:{\"flag\":\"F_MULTIBRANCH\"}|، ويُقصر استخدامه على فروع {{Q:TRS-001#main.branch}}}}، ويُدخل البنك ورقم الحساب عند الإعداد.",
+          "whenText": "دائماً عند ظهور السؤال؛ وخانة الفرع عند F_MULTIBRANCH."
+        }
+      ],
+      "workshopNote": "معنى «الفرع المرتبط»: يقصر استخدام الحساب على مستندات الفروع المذكورة فيه: طرق الدفع، والإيداع، والصرف. ويُعرض للمستخدم المقيَّد بفرعه (ROL-003) ما ارتبط بفرعه، أو ما كان «لكل الفروع». وقيمة بُعد الفرع في مستند الحساب المرتبط بكل الفروع تؤخذ من المُنشئ (STD-GEN-38 (١)).",
+      "alsoIn": [
+        "TRS-MINI"
+      ]
+    },
+    {
+      "id": "TRS-002",
+      "section": "TRS",
+      "order": 2,
+      "title": "اذكروا الصناديق النقدية",
+      "help": "كل مكان يُحفظ فيه نقد بمسؤول محدد. لا تُدرج هنا العُهد التي لدى الموظفين أو الفنيين أو السائقين. وإن لم يكن المسؤول يعمل في فرع الصندوق، اختاروا من يعمل فيه؛ فهو من يسلّم النقد ويستلمه ويعدّه.",
+      "detail": false,
+      "condition": {
+        "any": [
+          {
+            "module": "TRS"
+          },
+          {
+            "all": [
+              {
+                "not": {
+                  "module": "TRS"
+                }
+              },
+              {
+                "any": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "module": "POS"
+                  },
+                  {
+                    "module": "PUR"
+                  },
+                  {
+                    "module": "EXP"
+                  },
+                  {
+                    "module": "PAY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(TRS) أو ق-ت12",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد الصناديق ومسؤوليها وتنبيه تجاوز الحد (يُنشأ تلقائياً في ALR). ولا يبلغ مستند يجعل رصيد صندوق سالباً حالته النافذة (STD-TRS-01). وحين يكون للفرع أكثر من صندوق يُطبَّق تع-TRS-04. النوع / يُطبع (ع-08): اسم الصندوق نص/يُطبع في مستند الصرف والقبض منه؛ الفرع قائمة/لا؛ المسؤول قائمة/لا؛ الحد الأعلى رقم/لا.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "اسم الصندوق",
+              "type": "text"
+            },
+            {
+              "key": "branch",
+              "label": "الفرع",
+              "type": "branch",
+              "condition": {
+                "flag": "F_MULTIBRANCH"
+              }
+            },
+            {
+              "key": "owner",
+              "label": "المسؤول",
+              "type": "role"
+            },
+            {
+              "key": "cash_limit",
+              "label": "الحد الأعلى للنقد بالريال",
+              "type": "number",
+              "unit": "{GEN-001}"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "name": "الصندوق الرئيسي",
+                "owner": "المحاسب",
+                "cash_limit": 10000
+              }
+            ],
+            "reason": "يضبط النقد ويقلل مخاطر الاحتفاظ به.",
+            "when": [
+              {
+                "if": {
+                  "flag": "F_MULTIBRANCH"
+                },
+                "value": [
+                  {
+                    "name": "الصندوق الرئيسي — <اسم الفرع>",
+                    "branch": "<الفرع>",
+                    "owner": "المحاسب",
+                    "cash_limit": 10000
+                  }
+                ],
+                "rowsFrom": "GEN-003",
+                "reason": "يضبط النقد ويقلل مخاطر الاحتفاظ به. صندوق رئيسي واحد لكل فرع، يُسمّى «الصندوق الرئيسي — <اسم الفرع>»."
+              }
+            ],
+            "text": "صندوق رئيسي واحد لكل فرع بحد 10,000 {GEN-001} — السبب: يضبط النقد ويقلل مخاطر الاحتفاظ به. ولعمود «المسؤول» في كل صندوق: المحاسب، وإلا فالمالك (STD-GEN-19). وعند عدم F_MULTIBRANCH: تُقرأ «لكل فرع» «واحد للكيان»، ويُسمّى الصندوق «الصندوق الرئيسي»، ويُسقَط عمود «الفرع» (STD-GEN-24). وعند F_MULTIBRANCH: يُسمّى صندوق كل فرع «الصندوق الرئيسي — <اسم الفرع>»."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R002a",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعرّف النظام الصناديق {{Q:TRS-002#main.name}}{{IF:{\"flag\":\"F_MULTIBRANCH\"}|، لكلٍّ فرعه {{Q:TRS-002#main.branch}}}}، ومسؤوله {{Q:TRS-002#main.owner}}، وحدّه الأعلى {{Q:TRS-002#main.cash_limit}} {{Q:GEN-001}}؛ وألا يُنفَّذ صرف يجعل رصيد صندوق سالباً ({{R:STD-TRS-01}}).",
+          "whenText": "دائماً."
+        },
+        {
+          "id": "TRS-R002b",
+          "when": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "not": {
+                      "module": "TRS"
+                    }
+                  },
+                  {
+                    "any": [
+                      {
+                        "module": "SAL"
+                      },
+                      {
+                        "module": "POS"
+                      },
+                      {
+                        "module": "PUR"
+                      },
+                      {
+                        "module": "EXP"
+                      },
+                      {
+                        "module": "PAY"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "module": "TRS"
+                  },
+                  {
+                    "not": {
+                      "has": [
+                        "TRS-011",
+                        "cash_over_limit"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يُنبّه النظام المالك ومسؤول الصندوق، بوسيلة STD-GEN-70 (١)، فوراً حين يتجاوز رصيد أي صندوق حدّه الأعلى.",
+          "whenText": "عند ق-ت12، أو TRS-011 لا تتضمن «صندوق تجاوز حدّه الأعلى» (يُنشأ تلقائياً في ALR)؛ وإن تضمنته فيغني عنه TRS-R011x بمستلمه ووسيلته، فلا يُولَّد هذا القالب."
+        }
+      ],
+      "workshopNote": "«مسؤول صندوق فرع الفاتورة» أينما ورد = مسؤول الصندوق المرتبط بفرع الفاتورة في TRS-002. فإن أسند الكيان صندوق فرع إلى غيره (مدير الفرع مثلاً)، انتقلت إليه صلاحيات «مسؤول الصندوق» وحدها. وإذا كان مسؤول صندوق فرعٍ غير المقر الرئيسي مستخدماً فرعه «لكل الفروع» وليس في ذلك الفرع مستخدم آخر بصفة «مسؤول الصندوق»، يُسجَّل افتراضاً مُعلناً: «مسؤول صندوق <الفرع> المحاسب من المقر؛ يسجّل حركات الصندوق بناءً على ما يرسله الفرع، ويعدّه أمين صندوق الفرع بإقفال الصندوق وفق STD-TRS-13 (٣)» (وإن لم يوجد في الفرع مستخدم مؤهل لصفة «أمين صندوق الفرع»، فنص الافتراض في STD-TRS-13 (٦)). وصندوق المقر الرئيسي يعدّه مسؤوله نفسه ويسلّم نقده ويستلمه، ولا يُسجَّل له هذا الافتراض (STD-TRS-13 (٢)).",
+      "alsoIn": [
+        "TRS-MINI"
+      ]
+    },
+    {
+      "id": "TRS-003",
+      "section": "TRS",
+      "order": 3,
+      "title": "ما الحركات النقدية التي تحتاجون تسجيلها غير البيع والشراء؟",
+      "help": "اختر كل ما ينطبق.",
+      "detail": false,
+      "condition": {
+        "module": "TRS"
+      },
+      "conditionText": "M(TRS)",
+      "regulatory": true,
+      "verify": [
+        "يحتاج تحقق من خضوع الرسوم البنكية",
+        "يحتاج تحقق من خضوع كل نوع"
+      ],
+      "impact": "يحدد مستندات الخزينة وأثرها على الأرصدة. ومستنداتها وحالاتها في STD-GEN-29، ونقلها وفق STD-GEN-30، وحدودها وحسابها المقابل وفق STD-GEN-34. وعند F_VAT: حقول الضريبة في سند الصرف العام والرسوم البنكية، وسداد الضريبة المستحقة واستردادها مرتبطين بسجل الإقرار (STD-TAX-08). وعند عدم F_VAT: يُسجَّل كل إيراد متنوع بسند قبض عام على حساب إيراد يختاره المُنشئ، ولا تُشترط له فاتورة بيع (STD-GEN-34 (٦)). الحساب المقابل في السندين العامين: يختاره المُنشئ من دليل الحسابات مع أبعاد ACC-004؛ ولا يجوز أن يكون حساباً له تفصيل في وحدة مختارة (العملاء، والمورّدون، والمخزون، والصناديق، والحسابات البنكية، والعُهد)؛ وحسابات الضريبة لا تُختار إلا في سداد مرتبط بسجل الإقرار. والمُنشئ: المحاسب، ومسؤول الصندوق لصندوقه (STD-GEN-34 (٧)، (٨)). الضريبة في مستندات الخزينة (STD-TAX-08، عند F_VAT وM(TRS)): سند الصرف العام والرسوم والعمولات البنكية يحمل كلٌّ منهما حقول الضريبة الثلاثة (رمز الضريبة، ومبلغها، والرقم الضريبي للجهة) بأحكام EXP-003؛ وقيمة «رمز الضريبة» الأولية «بلا ضريبة» في سند الصرف العام، و«مدخلات خاضعة للنسبة الأساسية» في الرسوم البنكية [يحتاج تحقق من خضوع الرسوم البنكية]؛ والرسوم المستوردة من سطر الكشف يستكمل المحاسب ضريبتها. ولا يحمل ضريبة: مسحوبات المالك، وسداد القروض، وسداد الرواتب، وسداد الضريبة نفسها، والتأمينات. وسند القبض العام لا يحمل ضريبة؛ والإيراد المتنوع الخاضع يُصدر بفاتورة بيع لا بسند قبض عام [يحتاج تحقق من خضوع كل نوع]. وعند F_VAT_SOON تُبنى معطّلة وتُفعَّل عند التسجيل.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "deposit_withdraw",
+              "label": "إيداع نقد الصندوق في البنك، أو سحبه من البنك إلى صندوق",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "bank_transfer",
+              "label": "تحويل بين الحسابات البنكية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "cashbox_transfer",
+              "label": "تحويل بين الصناديق",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "general_receipt",
+              "label": "سند قبض عام (إيراد متنوع وغيره)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "general_payment",
+              "label": "سند صرف عام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "bank_fees",
+              "label": "رسوم وعمولات بنكية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "deposit_withdraw",
+              "bank_transfer",
+              "cashbox_transfer",
+              "general_receipt",
+              "general_payment",
+              "bank_fees"
+            ],
+            "reason": "كلها حركات تحدث في أي منشأة. ولا يشمل الموصى به «أخرى (حدّد)» ولا «لا أعلم» (STD-GEN-67).",
+            "when": [],
+            "text": "الخيارات الستة المسمّاة — السبب: كلها حركات تحدث في أي منشأة. ولا يشمل الموصى به «أخرى (حدّد)» ولا «لا أعلم» (STD-GEN-67)."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R003x",
+          "when": {
+            "hasAny": [
+              "TRS-003",
+              [
+                "deposit_withdraw",
+                "bank_transfer",
+                "cashbox_transfer",
+                "general_receipt",
+                "general_payment",
+                "bank_fees"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام مستند «{{Q:TRS-003}}» بحالاته وانتقالاته ومالكيها وموضع أثره في STD-GEN-29{{SW:TRS-003|deposit_withdraw=، ونقله بخطوتين إرسالاً ثم استلاماً مع إظهار النقد في الطريق (STD-GEN-30)|cashbox_transfer=، ونقله بخطوتين إرسالاً ثم استلاماً مع إظهار النقد في الطريق (STD-GEN-30)|*=}}.",
+          "whenText": "لكل خيار مختار من الستة؛ وخانة النقل للإيداع والسحب والتحويل بين الصناديق.",
+          "forEach": "TRS-003"
+        },
+        {
+          "id": "TRS-R003g",
+          "when": {
+            "any": [
+              {
+                "hasAny": [
+                  "TRS-003",
+                  [
+                    "general_receipt",
+                    "general_payment"
+                  ]
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "module": "TRS"
+                    }
+                  },
+                  {
+                    "any": [
+                      {
+                        "module": "SAL"
+                      },
+                      {
+                        "module": "POS"
+                      },
+                      {
+                        "module": "PUR"
+                      },
+                      {
+                        "module": "EXP"
+                      },
+                      {
+                        "module": "PAY"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يحمل سند القبض العام وسند الصرف العام حساباً مقابلاً يختاره المُنشئ من دليل الحسابات، عدا الحسابات التي لها مستندها في وحدة مختارة (STD-GEN-34 (٧)).",
+          "whenText": "عند TRS-003 تتضمن أحد السندين العامين، أو STD-TRS-12."
+        },
+        {
+          "id": "TRS-R003t",
+          "when": {
+            "all": [
+              {
+                "flag": "F_VAT"
+              },
+              {
+                "module": "TRS"
+              }
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يحمل سند الصرف العام والرسوم والعمولات البنكية حقول الضريبة في EXP-R003t بأحكامها، وأن يرتبط سداد الضريبة واستردادها بسجل الإقرار (STD-TAX-05 (٦)).",
+          "whenText": "عند F_VAT وM(TRS)."
+        }
+      ],
+      "workshopNote": "الحركتان «بين الحسابات» و«بين الصناديق»: تُبنيان ولو كان في TRS-001 أو TRS-002 صف واحد، لأن إضافة صف لاحقاً لا تحتاج تعديلاً في البناء (GEN-010)؛ ولا يُسقطهما STD-GEN-24؛ ويُكتب في الوثيقة: «متاح عند إضافة صندوق أو حساب ثانٍ». و«أخرى (حدّد)» إن اختيرت تولّد متطلب نص حر TRS-R9nn (م-4)، لا مستنداً قياسياً."
+    },
+    {
+      "id": "TRS-004",
+      "section": "TRS",
+      "order": 4,
+      "title": "كيف تطابقون حساباتكم مع كشف البنك؟",
+      "help": "المطابقة تعني التأكد من أن كل حركة في كشف البنك مسجلة في النظام والعكس.",
+      "detail": false,
+      "condition": {
+        "module": "TRS"
+      },
+      "conditionText": "M(TRS). والجزء (ب) عند الخيار الثاني أو الثالث.",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد شاشة المطابقة واستيراد ملف الكشف وقواعد المطابقة التلقائية؛ «ربط مباشر» يضيف بنداً في INT. بقاعدة STD-TRS-05 وفرق التاريخ {{Q:TRS-004#b}}. ورفع ملف الكشف ليس ربطاً؛ وصف «البنك» في INT-001: «الآن» عند TRS-004 = «ربط مباشر مع البنك»، وإلا «لا»، ويسري تع-28. والمطابقة وفق STD-TRS-06.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "طريقة المطابقة",
+          "type": "single",
+          "options": [
+            {
+              "key": "manual",
+              "label": "يدوياً بتعليم الحركات المطابقة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "file_upload",
+              "label": "رفع ملف كشف الحساب من البنك ومطابقته آلياً مع المراجعة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "direct_link",
+              "label": "ربط مباشر مع البنك",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "none",
+              "label": "لا نطابق",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "file_upload",
+            "reason": "يوفر الوقت دون الحاجة إلى ربط مباشر.",
+            "when": [],
+            "text": "رفع ملف كشف الحساب ومطابقته آلياً مع المراجعة، شهرياً — السبب: يوفر الوقت دون الحاجة إلى ربط مباشر. (ب): 3 أيام عمل — السبب: يغطي تأخر ظهور التحويلات والإيداعات في الكشف."
+          },
+          "required": false
+        },
+        {
+          "key": "freq",
+          "label": "التكرار",
+          "type": "single",
+          "options": [
+            {
+              "key": "weekly",
+              "label": "أسبوعي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "monthly",
+              "label": "شهري",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "monthly",
+            "reason": "يوفر الوقت دون الحاجة إلى ربط مباشر.",
+            "when": [],
+            "text": "رفع ملف كشف الحساب ومطابقته آلياً مع المراجعة، شهرياً — السبب: يوفر الوقت دون الحاجة إلى ربط مباشر. (ب): 3 أيام عمل — السبب: يغطي تأخر ظهور التحويلات والإيداعات في الكشف."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "فرق التاريخ المقبول في المطابقة الآلية بأيام العمل",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "يوم عمل",
+          "min": 0,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "in": [
+              "TRS-004",
+              [
+                "file_upload",
+                "direct_link"
+              ]
+            ]
+          },
+          "recommended": {
+            "value": 3,
+            "reason": "يغطي تأخر ظهور التحويلات والإيداعات في الكشف.",
+            "when": [],
+            "text": "رفع ملف كشف الحساب ومطابقته آلياً مع المراجعة، شهرياً — السبب: يوفر الوقت دون الحاجة إلى ربط مباشر. (ب): 3 أيام عمل — السبب: يغطي تأخر ظهور التحويلات والإيداعات في الكشف."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R004a",
+          "when": {
+            "ne": [
+              "TRS-004",
+              "none"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام المطابقة البنكية {{Q:TRS-004}} لكل حساب بنكي {{Q:TRS-004#freq}}، يُجريها ويُكملها المحاسب، ولا تكتمل حتى يساوي رصيد الكشف رصيد النظام بعد المعلّقات ({{R:STD-TRS-06}}).",
+          "whenText": "عند TRS-004 ∉ {«لا نطابق»}."
+        },
+        {
+          "id": "TRS-R004b",
+          "when": {
+            "in": [
+              "TRS-004",
+              [
+                "file_upload",
+                "direct_link"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يقترح النظام مطابقة سطر الكشف بحركة بالمبلغ والاتجاه نفسيهما، وتاريخ كشف حتى {{Q:TRS-004#b}} يوم عمل بعد تاريخ الحركة، ولا تُعدّ المطابقة نهائية إلا بقبول المُجري ({{R:STD-TRS-05}}).",
+          "whenText": "عند TRS-004 = رفع ملف أو ربط مباشر."
+        },
+        {
+          "id": "TRS-R004c",
+          "when": {
+            "ne": [
+              "TRS-004",
+              "none"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب ألا يُعدَّل أو يُلغى مستند داخل مطابقة مكتملة إلا بعد إعادة فتحها بيد المالك، مع تسجيل ذلك.",
+          "whenText": "مع TRS-R004a.",
+          "slotNote": "{ROL-002.صف[حذف أو إلغاء في TRS] = المالك} كُتب نصاً «المالك» لأن «حذف أو إلغاء» في TRS للمالك وحده (ROL-002)."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "TRS-005",
+      "section": "TRS",
+      "order": 5,
+      "title": "هل تحتاجون توقعاً للنقد القادم؟",
+      "help": "تقرير يبيّن المتوقع دخوله وخروجه في الأسابيع القادمة من الفواتير المستحقة والرواتب والأقساط.",
+      "detail": false,
+      "condition": {
+        "module": "TRS"
+      },
+      "conditionText": "M(TRS)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد تقرير التدفق النقدي المتوقع ومصادره (استحقاقات العملاء والمورّدين والرواتب والأقساط والمصروفات المتكررة). ويُبنى وفق STD-TRS-10، ويُضاف التقرير إلى TRS-010 وفق تع-TRS-03.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "weekly_3m",
+              "label": "نعم، أسبوعياً لثلاثة أشهر قادمة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "monthly_1y",
+              "label": "نعم، شهرياً لسنة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "weekly_3m",
+            "reason": "يكشف نقص السيولة مبكراً.",
+            "when": [],
+            "text": "نعم، أسبوعياً لثلاثة أشهر — السبب: يكشف نقص السيولة مبكراً."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R005",
+          "when": {
+            "in": [
+              "TRS-005",
+              [
+                "weekly_3m",
+                "monthly_1y"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير التدفق النقدي المتوقع {{Q:TRS-005}}، يبدأ من النقد المتاح، ويضم الداخل والخارج المتوقعين من مصادرهما الظاهرة، والبنود اليدوية، ويعلّم كل فترة رصيدها المتوقع سالب ({{R:STD-TRS-10}}).",
+          "whenText": "عند TRS-005 = أحد خياري «نعم»."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "TRS-006",
+      "section": "TRS",
+      "order": 6,
+      "title": "هل لديكم تمويل أو قروض تُسدَّد بأقساط؟",
+      "help": "تمويل بنكي أو غيره بجدول أقساط.",
+      "detail": false,
+      "condition": {
+        "module": "TRS"
+      },
+      "conditionText": "M(TRS)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد سجل التمويل (الجهة، المبلغ، الأقساط، تكلفة التمويل)، وجدول الأقساط، والتنبيه قبل الاستحقاق. وسداد الأقساط بسند صرف عام (STD-GEN-34 (٥)). وعند «لا» يُكتب في «خارج النطاق» ويُسقَط القالب (STD-GEN-24).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes_schedule",
+              "label": "نعم، ونحتاج جدول الأقساط وتذكيراً بها",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "no",
+            "reason": "لا ينطبق على الجميع.",
+            "when": [],
+            "text": "«لا»؛ ومن لديه تمويل يختار «نعم» — السبب: لا ينطبق على الجميع."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R006",
+          "when": {
+            "eq": [
+              "TRS-006",
+              "yes_schedule"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يحفظ النظام سجل كل تمويل (الجهة، والمبلغ، وجدول الأقساط، وتكلفة التمويل)، وأن يربط سداد كل قسط بسند صرف عام يفصل أصل القسط عن تكلفته، وأن يُنبّه {{IF:{\"flag\":\"F_MULTIUSER\"}|{{Q:TRS-011#settings[installment_due].recipient}}}}{{IF:{\"not\":{\"flag\":\"F_MULTIUSER\"}}|المستخدم الوحيد}} {{Q:TRS-011#settings[installment_due].timing}}.",
+          "whenText": "عند TRS-006 = «نعم»."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "TRS-007",
+      "section": "TRS",
+      "order": 7,
+      "title": "كيف تتعاملون مع الشيكات؟",
+      "help": "اختر كل ما ينطبق.",
+      "detail": false,
+      "condition": {
+        "any": [
+          {
+            "module": "TRS"
+          },
+          {
+            "hasLabel": [
+              "SAL-010",
+              "شيك"
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(TRS) أو SAL-010 تتضمن «شيك»",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد سجل الشيكات وحالاتها وقيودها وتنبيه الاستحقاق، وقالب طباعة الشيك. والسجل وفق STD-TRS-11. وعند «لا نتعامل بالشيكات» يُكتب في «خارج النطاق» (STD-GEN-24).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "receive_customers",
+              "label": "نستلم شيكات من العملاء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "issue_suppliers",
+              "label": "نُصدر شيكات للمورّدين",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "postdated",
+              "label": "شيكات مؤجلة بتاريخ استحقاق",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "status_tracking",
+              "label": "متابعة حالة الشيك (تحت التحصيل، صُرف، مرتجع)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "print_cheque",
+              "label": "طباعة الشيك من النظام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "none",
+              "label": "لا نتعامل بالشيكات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "none"
+            ],
+            "reason": "قلّ استخدامها؛ ومن يتعامل بها يختار ما ينطبق.",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "hasLabel": [
+                        "SAL-010",
+                        "شيك"
+                      ]
+                    },
+                    {
+                      "hasLabel": [
+                        "PUR-012",
+                        "شيك"
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  "receive_customers",
+                  "issue_suppliers",
+                  "status_tracking"
+                ],
+                "reason": "تع-TRS-01: الشيك مختار طريقةَ دفع؛ يُسجَّل افتراضاً مُعلناً."
+              },
+              {
+                "if": {
+                  "hasLabel": [
+                    "SAL-010",
+                    "شيك"
+                  ]
+                },
+                "value": [
+                  "receive_customers",
+                  "status_tracking"
+                ],
+                "reason": "تع-TRS-01: الشيك مختار طريقةَ دفع؛ يُسجَّل افتراضاً مُعلناً."
+              },
+              {
+                "if": {
+                  "hasLabel": [
+                    "PUR-012",
+                    "شيك"
+                  ]
+                },
+                "value": [
+                  "issue_suppliers",
+                  "status_tracking"
+                ],
+                "reason": "تع-TRS-01: الشيك مختار طريقةَ دفع؛ يُسجَّل افتراضاً مُعلناً."
+              }
+            ],
+            "text": "لا نتعامل بالشيكات، ما لم تتضمن SAL-010 أو PUR-012 «شيك» فيطبَّق تع-TRS-01 — السبب: قلّ استخدامها؛ ومن يتعامل بها يختار ما ينطبق."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R007a",
+          "when": {
+            "hasAny": [
+              "TRS-007",
+              [
+                "receive_customers",
+                "issue_suppliers",
+                "postdated",
+                "status_tracking",
+                "print_cheque"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام الشيكات في الحالات {{Q:TRS-007}}، بسجل لكل شيك وحالاته في {{R:STD-TRS-11}}، ولا يدخل الشيك الوارد الحساب البنكي قبل صرفه.",
+          "whenText": "عند TRS-007 ∉ {«لا نتعامل»، «لا أعلم»}."
+        },
+        {
+          "id": "TRS-R007b",
+          "when": {
+            "has": [
+              "TRS-007",
+              "print_cheque"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يطبع النظام الشيك الصادر من سند الصرف بقالب يُعرَّف في DOC-003.",
+          "whenText": "عند TRS-007 تتضمن «طباعة الشيك من النظام»."
+        }
+      ],
+      "workshopNote": null,
+      "alsoIn": [
+        "TRS-MINI"
+      ]
+    },
+    {
+      "id": "TRS-008",
+      "section": "TRS",
+      "order": 8,
+      "title": "من يعتمد خروج المال؟",
+      "help": "كل سند صرف عام، أو سداد لمورّد، أو صرف عهدة لموظف (انظر م-8). أما المصروف فيُعتمد في EXP-009، ورد المرتجع في SAL-019. والنقل بين صناديقكم وحساباتكم لا يحتاج هذا الاعتماد.",
+      "detail": false,
+      "condition": {
+        "any": [
+          {
+            "all": [
+              {
+                "module": "TRS"
+              },
+              {
+                "flag": "F_MULTIUSER"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "all": [
+                  {
+                    "not": {
+                      "module": "TRS"
+                    }
+                  },
+                  {
+                    "any": [
+                      {
+                        "module": "SAL"
+                      },
+                      {
+                        "module": "POS"
+                      },
+                      {
+                        "module": "PUR"
+                      },
+                      {
+                        "module": "EXP"
+                      },
+                      {
+                        "module": "PAY"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "flag": "F_MULTIUSER"
+              },
+              {
+                "hasLabel": [
+                  "PUR-012",
+                  "السداد يحتاج اعتماداً"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(TRS) و F_MULTIUSER. ويُضاف TRS-008 إلى القسم المصغّر ق-ت12 عند F_MULTIUSER وPUR-012 تتضمن «السداد يحتاج اعتماداً» (تع-12).",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد مسار اعتماد سندات الصرف والتحويلات، ويمنع التنفيذ قبل اكتمال الاعتماد. والمستندات التي يحكمها: سند الصرف العام؛ وسند الصرف لمورّد (بعد اعتماد فرق المطابقة إن وُجد، PUR-009)؛ وصرف عهدة مصروفات جديدة أو زيادتها؛ وسداد الضريبة المستحقة. ولا يمر به: المصروف وطلب الاسترداد وتسوية العهدة (EXP-009)، واستكمال العهدة الدائمة ورد زيادة المصروفات، ورد مبلغ المرتجع، ونقل المال بين أماكن الكيان والتحويل بين حساباته، والرسوم البنكية (STD-GEN-33). والمقارنة بالحد وفق GEN-013 (ع-07). وتنبيه ما يُعتمد هنا بوسيلة صف «سند صرف ينتظر اعتمادي» في TRS-011، ولو كان المستند من وحدة أخرى.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "مستويات الاعتماد",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "level",
+              "label": "رقم المستوى",
+              "type": "number"
+            },
+            {
+              "key": "from",
+              "label": "القيمة من",
+              "type": "number"
+            },
+            {
+              "key": "to",
+              "label": "القيمة إلى",
+              "type": "number"
+            },
+            {
+              "key": "approver",
+              "label": "الدور المعتمِد",
+              "type": "role"
+            },
+            {
+              "key": "on_reject",
+              "label": "عند الرفض",
+              "type": "single",
+              "options": [
+                {
+                  "key": "back_to_creator",
+                  "label": "يعود للمُنشئ للتعديل",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "cancel",
+                  "label": "يُلغى",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "reminder_hours",
+              "label": "مدة الانتظار قبل التذكير (بالساعات)",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "level": 1,
+                "from": 0,
+                "to": 5000,
+                "approver": "المحاسب",
+                "on_reject": "back_to_creator",
+                "reminder_hours": 24
+              },
+              {
+                "level": 2,
+                "from": 5000,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "back_to_creator",
+                "reminder_hours": 24
+              }
+            ],
+            "reason": "توازن بين السرعة والرقابة على النقد.",
+            "when": [],
+            "text": "حتى 5,000: المحاسب؛ أكثر من 5,000: المالك؛ عند الرفض يعود للمُنشئ؛ التذكير 24 ساعة (ع-06) — السبب: توازن بين السرعة والرقابة على النقد. (ب) «لا». وعند «نعم»: (ج) بداية أعلى مستوى في الجدول (مثل «أكبر من 5,000»)، و(د) المدير العام عند توليده، وإلا المحاسب — السبب: التوقيع الثاني رقابة على أكبر المبالغ وحدها. وتُقرأ الشرائح وفق STD-GEN-07."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "توقيعان لكل صرف فوق حد معيّن",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes",
+              "label": "نعم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "no",
+            "reason": "التوقيع الثاني رقابة على أكبر المبالغ وحدها.",
+            "when": [],
+            "text": "حتى 5,000: المحاسب؛ أكثر من 5,000: المالك؛ عند الرفض يعود للمُنشئ؛ التذكير 24 ساعة (ع-06) — السبب: توازن بين السرعة والرقابة على النقد. (ب) «لا». وعند «نعم»: (ج) بداية أعلى مستوى في الجدول (مثل «أكبر من 5,000»)، و(د) المدير العام عند توليده، وإلا المحاسب — السبب: التوقيع الثاني رقابة على أكبر المبالغ وحدها. وتُقرأ الشرائح وفق STD-GEN-07."
+          },
+          "required": false
+        },
+        {
+          "key": "c",
+          "label": "الحد",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "{GEN-001}",
+          "min": 0,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "TRS-008#b",
+              "yes"
+            ]
+          },
+          "recommended": {
+            "value": 5000,
+            "reason": "التوقيع الثاني رقابة على أكبر المبالغ وحدها.",
+            "when": [],
+            "text": "حتى 5,000: المحاسب؛ أكثر من 5,000: المالك؛ عند الرفض يعود للمُنشئ؛ التذكير 24 ساعة (ع-06) — السبب: توازن بين السرعة والرقابة على النقد. (ب) «لا». وعند «نعم»: (ج) بداية أعلى مستوى في الجدول (مثل «أكبر من 5,000»)، و(د) المدير العام عند توليده، وإلا المحاسب — السبب: التوقيع الثاني رقابة على أكبر المبالغ وحدها. وتُقرأ الشرائح وفق STD-GEN-07.",
+            "valueNote": "بداية أعلى مستوى في جدول (أ) (مثل «أكبر من 5,000»)؛ القيمة 5000 من الموصى به.",
+            "valueFrom": "TRS-008#main.from[last]"
+          },
+          "required": false
+        },
+        {
+          "key": "d",
+          "label": "دور الموقِّع الثاني (من ROL-001)",
+          "type": "single",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": "ROL-001",
+          "condition": {
+            "eq": [
+              "TRS-008#b",
+              "yes"
+            ]
+          },
+          "recommended": {
+            "value": "المحاسب",
+            "reason": "التوقيع الثاني رقابة على أكبر المبالغ وحدها.",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "flag": "F_MULTIUSER"
+                    },
+                    {
+                      "ne": [
+                        "PRF-004",
+                        "users_2_5"
+                      ]
+                    }
+                  ]
+                },
+                "value": "المدير العام",
+                "reason": "المدير العام عند توليده (ع-05)."
+              }
+            ],
+            "text": "حتى 5,000: المحاسب؛ أكثر من 5,000: المالك؛ عند الرفض يعود للمُنشئ؛ التذكير 24 ساعة (ع-06) — السبب: توازن بين السرعة والرقابة على النقد. (ب) «لا». وعند «نعم»: (ج) بداية أعلى مستوى في الجدول (مثل «أكبر من 5,000»)، و(د) المدير العام عند توليده، وإلا المحاسب — السبب: التوقيع الثاني رقابة على أكبر المبالغ وحدها. وتُقرأ الشرائح وفق STD-GEN-07."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R008x",
+          "when": {
+            "flag": "F_MULTIUSER"
+          },
+          "noRequirement": false,
+          "text": "يجب ألا يُنفَّذ سند الصرف العام{{IF:{\"module\":\"PUR\"}| أو سند الصرف لمورّد}}{{IF:{\"module\":\"EXP\"}| أو صرف عهدة المصروفات}} (جدول {{R:STD-GEN-33}}) الذي قيمته من {{Q:TRS-008#main.from}} إلى {{Q:TRS-008#main.to}} {{Q:GEN-001}} {{IF:{\"visible\":\"GEN-013\"}|{{Q:GEN-013#a}}}}{{IF:{\"not\":{\"visible\":\"GEN-013\"}}|بمبلغه كما سُجّل}} إلا بعد اعتماد {{Q:TRS-008#main.approver}}؛ وعند الرفض {{Q:TRS-008#main.on_reject}}، والتذكير بعد {{Q:TRS-008#main.reminder_hours}} ساعة؛ ولا يعتمد المُنشئ ما أنشأه (ROL-005).",
+          "whenText": "F_MULTIUSER، لكل صف. وعند خفاء GEN-013 تُكتب خانة {GEN-013.أ} «بمبلغه كما سُجّل» (STD-GEN-65 (٣)).",
+          "forEach": "TRS-008#main",
+          "slotNote": "{مستندات «TRS-008» في جدول STD-GEN-33} مُثّلت بالمستندات المسمّاة في مثال ش١ مشروطةً بوحداتها."
+        },
+        {
+          "id": "TRS-R008y",
+          "when": {
+            "all": [
+              {
+                "flag": "F_MULTIUSER"
+              },
+              {
+                "eq": [
+                  "TRS-008#b",
+                  "yes"
+                ]
+              }
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب ألا يُنفَّذ صرف يتجاوز {{Q:TRS-008#c}} {{Q:GEN-001}} إلا بتوقيع ثانٍ من {{Q:TRS-008#d}}، غير المعتمِد الأول وغير المُنشئ.",
+          "whenText": "عند TRS-008.ب = «نعم»."
+        }
+      ],
+      "workshopNote": "فصل المهام: لا يسقط ROL-005 لقلة المستخدمين؛ فما يُنشئه المحاسب مما يحتاج اعتماداً يعتمده المالك، ومنه سند الصرف حتى 5,000؛ ويبقى صف المحاسب قائماً لما ينشئه غيره (STD-GEN-27، أحكامه الملحقة). وما يُنشئه المالك في مستوى لدور دونه ينفذ دون اعتماد، ويُسجَّل (STD-GEN-66). معنى «التوقيع الثاني»: اعتماد ثانٍ في النظام من مستخدم غير المعتمِد الأول وغير المُنشئ (ROL-005)، يلي اعتماد المستوى. ولا يُعدّ طلباً مستقلاً في حكم ق ع-22، بل شرطاً ثانياً على المستند نفسه.",
+      "alsoIn": [
+        "TRS-MINI"
+      ]
+    },
+    {
+      "id": "TRS-009",
+      "section": "TRS",
+      "order": 9,
+      "title": "هل تريدون متابعة تسويات أجهزة الدفع بالبطاقة؟",
+      "help": "مبالغ البطاقات تصل للبنك لاحقاً مخصوماً منها عمولة؛ المتابعة تكشف أي نقص. ورابط الدفع الإلكتروني والمحفظة الرقمية، اختيراً في SAL-010 أو ذُكرا في «أخرى»، يُعاملان هنا معاملة البطاقة (STD-TRS-08 (٤)، ق ع-83).",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "module": "TRS"
+          },
+          {
+            "any": [
+              {
+                "any": [
+                  {
+                    "hasLabel": [
+                      "SAL-010",
+                      "بطاقة مدى أو بطاقة ائتمانية عبر جهاز"
+                    ]
+                  },
+                  {
+                    "hasLabel": [
+                      "SAL-010",
+                      "رابط دفع إلكتروني"
+                    ]
+                  },
+                  {
+                    "hasLabel": [
+                      "SAL-010",
+                      "محفظة رقمية"
+                    ]
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "module": "POS"
+                  },
+                  {
+                    "hasLabel": [
+                      "POS-005",
+                      "بطاقة"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(TRS) و (SAL-010 تتضمن «بطاقة» أو POS-005 تتضمن «بطاقة»)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد حساباً وسيطاً لمبالغ البطاقات، ومطابقته مع إيداعات البنك، وتسجيل العمولات (STD-TRS-08، STD-TRS-09).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes_reconcile",
+              "label": "نعم، نطابق ما وصل البنك مع مبيعات البطاقات ونسجل العمولة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "yes_reconcile",
+            "reason": "الفروق الصغيرة المتكررة تتراكم دون أن تُلاحظ.",
+            "when": [],
+            "text": "نعم — السبب: الفروق الصغيرة المتكررة تتراكم دون أن تُلاحظ."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R009a",
+          "when": {
+            "eq": [
+              "TRS-009",
+              "yes_reconcile"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يسجّل النظام كل مبلغ بطاقة في الحساب الوسيط لجهازه، ويطابقه لكل جهاز ويوم عمل بالواصل في الكشف، ويسجّل الفرق حتى العمولة المتوقعة مصروف عمولات، ويعالج ما زاد عليها بـ{{Q:TRS-012#b}} بعد اعتماد {{Q:TRS-012#d}} ({{R:STD-TRS-08}}، {{R:STD-TRS-09}}).",
+          "whenText": "عند TRS-009 = «نعم»."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "TRS-009.ب",
+      "section": "TRS",
+      "order": 10,
+      "title": "ما أجهزة الدفع بالبطاقة لديكم، ولأي حساب يصل مبلغ كل جهاز؟",
+      "help": "",
+      "detail": true,
+      "condition": {
+        "eq": [
+          "TRS-009",
+          "yes_reconcile"
+        ]
+      },
+      "conditionText": "TRS-009 = «نعم»",
+      "regulatory": false,
+      "verify": [],
+      "impact": "النوع / يُطبع (ع-08): اسم الجهاز نص/لا؛ الفرع قائمة/لا؛ الحساب البنكي قائمة/لا؛ مدة الوصول رقم/لا؛ نسبة العمولة لكل نوع بطاقة رقم/لا.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "اسم الجهاز",
+              "type": "text"
+            },
+            {
+              "key": "branch",
+              "label": "الفرع",
+              "type": "branch",
+              "condition": {
+                "flag": "F_MULTIBRANCH"
+              }
+            },
+            {
+              "key": "account",
+              "label": "الحساب البنكي (من TRS-001)",
+              "type": "single",
+              "options": [],
+              "rowsFrom": "TRS-001#main.name"
+            },
+            {
+              "key": "settle_days",
+              "label": "مدة وصول المبلغ بأيام العمل",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              {
+                "name": "جهاز المقر",
+                "account": "أول حساب استخدامه «تحصيل» في TRS-001، وإلا أول حساب «عام»",
+                "settle_days": 1
+              }
+            ],
+            "reason": "الترتيب الأشيع، ولكل جهاز تسوية مستقلة.",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "flag": "F_MULTIBRANCH"
+                    },
+                    {
+                      "any": [
+                        {
+                          "hasLabel": [
+                            "SAL-029#b",
+                            "بطاقة عبر جهاز يحمله السائق"
+                          ]
+                        },
+                        {
+                          "hasLabel": [
+                            "SAL-031#c",
+                            "بطاقة عبر جهاز يحمله الفني"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  {
+                    "name": "جهاز <اسم الفرع>",
+                    "branch": "<الفرع>",
+                    "account": "أول حساب استخدامه «تحصيل» في TRS-001، وإلا أول حساب «عام»",
+                    "settle_days": 1
+                  },
+                  {
+                    "name": "جهاز لكل محصِّل يقبض بالبطاقة",
+                    "account": "حساب جهاز فرع المحصِّل",
+                    "settle_days": 1,
+                    "templateRow": true
+                  }
+                ],
+                "rowsFrom": "GEN-003",
+                "reason": "الترتيب الأشيع، ولكل جهاز تسوية مستقلة."
+              },
+              {
+                "if": {
+                  "flag": "F_MULTIBRANCH"
+                },
+                "value": [
+                  {
+                    "name": "جهاز <اسم الفرع>",
+                    "branch": "<الفرع>",
+                    "account": "أول حساب استخدامه «تحصيل» في TRS-001، وإلا أول حساب «عام»",
+                    "settle_days": 1
+                  }
+                ],
+                "rowsFrom": "GEN-003",
+                "reason": "الترتيب الأشيع، ولكل جهاز تسوية مستقلة."
+              },
+              {
+                "if": {
+                  "any": [
+                    {
+                      "hasLabel": [
+                        "SAL-029#b",
+                        "بطاقة عبر جهاز يحمله السائق"
+                      ]
+                    },
+                    {
+                      "hasLabel": [
+                        "SAL-031#c",
+                        "بطاقة عبر جهاز يحمله الفني"
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  {
+                    "name": "جهاز المقر",
+                    "account": "أول حساب استخدامه «تحصيل» في TRS-001، وإلا أول حساب «عام»",
+                    "settle_days": 1
+                  },
+                  {
+                    "name": "جهاز لكل محصِّل يقبض بالبطاقة",
+                    "account": "حساب جهاز فرع المحصِّل",
+                    "settle_days": 1,
+                    "templateRow": true
+                  }
+                ],
+                "reason": "الترتيب الأشيع، ولكل جهاز تسوية مستقلة."
+              }
+            ],
+            "text": "جهاز واحد لكل فرع في GEN-003، مرتبط بأول حساب استخدامه «تحصيل» في TRS-001، وإلا أول حساب «عام»، ومدة الوصول يوم عمل واحد. ويُضاف صف قالب واحد «جهاز لكل محصِّل يقبض بالبطاقة» عند SAL-029.ب أو SAL-031.ج تتضمن «بطاقة»، تُنشأ أجهزته آلياً باسم «جهاز <المحصِّل>» عند إضافة كل محصِّل (STD-TRS-08 (٥)، ق ع-126) — السبب: الترتيب الأشيع، ولكل جهاز تسوية مستقلة. وعند عدم F_MULTIBRANCH: «واحد للكيان» باسم «جهاز المقر»، ويُسقَط عمود «الفرع». وعند F_MULTIBRANCH: يُسمّى الجهاز «جهاز <اسم الفرع>». ولمندوب المبيعات جهاز فرع الفاتورة، ولا يُضاف له صف (STD-TRS-08 (٣))."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R009b",
+          "when": {
+            "eq": [
+              "TRS-009",
+              "yes_reconcile"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يعرّف النظام أجهزة الدفع بالبطاقة {{Q:TRS-009.ب#main.name}}، لكلٍّ فرعه {{Q:TRS-009.ب#main.branch}} وحسابه البنكي {{Q:TRS-009.ب#main.account}}، وأن يُنبّه المحاسب في الملخص اليومي بما لم يصل بعد {{Q:TRS-009.ب#main.settle_days}} يوم عمل{{IF:{\"any\":[{\"hasLabel\":[\"SAL-029#b\",\"بطاقة عبر جهاز يحمله السائق\"]},{\"hasLabel\":[\"SAL-031#c\",\"بطاقة عبر جهاز يحمله الفني\"]}]}|، وأن يُنشئ آلياً جهازاً وحساباً وسيطاً لكل محصِّل حقله «يقبض بالبطاقة» = «نعم» عند إضافته إلى «أشخاص غير مستخدمين» (STD-TRS-08 (٥))}}.",
+          "whenText": "عند TRS-009 = «نعم»؛ وخانة جهاز المحصِّل عند صف المحصّلين القالب."
+        }
+      ],
+      "workshopNote": "نسبة العمولة قيمة تعاقدية تُدخل عند الإعداد لكل جهاز ونوع بطاقة (وإن عُرّفت نسبة واحدة فهي لكل الأنواع){، قبل الضريبة (STD-TAX-08 (٦)) — عند F_VAT}، ولا يُسأل عنها في الورشة؛ وهي مهمة إعداد للمحاسب (4.9 ب-١٨). ونوع البطاقة يُسجَّل في سطر البطاقة وفق STD-TRS-08 (٣) (ق ع-91)."
+    },
+    {
+      "id": "TRS-010",
+      "section": "TRS",
+      "order": 11,
+      "title": "ما تقارير الخزينة والبنوك التي تحتاجونها؟",
+      "help": "انظر م-9.",
+      "detail": false,
+      "condition": {
+        "module": "TRS"
+      },
+      "conditionText": "M(TRS)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد تقارير الخزينة.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multiPriority",
+          "options": [
+            {
+              "key": "balances_live",
+              "label": "أرصدة الصناديق والبنوك اللحظية",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "أرصدة الصناديق والبنوك اللحظية",
+                "purpose": "معرفة النقد المتاح",
+                "figures": "رصيد كل صندوق وحساب بنكي، والرقم الرئيسي لـ«النقد المتاح». وتحته منفصلاً، وغير مضاف إليه: النقد في الطريق، وعُهد التحصيل غير المورَّدة، ومبالغ البطاقات تحت التسوية، وعُهد المصروفات المفتوحة (STD-GEN-32 (٤))، و«صرف معتمد لم يُنفَّذ» (STD-GEN-30 (٢))، وشيكات واردة تحت التحصيل، وشيكات صادرة لم تُصرف (تُعرض بإشارة سالبة)، عند ظهور STD-TRS-11؛ ومبالغ تحت التحقق (STD-TRS-06 (٤))",
+                "filter": "الفرع، والصندوق أو الحساب",
+                "frequency": "يومي",
+                "reader": "المالك والمحاسب"
+              }
+            },
+            {
+              "key": "cash_bank_statement",
+              "label": "كشف حركة صندوق أو بنك",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "كشف حركة صندوق أو بنك",
+                "purpose": "مراجعة الحركات",
+                "figures": "الرصيد الافتتاحي، والحركات النافذة بمستنداتها، والرصيد المتراكم",
+                "filter": "فترة، صندوق أو حساب",
+                "frequency": "عند الطلب",
+                "reader": "المحاسب"
+              }
+            },
+            {
+              "key": "bank_rec_report",
+              "label": "تقرير المطابقة البنكية",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "تقرير المطابقة البنكية",
+                "purpose": "إثبات المطابقة",
+                "figures": "رصيد الكشف، ورصيد النظام، والمعلّقات بنوعيها وأعمارها، وحالة المطابقة",
+                "filter": "فترة، حساب",
+                "frequency": "بتكرار TRS-004",
+                "reader": "المالك"
+              }
+            },
+            {
+              "key": "cash_forecast",
+              "label": "التدفق النقدي المتوقع",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "التدفق النقدي المتوقع",
+                "purpose": "كشف نقص السيولة مبكراً",
+                "figures": "لكل فترة: رصيد البداية، والداخل، والخارج، والمتوقع؛ و«مستحقات متأخرة غير مضمونة» (STD-TRS-10)",
+                "filter": "الفترات",
+                "frequency": "أسبوعي",
+                "reader": "المالك"
+              }
+            },
+            {
+              "key": "cheques_by_status",
+              "label": "الشيكات حسب الحالة",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "الشيكات حسب الحالة",
+                "purpose": "متابعة الشيكات",
+                "figures": "الرقم، والطرف، والمبلغ، والاستحقاق، والحالة",
+                "filter": "الحالة، فترة الاستحقاق، وارد أو صادر",
+                "frequency": "أسبوعي",
+                "reader": "المحاسب"
+              }
+            },
+            {
+              "key": "upcoming_installments",
+              "label": "الأقساط القادمة",
+              "other": false,
+              "dontKnow": false,
+              "card": {
+                "name": "الأقساط القادمة",
+                "purpose": "متابعة التزامات التمويل",
+                "figures": "الجهة، والقسط، وتاريخ الاستحقاق، والمتبقي من التمويل",
+                "filter": "فترة، جهة",
+                "frequency": "شهري",
+                "reader": "المالك"
+              }
+            },
+            {
+              "key": "card_settlements",
+              "label": "تسويات البطاقات",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "eq": [
+                  "TRS-009",
+                  "yes_reconcile"
+                ]
+              },
+              "conditionText": "يظهر عند TRS-009 = «نعم»",
+              "card": {
+                "name": "تسويات البطاقات",
+                "purpose": "كشف النقص في مبالغ البطاقات",
+                "figures": "المبيعات بالبطاقة، والواصل، والعمولة، والفرق، وما لم يصل",
+                "filter": "فترة، جهاز، فرع",
+                "frequency": "أسبوعي",
+                "reader": "المحاسب"
+              }
+            },
+            {
+              "key": "cash_variances",
+              "label": "فروقات الصناديق",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "visible": "TRS-012"
+              },
+              "conditionText": "يظهر عند ظهور TRS-012",
+              "card": {
+                "name": "فروقات الصناديق",
+                "purpose": "ضبط العجز والزيادة",
+                "figures": "لكل فرق: الصندوق أو العهدة أو الجهاز، والمسؤول، والمبلغ، والحالة، والمعالجة",
+                "filter": "فترة، صندوق، مسؤول، نوع الفرق",
+                "frequency": "شهري",
+                "reader": "المالك"
+              }
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": {
+              "balances_live": null,
+              "cash_bank_statement": null,
+              "bank_rec_report": null
+            },
+            "reason": "المتابعة اليومية للنقد.",
+            "when": [],
+            "text": "الأرصدة اللحظية، وكشف الحركة، وتقرير المطابقة — السبب: المتابعة اليومية للنقد. ويُضاف إليه حين تظهر مصادرها: «التدفق النقدي المتوقع» عند TRS-005 ∉ {«لا»}؛ و«الأقساط القادمة» عند TRS-006 = «نعم»؛ و«الشيكات حسب الحالة» عند TRS-007 تتضمن «متابعة حالة الشيك»؛ و«تسويات البطاقات» عند TRS-009 = «نعم»؛ و«فروقات الصناديق» عند ظهور TRS-012 — السبب: كل مصدر اختاره الكيان يحتاج تقريره، وإلا بُني بلا مخرج. ويُسقَط من الموصى به «تقرير المطابقة» عند TRS-004 = «لا نطابق» (STD-GEN-24).",
+            "valueNote": "الأولوية null = أولوية الوحدة في SCP-001 (ع-09).",
+            "whenAdd": [
+              {
+                "if": {
+                  "in": [
+                    "TRS-005",
+                    [
+                      "weekly_3m",
+                      "monthly_1y"
+                    ]
+                  ]
+                },
+                "add": "cash_forecast"
+              },
+              {
+                "if": {
+                  "eq": [
+                    "TRS-006",
+                    "yes_schedule"
+                  ]
+                },
+                "add": "upcoming_installments"
+              },
+              {
+                "if": {
+                  "has": [
+                    "TRS-007",
+                    "status_tracking"
+                  ]
+                },
+                "add": "cheques_by_status"
+              },
+              {
+                "if": {
+                  "eq": [
+                    "TRS-009",
+                    "yes_reconcile"
+                  ]
+                },
+                "add": "card_settlements"
+              },
+              {
+                "if": {
+                  "visible": "TRS-012"
+                },
+                "add": "cash_variances"
+              },
+              {
+                "if": {
+                  "eq": [
+                    "TRS-004",
+                    "none"
+                  ]
+                },
+                "remove": "bank_rec_report"
+              }
+            ],
+            "whenAddReason": "كل مصدر اختاره الكيان يحتاج تقريره، وإلا بُني بلا مخرج."
+          },
+          "required": false
+        },
+        {
+          "key": "extra",
+          "label": "تقارير إضافية",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "name",
+              "label": "التقرير",
+              "type": "text"
+            },
+            {
+              "key": "purpose",
+              "label": "الغرض",
+              "type": "text"
+            },
+            {
+              "key": "figures",
+              "label": "الأرقام",
+              "type": "text"
+            },
+            {
+              "key": "filter",
+              "label": "التصفية",
+              "type": "text"
+            },
+            {
+              "key": "frequency",
+              "label": "التكرار",
+              "type": "text"
+            },
+            {
+              "key": "reader",
+              "label": "القارئ",
+              "type": "role"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R010x",
+          "when": null,
+          "noRequirement": false,
+          "text": "{{SW:TRS-010|balances_live=يجب أن يوفّر النظام تقرير «أرصدة الصناديق والبنوك اللحظية» لغرض معرفة النقد المتاح، يعرض رصيد كل صندوق وحساب بنكي، والرقم الرئيسي لـ«النقد المتاح». وتحته منفصلاً، وغير مضاف إليه: النقد في الطريق، وعُهد التحصيل غير المورَّدة، ومبالغ البطاقات تحت التسوية، وعُهد المصروفات المفتوحة (STD-GEN-32 (٤))، و«صرف معتمد لم يُنفَّذ» (STD-GEN-30 (٢))، وشيكات واردة تحت التحصيل، وشيكات صادرة لم تُصرف (تُعرض بإشارة سالبة)، عند ظهور STD-TRS-11؛ ومبالغ تحت التحقق (STD-TRS-06 (٤))، ويُصفّى بـالفرع، والصندوق أو الحساب، ويُتاح يومي لدور المالك والمحاسب.|cash_bank_statement=يجب أن يوفّر النظام تقرير «كشف حركة صندوق أو بنك» لغرض مراجعة الحركات، يعرض الرصيد الافتتاحي، والحركات النافذة بمستنداتها، والرصيد المتراكم، ويُصفّى بـفترة، صندوق أو حساب، ويُتاح عند الطلب لدور المحاسب.|bank_rec_report=يجب أن يوفّر النظام تقرير «تقرير المطابقة البنكية» لغرض إثبات المطابقة، يعرض رصيد الكشف، ورصيد النظام، والمعلّقات بنوعيها وأعمارها، وحالة المطابقة، ويُصفّى بـفترة، حساب، ويُتاح بتكرار {{Q:TRS-004#freq}} لدور المالك.|cash_forecast=يجب أن يوفّر النظام تقرير «التدفق النقدي المتوقع» لغرض كشف نقص السيولة مبكراً، يعرض لكل فترة: رصيد البداية، والداخل، والخارج، والمتوقع؛ و«مستحقات متأخرة غير مضمونة» (STD-TRS-10)، ويُصفّى بـالفترات، ويُتاح أسبوعي لدور المالك.|cheques_by_status=يجب أن يوفّر النظام تقرير «الشيكات حسب الحالة» لغرض متابعة الشيكات، يعرض الرقم، والطرف، والمبلغ، والاستحقاق، والحالة، ويُصفّى بـالحالة، فترة الاستحقاق، وارد أو صادر، ويُتاح أسبوعي لدور المحاسب.|upcoming_installments=يجب أن يوفّر النظام تقرير «الأقساط القادمة» لغرض متابعة التزامات التمويل، يعرض الجهة، والقسط، وتاريخ الاستحقاق، والمتبقي من التمويل، ويُصفّى بـفترة، جهة، ويُتاح شهري لدور المالك.|card_settlements=يجب أن يوفّر النظام تقرير «تسويات البطاقات» لغرض كشف النقص في مبالغ البطاقات، يعرض المبيعات بالبطاقة، والواصل، والعمولة، والفرق، وما لم يصل، ويُصفّى بـفترة، جهاز، فرع، ويُتاح أسبوعي لدور المحاسب.|cash_variances=يجب أن يوفّر النظام تقرير «فروقات الصناديق» لغرض ضبط العجز والزيادة، يعرض لكل فرق: الصندوق أو العهدة أو الجهاز، والمسؤول، والمبلغ، والحالة، والمعالجة، ويُصفّى بـفترة، صندوق، مسؤول، نوع الفرق، ويُتاح شهري لدور المالك.|*=}}{{IF:{\"answered\":\"TRS-010#extra\"}| يجب أن يوفّر النظام تقرير «{{Q:TRS-010#extra.name}}» لغرض {{Q:TRS-010#extra.purpose}}، يعرض {{Q:TRS-010#extra.figures}}، ويُصفّى بـ{{Q:TRS-010#extra.filter}}، ويُتاح {{Q:TRS-010#extra.frequency}} لدور {{Q:TRS-010#extra.reader}}.}}",
+          "whenText": "لكل تقرير مختار؛ والقيم من البطاقات أعلاه أو من جدول «تقارير إضافية».",
+          "forEach": "TRS-010"
+        }
+      ],
+      "workshopNote": "قيد القارئ: القارئ مقيَّد بـROL-004 («أرصدة البنوك والصناديق»)؛ فإن لم يكن له هذا الاطلاع، يُستبدل بالمالك ويُسجَّل افتراضاً مُعلناً. والمقيَّد بفرعه (ROL-003) يرى صناديق فرعه وحساباته وحدها. ويرى مسؤول الصندوق وأمين صندوق الفرع رصيد صندوقهما وحركاته وحدها ولو حُجبت الأرصدة (STD-TRS-13 (١)). وأولوية كل تقرير أولوية الوحدة (ع-09)."
+    },
+    {
+      "id": "TRS-011",
+      "section": "TRS",
+      "order": 12,
+      "title": "ما التنبيهات التي تحتاجونها في الخزينة؟",
+      "help": "انظر م-10.",
+      "detail": false,
+      "condition": {
+        "module": "TRS"
+      },
+      "conditionText": "M(TRS)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد قواعد التنبيه.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "cash_over_limit",
+              "label": "صندوق تجاوز حده الأعلى",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "bank_below_limit",
+              "label": "رصيد بنك أقل من حد (حدّد)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "installment_due",
+              "label": "قسط يقترب موعده",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "cheque_due",
+              "label": "شيك يقترب استحقاقه",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "payment_awaiting_approval",
+              "label": "سند صرف ينتظر اعتمادي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "reconciliation_pending",
+              "label": "مطابقة لم تُنجز",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "cash_over_limit",
+              "payment_awaiting_approval",
+              "installment_due"
+            ],
+            "reason": "أهم مخاطر النقد.",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "eq": [
+                        "TRS-006",
+                        "yes_schedule"
+                      ]
+                    },
+                    {
+                      "ne": [
+                        "TRS-004",
+                        "none"
+                      ]
+                    },
+                    {
+                      "has": [
+                        "TRS-007",
+                        "postdated"
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  "cash_over_limit",
+                  "payment_awaiting_approval",
+                  "installment_due",
+                  "reconciliation_pending",
+                  "cheque_due"
+                ],
+                "reason": "أهم مخاطر النقد."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "not": {
+                        "eq": [
+                          "TRS-006",
+                          "yes_schedule"
+                        ]
+                      }
+                    },
+                    {
+                      "ne": [
+                        "TRS-004",
+                        "none"
+                      ]
+                    },
+                    {
+                      "has": [
+                        "TRS-007",
+                        "postdated"
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  "cash_over_limit",
+                  "payment_awaiting_approval",
+                  "reconciliation_pending",
+                  "cheque_due"
+                ],
+                "reason": "أهم مخاطر النقد."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "eq": [
+                        "TRS-006",
+                        "yes_schedule"
+                      ]
+                    },
+                    {
+                      "ne": [
+                        "TRS-004",
+                        "none"
+                      ]
+                    },
+                    {
+                      "not": {
+                        "has": [
+                          "TRS-007",
+                          "postdated"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "value": [
+                  "cash_over_limit",
+                  "payment_awaiting_approval",
+                  "installment_due",
+                  "reconciliation_pending"
+                ],
+                "reason": "أهم مخاطر النقد."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "not": {
+                        "eq": [
+                          "TRS-006",
+                          "yes_schedule"
+                        ]
+                      }
+                    },
+                    {
+                      "ne": [
+                        "TRS-004",
+                        "none"
+                      ]
+                    },
+                    {
+                      "not": {
+                        "has": [
+                          "TRS-007",
+                          "postdated"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "value": [
+                  "cash_over_limit",
+                  "payment_awaiting_approval",
+                  "reconciliation_pending"
+                ],
+                "reason": "أهم مخاطر النقد."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "eq": [
+                        "TRS-006",
+                        "yes_schedule"
+                      ]
+                    },
+                    {
+                      "not": {
+                        "ne": [
+                          "TRS-004",
+                          "none"
+                        ]
+                      }
+                    },
+                    {
+                      "has": [
+                        "TRS-007",
+                        "postdated"
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  "cash_over_limit",
+                  "payment_awaiting_approval",
+                  "installment_due",
+                  "cheque_due"
+                ],
+                "reason": "أهم مخاطر النقد."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "not": {
+                        "eq": [
+                          "TRS-006",
+                          "yes_schedule"
+                        ]
+                      }
+                    },
+                    {
+                      "not": {
+                        "ne": [
+                          "TRS-004",
+                          "none"
+                        ]
+                      }
+                    },
+                    {
+                      "has": [
+                        "TRS-007",
+                        "postdated"
+                      ]
+                    }
+                  ]
+                },
+                "value": [
+                  "cash_over_limit",
+                  "payment_awaiting_approval",
+                  "cheque_due"
+                ],
+                "reason": "أهم مخاطر النقد."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "eq": [
+                        "TRS-006",
+                        "yes_schedule"
+                      ]
+                    },
+                    {
+                      "not": {
+                        "ne": [
+                          "TRS-004",
+                          "none"
+                        ]
+                      }
+                    },
+                    {
+                      "not": {
+                        "has": [
+                          "TRS-007",
+                          "postdated"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "value": [
+                  "cash_over_limit",
+                  "payment_awaiting_approval",
+                  "installment_due"
+                ],
+                "reason": "أهم مخاطر النقد."
+              },
+              {
+                "if": {
+                  "all": [
+                    {
+                      "not": {
+                        "eq": [
+                          "TRS-006",
+                          "yes_schedule"
+                        ]
+                      }
+                    },
+                    {
+                      "not": {
+                        "ne": [
+                          "TRS-004",
+                          "none"
+                        ]
+                      }
+                    },
+                    {
+                      "not": {
+                        "has": [
+                          "TRS-007",
+                          "postdated"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "value": [
+                  "cash_over_limit",
+                  "payment_awaiting_approval"
+                ],
+                "reason": "أهم مخاطر النقد."
+              }
+            ],
+            "text": "صندوق تجاوز حده، وسند صرف ينتظر اعتمادي، وقسط يقترب موعده (قبل 5 أيام) — داخل النظام وبريد إلكتروني — السبب: أهم مخاطر النقد. ومستلم «صندوق تجاوز حدّه» المالك ومسؤول الصندوق، ومستلم «سند صرف ينتظر اعتمادي» المعتمِد المعني، ومستلم «قسط يقترب موعده» المالك والمحاسب. ويُضاف «مطابقة لم تُنجز» عند TRS-004 ≠ «لا نطابق»، و«شيك يقترب استحقاقه» عند TRS-007 تتضمن «شيكات مؤجلة». ويُسقَط «قسط» عند TRS-006 ≠ «نعم» (STD-GEN-24)."
+          },
+          "required": false
+        },
+        {
+          "key": "bank_limit",
+          "label": "حد رصيد البنك",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "{GEN-001}",
+          "min": 0,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "has": [
+              "TRS-011",
+              "bank_below_limit"
+            ]
+          },
+          "recommended": {
+            "value": 10000,
+            "reason": "الحد الموصى به 10,000 {GEN-001} لكل حساب، يُعدَّل لكل حساب عند الإعداد.",
+            "when": [],
+            "text": "رصيد بنك أقل من حد (الحد الموصى به 10,000 {GEN-001} لكل حساب، يُعدَّل لكل حساب عند الإعداد)"
+          },
+          "required": false
+        },
+        {
+          "key": "settings",
+          "label": "من يُنبَّه / الوسيلة / التوقيت",
+          "type": "matrix",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "recipient",
+              "label": "المستلم",
+              "type": "role"
+            },
+            {
+              "key": "channel",
+              "label": "الوسيلة",
+              "type": "text"
+            },
+            {
+              "key": "timing",
+              "label": "التوقيت",
+              "type": "text"
+            }
+          ],
+          "rows": [
+            {
+              "key": "cash_over_limit",
+              "label": "صندوق تجاوز حدّه الأعلى",
+              "class": "عاجل"
+            },
+            {
+              "key": "bank_below_limit",
+              "label": "رصيد بنك أقل من حد (الحد الموصى به 10,000 {GEN-001} لكل حساب، يُعدَّل لكل حساب عند الإعداد)",
+              "class": "عاجل (تجاوز حد)"
+            },
+            {
+              "key": "installment_due",
+              "label": "قسط يقترب موعده",
+              "class": "غير عاجل"
+            },
+            {
+              "key": "cheque_due",
+              "label": "شيك يقترب استحقاقه",
+              "class": "غير عاجل"
+            },
+            {
+              "key": "payment_awaiting_approval",
+              "label": "سند صرف ينتظر اعتمادي",
+              "class": "عاجل"
+            },
+            {
+              "key": "reconciliation_pending",
+              "label": "مطابقة لم تُنجز",
+              "class": "غير عاجل"
+            }
+          ],
+          "rowsFrom": "TRS-011",
+          "condition": null,
+          "recommended": {
+            "value": {
+              "cash_over_limit": {
+                "recipient": "المالك، ومسؤول الصندوق",
+                "channel": "داخل النظام وبريد",
+                "timing": "فوراً"
+              },
+              "bank_below_limit": {
+                "recipient": "المحاسب",
+                "channel": "داخل النظام",
+                "timing": "فوراً"
+              },
+              "installment_due": {
+                "recipient": "المالك والمحاسب",
+                "channel": "داخل النظام وبريد",
+                "timing": "قبل 5 أيام"
+              },
+              "cheque_due": {
+                "recipient": "المحاسب",
+                "channel": "داخل النظام",
+                "timing": "قبل 3 أيام"
+              },
+              "payment_awaiting_approval": {
+                "recipient": "المعتمِد المعني",
+                "channel": "داخل النظام وبريد",
+                "timing": "فوراً"
+              },
+              "reconciliation_pending": {
+                "recipient": "المحاسب والمالك",
+                "channel": "داخل النظام",
+                "timing": "بعد 5 أيام عمل من نهاية فترة TRS-004"
+              }
+            },
+            "reason": "أهم مخاطر النقد.",
+            "when": [
+              {
+                "if": {
+                  "not": {
+                    "flag": "F_MULTIUSER"
+                  }
+                },
+                "value": {
+                  "cash_over_limit": {
+                    "recipient": "المستخدم الوحيد",
+                    "channel": "داخل النظام وبريد",
+                    "timing": "فوراً"
+                  },
+                  "bank_below_limit": {
+                    "recipient": "المستخدم الوحيد",
+                    "channel": "داخل النظام",
+                    "timing": "فوراً"
+                  },
+                  "installment_due": {
+                    "recipient": "المستخدم الوحيد",
+                    "channel": "داخل النظام وبريد",
+                    "timing": "قبل 5 أيام"
+                  },
+                  "cheque_due": {
+                    "recipient": "المستخدم الوحيد",
+                    "channel": "داخل النظام",
+                    "timing": "قبل 3 أيام"
+                  },
+                  "payment_awaiting_approval": {
+                    "recipient": "المستخدم الوحيد",
+                    "channel": "داخل النظام وبريد",
+                    "timing": "فوراً"
+                  },
+                  "reconciliation_pending": {
+                    "recipient": "المستخدم الوحيد",
+                    "channel": "داخل النظام",
+                    "timing": "بعد 5 أيام عمل من نهاية فترة TRS-004"
+                  }
+                },
+                "reason": "عند عدم F_MULTIUSER يُكتب المستلم «المستخدم الوحيد» (ع-04)."
+              }
+            ],
+            "text": "إعدادات كل خيار (م-10) وتصنيفه: من جدول TRS-011."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R011x",
+          "when": {
+            "hasAny": [
+              "TRS-011",
+              [
+                "cash_over_limit",
+                "bank_below_limit",
+                "installment_due",
+                "cheque_due",
+                "payment_awaiting_approval",
+                "reconciliation_pending"
+              ]
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يُنبّه النظام {{IF:{\"flag\":\"F_MULTIUSER\"}|{{Q:TRS-011#settings.recipient}}}}{{IF:{\"not\":{\"flag\":\"F_MULTIUSER\"}}|المستخدم الوحيد}} عبر {{Q:TRS-011#settings.channel}} {{Q:TRS-011#settings.timing}} عند {{Q:TRS-011}}{{SW:TRS-011|bank_below_limit= عند تجاوز {{Q:TRS-011#bank_limit}} {{Q:GEN-001}}|*=}}.",
+          "whenText": "لكل حدث مختار؛ والقيم من الجدول أعلاه.",
+          "forEach": "TRS-011"
+        }
+      ],
+      "workshopNote": "وسيلة صف «سند صرف ينتظر اعتمادي» تُطبَّق على كل مستند يُعتمد خروج ماله في TRS-008 ولو كان من وحدة أخرى (سند الصرف لمورّد، وصرف عهدة المصروفات)، وإلا ALR-001. ويُرسل لكل طلب اعتماد تنبيه واحد إلى المعتمِد المعني (ق ع-22).",
+      "standardAlerts": [
+        {
+          "event": "رصيد حساب بنكي سالب",
+          "recipient": "المالك والمحاسب",
+          "channel": "STD-GEN-70 (١)",
+          "class": "عاجل",
+          "source": "STD-TRS-01"
+        },
+        {
+          "event": "تحويل ينتظر تأكيدي",
+          "recipient": "المحاسب",
+          "channel": "STD-GEN-70 (١)",
+          "class": "عاجل",
+          "source": "STD-TRS-04"
+        },
+        {
+          "event": "فرق نقدي ينتظر اعتمادي",
+          "recipient": "المعتمِد المعني",
+          "channel": "وفق ع-04 (STD-GEN-70 (٣))",
+          "class": "عاجل",
+          "source": "STD-TRS-02"
+        },
+        {
+          "event": "شيك مرتجع",
+          "recipient": "المحاسب ومُنشئ السند",
+          "channel": "STD-GEN-70 (١)",
+          "class": "عاجل",
+          "source": "STD-TRS-11"
+        },
+        {
+          "event": "صندوق لم يُقفل",
+          "recipient": "مسؤول الصندوق والمحاسب",
+          "channel": "STD-GEN-70 (٢)",
+          "class": "غير عاجل",
+          "source": "STD-TRS-02"
+        },
+        {
+          "event": "مبالغ بطاقات لم تصل",
+          "recipient": "المحاسب",
+          "channel": "STD-GEN-70 (٢)",
+          "class": "غير عاجل",
+          "source": "STD-TRS-09"
+        },
+        {
+          "event": "خصم في الكشف لا يُعرف سببه",
+          "recipient": "المالك",
+          "channel": "STD-GEN-70 (٢)",
+          "class": "غير عاجل",
+          "source": "STD-TRS-06"
+        },
+        {
+          "event": "نقل نقد بقي «مُرسَلاً» أكثر من يومي عمل",
+          "recipient": "المحاسب (الملخص اليومي)",
+          "channel": "STD-GEN-70 (٢)",
+          "class": "غير عاجل",
+          "source": "STD-GEN-30 (٣)"
+        },
+        {
+          "event": "تحويل لم يصل بعد إعادة سنده إلى «مسودة»",
+          "recipient": "مُنشئ الفاتورة والمحاسب",
+          "channel": "STD-GEN-70 (١)",
+          "class": "عاجل",
+          "source": "STD-TRS-14 (٤)"
+        }
+      ],
+      "standardAlertsNote": "تنبيهات قياسية (لا تُختار، وتُكتب في الوثيقة بمصدر «قياسي»):"
+    },
+    {
+      "id": "TRS-012",
+      "section": "TRS",
+      "order": 13,
+      "title": "كيف يُقفل الصندوق، وما حكم العجز والزيادة؟",
+      "help": "الإقفال: عدّ النقد الموجود فعلاً ومقارنته بالرصيد المسجّل. والعجز: نقد أقل من المسجّل. والزيادة: نقد أكثر منه. ويُعامل بالحكم نفسه النقص في عهدة تحصيل السائق أو الفني أو مندوب المبيعات، والنقص في نقل نقد بين صندوقين، والنقص في مبالغ البطاقات فوق العمولة.",
+      "detail": false,
+      "condition": {
+        "any": [
+          {
+            "module": "TRS"
+          },
+          {
+            "all": [
+              {
+                "not": {
+                  "module": "TRS"
+                }
+              },
+              {
+                "any": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "module": "POS"
+                  },
+                  {
+                    "module": "PUR"
+                  },
+                  {
+                    "module": "EXP"
+                  },
+                  {
+                    "module": "PAY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "M(TRS) أو ق-ت12. والأجزاء (ب) و(ج) و(د) تظهر ولو كان (أ) «لا إقفال»، لأن فروق العُهد والنقل والبطاقات تبقى.",
+      "regulatory": true,
+      "verify": [
+        "يحتاج تحقق من جواز التحميل على الموظف وحدوده"
+      ],
+      "impact": "يحدد مستند «إقفال صندوق»، ومستند «تسوية فرق نقدي» واعتماده، وحسابَي «عجز نقدية» و«زيادات نقدية»، وفق STD-TRS-02 وSTD-TRS-03. والإقفال بعدّ أعمى في صندوق فرعٍ مسؤوله في المقر يُنشئه أمين صندوق الفرع (STD-TRS-13).",
+      "parts": [
+        {
+          "key": "a",
+          "label": "الإقفال",
+          "type": "single",
+          "options": [
+            {
+              "key": "daily_count",
+              "label": "يومياً بعدّ فعلي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "weekly_count",
+              "label": "أسبوعياً بعدّ فعلي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no_close",
+              "label": "لا إقفال، ويُكتفى بالرصيد المسجّل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "daily_count",
+            "reason": "النقد أسرع ما يُفقد، والعدّ اليومي يحصر الفرق في يومه.",
+            "when": [],
+            "text": "(أ) يومياً بعدّ فعلي — السبب: النقد أسرع ما يُفقد، والعدّ اليومي يحصر الفرق في يومه. (ب) الأول — السبب: لا يُحمَّل الموظف قبل التحقق، ويتسق مع STD-GEN-32 (٦) وINV-018.ب. (ج) الأول — السبب: الزيادة غالباً مبلغ لعميل أو خطأ تسجيل. (د) مستوى واحد: كل مبلغ، المالك؛ عند الرفض يعود للمُنشئ؛ التذكير بعد 24 ساعة — السبب: يتسق مع STD-GEN-32 (٦) وق ع-26. وعند عدم F_MULTIUSER: «المستخدم الوحيد»، دون اعتماد."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "العجز",
+          "type": "single",
+          "options": [
+            {
+              "key": "expense_after_approval",
+              "label": "يُسجَّل مصروفاً «عجز نقدية» بعد الاعتماد، ويُدوَّن في سجل المسؤول عنه",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "receivable_from_custodian",
+              "label": "يُثبت مبلغاً مستحقاً على المسؤول عنه بعد الاعتماد [يحتاج تحقق من جواز التحميل على الموظف وحدوده]",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "expense_after_approval",
+            "reason": "لا يُحمَّل الموظف قبل التحقق، ويتسق مع STD-GEN-32 (٦) وINV-018.ب.",
+            "when": [],
+            "text": "(أ) يومياً بعدّ فعلي — السبب: النقد أسرع ما يُفقد، والعدّ اليومي يحصر الفرق في يومه. (ب) الأول — السبب: لا يُحمَّل الموظف قبل التحقق، ويتسق مع STD-GEN-32 (٦) وINV-018.ب. (ج) الأول — السبب: الزيادة غالباً مبلغ لعميل أو خطأ تسجيل. (د) مستوى واحد: كل مبلغ، المالك؛ عند الرفض يعود للمُنشئ؛ التذكير بعد 24 ساعة — السبب: يتسق مع STD-GEN-32 (٦) وق ع-26. وعند عدم F_MULTIUSER: «المستخدم الوحيد»، دون اعتماد."
+          },
+          "required": false
+        },
+        {
+          "key": "c",
+          "label": "الزيادة",
+          "type": "single",
+          "options": [
+            {
+              "key": "suspense_then_settle",
+              "label": "تُعلَّق في حساب «زيادات نقدية» حتى يُعرف مصدرها، ثم تُسوّى بعد الاعتماد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "misc_revenue",
+              "label": "تُسجَّل إيراداً متنوعاً بعد الاعتماد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "suspense_then_settle",
+            "reason": "الزيادة غالباً مبلغ لعميل أو خطأ تسجيل.",
+            "when": [],
+            "text": "(أ) يومياً بعدّ فعلي — السبب: النقد أسرع ما يُفقد، والعدّ اليومي يحصر الفرق في يومه. (ب) الأول — السبب: لا يُحمَّل الموظف قبل التحقق، ويتسق مع STD-GEN-32 (٦) وINV-018.ب. (ج) الأول — السبب: الزيادة غالباً مبلغ لعميل أو خطأ تسجيل. (د) مستوى واحد: كل مبلغ، المالك؛ عند الرفض يعود للمُنشئ؛ التذكير بعد 24 ساعة — السبب: يتسق مع STD-GEN-32 (٦) وق ع-26. وعند عدم F_MULTIUSER: «المستخدم الوحيد»، دون اعتماد."
+          },
+          "required": false
+        },
+        {
+          "key": "d",
+          "label": "معتمِد العجز والزيادة",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "level",
+              "label": "رقم المستوى",
+              "type": "number"
+            },
+            {
+              "key": "from",
+              "label": "القيمة من",
+              "type": "number"
+            },
+            {
+              "key": "to",
+              "label": "القيمة إلى",
+              "type": "number"
+            },
+            {
+              "key": "approver",
+              "label": "الدور المعتمِد",
+              "type": "role"
+            },
+            {
+              "key": "on_reject",
+              "label": "عند الرفض",
+              "type": "single",
+              "options": [
+                {
+                  "key": "back_to_creator",
+                  "label": "يعود للمُنشئ للتعديل",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "cancel",
+                  "label": "يُلغى",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "reminder_hours",
+              "label": "مدة الانتظار قبل التذكير (بالساعات)",
+              "type": "number"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "flag": "F_MULTIUSER"
+          },
+          "recommended": {
+            "value": [
+              {
+                "level": 1,
+                "from": 0,
+                "to": null,
+                "approver": "المالك",
+                "on_reject": "back_to_creator",
+                "reminder_hours": 24
+              }
+            ],
+            "reason": "يتسق مع STD-GEN-32 (٦) وق ع-26.",
+            "when": [],
+            "text": "(أ) يومياً بعدّ فعلي — السبب: النقد أسرع ما يُفقد، والعدّ اليومي يحصر الفرق في يومه. (ب) الأول — السبب: لا يُحمَّل الموظف قبل التحقق، ويتسق مع STD-GEN-32 (٦) وINV-018.ب. (ج) الأول — السبب: الزيادة غالباً مبلغ لعميل أو خطأ تسجيل. (د) مستوى واحد: كل مبلغ، المالك؛ عند الرفض يعود للمُنشئ؛ التذكير بعد 24 ساعة — السبب: يتسق مع STD-GEN-32 (٦) وق ع-26. وعند عدم F_MULTIUSER: «المستخدم الوحيد»، دون اعتماد."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R012a",
+          "when": {
+            "ne": [
+              "TRS-012#a",
+              "no_close"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يُقفل مسؤول كل صندوق، أو أمين صندوق الفرع (STD-TRS-13 (٣))، صندوقه {{Q:TRS-012#a}} بعدّ فعلي يُدخل فيه المعدود قبل أن يُعرض عليه الرصيد المسجّل، وأن يُنشأ كل فرق مسودة «تسوية فرق نقدي» ({{R:STD-TRS-02}}).",
+          "whenText": "عند TRS-012.أ ∉ {«لا إقفال»}."
+        },
+        {
+          "id": "TRS-R012b",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعالج النظام عجز الصندوق ونقص عهدة التحصيل وفرق النقل ونقص البطاقات بـ{{Q:TRS-012#b}}، ويُدوّنه في سجل المسؤول عنه.",
+          "whenText": "دائماً عند ظهور السؤال."
+        },
+        {
+          "id": "TRS-R012c",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يعالج النظام الزيادة النقدية بـ{{Q:TRS-012#c}}{{IF:{\"eq\":[\"TRS-012#c\",\"suspense_then_settle\"]}|، وأن تُسوّى الزيادة المعلّقة وفق STD-TRS-02 (٧)}}.",
+          "whenText": "دائماً عند ظهور السؤال."
+        },
+        {
+          "id": "TRS-R012d",
+          "when": {
+            "flag": "F_MULTIUSER"
+          },
+          "noRequirement": false,
+          "text": "يجب ألا تُعتمد تسوية فرق نقدي قيمتها من {{Q:TRS-012#d.from}} إلى {{Q:TRS-012#d.to}} {{Q:GEN-001}} إلا بعد اعتماد {{Q:TRS-012#d.approver}}؛ وعند الرفض {{Q:TRS-012#d.on_reject}}، والتذكير بعد {{Q:TRS-012#d.reminder_hours}} ساعة.",
+          "whenText": "F_MULTIUSER، لكل صف.",
+          "forEach": "TRS-012#d"
+        }
+      ],
+      "workshopNote": null,
+      "alsoIn": [
+        "TRS-MINI"
+      ]
+    },
+    {
+      "id": "TRS-013",
+      "section": "TRS",
+      "order": 14,
+      "title": "متى يُعدّ المبلغ الذي يحوّله العميل مستلماً؟",
+      "help": "صورة إيصال التحويل لا تعني وصول المبلغ إلى حسابكم.",
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "hasLabel": [
+              "SAL-010",
+              "تحويل بنكي"
+            ]
+          },
+          {
+            "any": [
+              {
+                "module": "TRS"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "module": "TRS"
+                    }
+                  },
+                  {
+                    "any": [
+                      {
+                        "module": "SAL"
+                      },
+                      {
+                        "module": "POS"
+                      },
+                      {
+                        "module": "PUR"
+                      },
+                      {
+                        "module": "EXP"
+                      },
+                      {
+                        "module": "PAY"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "SAL-010 تتضمن «تحويل بنكي»، و(M(TRS) أو ق-ت12)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد الحالة النافذة لسند القبض بطريقة التحويل، ومن يؤكده، وفق STD-TRS-04 وSTD-TRS-14.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "on_receipt_verify_later",
+              "label": "عند تسجيل سند القبض بإيصال العميل، ويُتحقق منه في المطابقة البنكية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "after_accountant_confirm",
+              "label": "بعد تأكيد المحاسب وصول المبلغ إلى الحساب، فلا تُعدّ الفاتورة مسددة قبل ذلك",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "after_accountant_confirm",
+            "reason": "يمنع إثبات سداد على إيصال غير حقيقي، ويتسق مع SAL-029.ب («تحويل بنكي يتأكد منه المحاسب»).",
+            "when": [],
+            "text": "الثاني — السبب: يمنع إثبات سداد على إيصال غير حقيقي، ويتسق مع SAL-029.ب («تحويل بنكي يتأكد منه المحاسب»)."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R013",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يُعدّ سند القبض بطريقة «تحويل بنكي» نافذاً {{Q:TRS-013}}{{IF:{\"eq\":[\"TRS-013\",\"after_accountant_confirm\"]}|، فيبقى «بانتظار تأكيد التحويل» حتى يؤكد المحاسب وصول المبلغ أو يُطابَق في الكشف، ولا تُحسب الفاتورة مسددة بقدره قبل ذلك ({{R:STD-TRS-04}})}}.",
+          "whenText": "TRS-013 ظاهر؛ والخانة الثانية عند الخيار الثاني."
+        }
+      ],
+      "workshopNote": null,
+      "alsoIn": [
+        "TRS-MINI"
+      ]
+    },
+    {
+      "id": "TRS-099",
+      "section": "TRS",
+      "order": 99,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "وفق القاعدة م-4.",
+      "detail": false,
+      "condition": {
+        "module": "TRS"
+      },
+      "conditionText": "M(TRS)",
+      "regulatory": false,
+      "verify": [],
+      "impact": "",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "TRS-R9nn",
+          "when": {
+            "any": [
+              {
+                "answered": "TRS-099"
+              },
+              {
+                "has": [
+                  "TRS-003",
+                  "other"
+                ]
+              },
+              {
+                "has": [
+                  "TRS-010",
+                  "other"
+                ]
+              },
+              {
+                "has": [
+                  "TRS-011",
+                  "other"
+                ]
+              }
+            ]
+          },
+          "noRequirement": false,
+          "text": "وفق م-4: يجب أن {{MISSING:نص الإضافة الحرة مصاغاً}}. ومصدره «نص حر».",
+          "whenText": "لكل إضافة في TRS-099، ولكل «أخرى (حدّد)» في TRS-003 وTRS-010 وTRS-011.",
+          "forEach": "TRS-099"
+        }
+      ],
+      "workshopNote": null
+    }
+  ],
+  "rules": [
+    {
+      "id": "STD-TRS-01",
+      "scope": "TRS",
+      "title": "الرصيد السالب",
+      "text": "1. الصندوق: يجب ألا يبلغ أي مستند حالته النافذة إذا جعل رصيد صندوق سالباً، كالصرف («منفَّذ») والإرسال («مُرسَل»). يُفحص الرصيد عند الانتقال إلى الحالة النافذة، ويُنبَّه المُنشئ عند حفظ المسودة إن كان الرصيد لا يكفي، دون منع الحفظ. ويسري على كل مستند يُخرج نقداً من صندوق، أياً كانت وحدته: سند المصروف (EXP)، ورد مبلغ المرتجع (SAL)، وسند الصرف لمورّد (PUR)، ومستندات TRS.\n2. الحساب البنكي: يجوز أن يصير رصيده سالباً. ويُرسل عندها تنبيه «رصيد حساب بنكي سالب» إلى المالك والمحاسب، وهو عاجل.\n3. العهدة: لا يُصرف من عهدة التحصيل (STD-GEN-32 (٣)). والتوريد الزائد على رصيدها يُقبل، ويُعالج الزائد زيادةً وفق TRS-012.ج (STD-TRS-03).",
+      "applies": {
+        "any": [
+          {
+            "module": "TRS"
+          },
+          {
+            "all": [
+              {
+                "not": {
+                  "module": "TRS"
+                }
+              },
+              {
+                "any": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "module": "POS"
+                  },
+                  {
+                    "module": "PUR"
+                  },
+                  {
+                    "module": "EXP"
+                  },
+                  {
+                    "module": "PAY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "appliesText": "M(TRS) أو ق-ت12.",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-02",
+      "scope": "TRS",
+      "title": "إقفال الصندوق وتسوية فرقه",
+      "text": "1. مستند «إقفال صندوق» (TRS)، بحالات: مسودة، معتمد، ملغى. يُنشئه مسؤول الصندوق لصندوقه (أو أمين صندوق الفرع، STD-TRS-13 (٣)) بتكرار {{Q:TRS-012#a}}، لكل صندوق تحرّك رصيده منذ آخر إقفال. العدّ أعمى: يُدخل المعدود قبل أن يُعرض الرصيد المسجّل، كما في STD-INV-07 (٢). «المتوقع» = الرصيد المسجّل لحظة الإقفال. و«الفرق» = المعدود − المتوقع. ← معتمد: المسؤول نفسه (بعد مراجعته عند وجود أمين صندوق الفرع، STD-TRS-13 (٤))، فيُثبت الإقفال ولا أثر له على الرصيد.\n2. مستند «تسوية فرق نقدي» (TRS)، بحالات: مسودة، بانتظار الاعتماد، معتمد، ملغى. يُنشأ آلياً مسودةً عند اعتماد إقفال فيه فرق، أو من STD-TRS-03 أو STD-TRS-09، ويحمل حقل «النوع»: فرق إقفال / فرق عهدة تحصيل / فرق نقل / فرق بطاقات / إقفال زيادة معلّقة، يُملأ آلياً من مصدر نشأته، ويُرسل إلى الاعتماد وفق {{Q:TRS-012#d}}. الحالة النافذة «معتمد»: يُعدَّل رصيد الصندوق أو العهدة أو الحساب الوسيط بالفرق، ويُعالج العجز بـ{{Q:TRS-012#b}} والزيادة بـ{{Q:TRS-012#c}}، ويتولد القيد (STD-GEN-35). عند الرفض: يعود إلى مُنشئ الإقفال لإعادة العدّ، ويبقى الفرق ظاهراً في تقرير «فروقات الصناديق» حتى يُحسم. ROL-005 قائم: لا يعتمد مسؤول الصندوق فرق صندوقه، فيُرفع إلى المستوى التالي وإلا إلى المالك. ولا يمر هذا المستند بـTRS-008 ولا EXP-009، لأنه لا يُخرج مالاً (STD-GEN-33 (١)).\n3. سجل المسؤول: يُدوَّن كل فرق معتمد في سجل مسؤول الصندوق أو حامل العهدة (وأمين صندوق الفرع معه، STD-TRS-13 (٥))، ويظهر في تقرير «فروقات الصناديق». والخصم من الراتب عند عدم M(PAY) «خارج النطاق» (STD-GEN-36 (٣)).\n4. الصندوق الذي لم يُقفل: لا يُمنع العمل عليه في اليوم التالي. ويدخل «صندوق لم يُقفل» الملخص اليومي لمسؤوله وللمحاسب (غير عاجل).\n5. عند (أ) = «لا إقفال»: لا يُبنى مستند «إقفال صندوق». ويبقى «تسوية فرق نقدي» لما في STD-TRS-03 وSTD-TRS-09.\n6. عند عدم F_MULTIUSER: يُعتمد الإقفال والتسوية بيد «المستخدم الوحيد» بخطوة واحدة.\n7. تسوية «زيادات نقدية» المعلّقة (عند TRS-012.ج = الخيار الأول):\n - سداد معروف صاحبه: يُنشئ المحاسب سند قبض لعميل مرتبطاً بفاتورته، طريقته «من زيادات نقدية» (طريقة داخلية لا تُعرض في SAL-010، نظيرة «من مبالغ تحت التحقق» في STD-TRS-06 (٤))، فيُنقص حساب «زيادات نقدية» ويُسدّد الفاتورة دون أثر ثانٍ على الصندوق؛ ولا يتجاوز رصيد الزيادة المعلّقة التي يُختار منها. ويمر قبل «صادر» باعتماد {{Q:TRS-012#d}} بالمسار نفسه، بحالة «بانتظار الاعتماد» في صف «سند قبض» في STD-GEN-04، لأنه يحسم زيادة معلّقة.\n - ردّ معروف صاحبه نقداً (إن لم تبقَ له فاتورة متبقية، أو طلب المبلغ نفسه) (ق ع-118): يُنشئ المحاسب أو مسؤول الصندوق «سند صرف عام» حسابه المقابل «زيادات نقدية»، مرتبطاً بـ«تسوية فرق نقدي» التي علّقت الزيادة، لا يتجاوز رصيدها غير المسوّى؛ وخانة «المستلم» (الاسم والجوال) فيه إلزامية، ويُرفق ما يثبت صلة المستلم بالزيادة (إيصال الفاتورة أو بيان الإقفال)؛ ويُعتمد بمسار {{Q:TRS-012#d}} لا بـTRS-008 (STD-GEN-33)، لأنه يحسم زيادة معلّقة؛ ويُنفّذه («منفَّذ») مسؤول الصندوق الذي عُلّقت الزيادة من إقفاله أو استلمها في «توريد عهدة» (STD-TRS-03 (٣))، أو مسؤول صندوق الفرع الذي يتبعه الجهاز في زيادة البطاقات (STD-TRS-09)، أو أمين صندوق ذلك الصندوق (STD-TRS-13 (٣))، بتوقيع المستلم في المطبوع؛ ويظهر في «فروقات الصناديق» مسوّىً.\n - ما لم يُعرف صاحبه خلال 90 يوماً من اعتماد «تسوية فرق نقدي» التي علّقته (قيمة داخلية في البناء، لا نظامية): يُنشئ المحاسب «تسوية فرق نقدي» من نوع «إقفال زيادة معلّقة» تنقله من «زيادات نقدية» إلى إيراد متنوع «زيادات نقدية غير معروفة المصدر»، وتُعتمد وفق {{Q:TRS-012#d}}؛ ويدخل «زيادة نقدية معلّقة يقترب إقفالها» الملخص اليومي للمحاسب قبل انقضاء المدة بسبعة أيام (غير عاجل، STD-GEN-16). [يحتاج تحقق من المعالجة النظامية للمبالغ غير المطالب بها{{IF:{\"flag\":\"F_VAT\"}|، ومن خضوعها للضريبة}}]{{IF:{\"flag\":\"F_VAT\"}| وعند ثبوت الخضوع بعد التحقق، يُصدر المحاسب بدل «إقفال زيادة معلّقة» فاتورة بيع لصنف غير مخزني (4.9 ب-٢٧) بمبلغ الزيادة، يسددها سند قبض طريقته «من زيادات نقدية» بالاعتماد نفسه (STD-TAX-08 (٣))}}\n - العرض: يعرض تقرير «فروقات الصناديق» الزيادات المعلّقة بأعمارها وما سُوّي منها. (ق ع-108)",
+      "applies": {
+        "visible": "TRS-012"
+      },
+      "appliesText": "TRS-012 ظاهر.",
+      "regulatory": true
+    },
+    {
+      "id": "STD-TRS-03",
+      "scope": "TRS",
+      "title": "نقص عهدة التحصيل وفرق النقل",
+      "text": "1. متى يصير الباقي في عهدة التحصيل نقصاً: لا يصير نقصاً بمرور الوقت وحده. ويبقى رصيداً مفتوحاً على المحصِّل، تحكمه مهلة SAL-030 وسقفه وتنبيهاته، حتى يقع أحد أمرين: التوريد النهائي: يسجّل مسؤول الصندوق «توريد عهدة» ويَسِمه «نهائياً» بإقرار المحصِّل أنه لم يبقَ معه شيء، فيُنشأ الباقي آلياً مسودة «تسوية فرق نقدي» على العهدة؛ أو قرار المحاسب: ينشئ المحاسب «تسوية فرق نقدي» لباقٍ تعذّر توريده، بسبب مكتوب.\n2. الاعتماد والمعالجة: وفق {{Q:TRS-012#d}} و{{Q:TRS-012#b}} (STD-TRS-02 (٢)). وقبل الاعتماد يبقى الباقي في العهدة ظاهراً في تقرير «عُهد التحصيل».\n3. التوريد الزائد: ما زاد على رصيد العهدة يُنشأ مسودة «تسوية فرق نقدي» بزيادة، تُعالج بـ{{Q:TRS-012#c}}.\n4. فرق النقل بخطوتين (STD-GEN-30 (٣)): إذا استُلم أقل مما أُرسل، يُنشأ الفرق آلياً مسودة «تسوية فرق نقدي»، ويبقى «نقداً في الطريق» حتى تُعتمد التسوية، ويُدوَّن في سجل مسؤولَي الصندوقين المرسِل والمستلم معاً. وفي الإيداع: يُعدّ نقص المبلغ الظاهر في الكشف عن المُرسَل فرقَ نقل بالحكم نفسه.\n5. عهدة المصروفات: نقصها ومتبقيها يحكمهما STD-EXP-02. ويُستعمل فيهما مستند «توريد عهدة» و«تسوية فرق نقدي» متى أحال إليهما.",
+      "applies": {
+        "text": "ظهور عهدة التحصيل (STD-GEN-32) أو النقل بخطوتين (STD-GEN-30)"
+      },
+      "appliesText": "ظهور عهدة التحصيل (STD-GEN-32) أو النقل بخطوتين (STD-GEN-30). ويلتزم مبدأ STD-GEN-32 (٦).",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-04",
+      "scope": "TRS",
+      "title": "تأكيد التحويل الوارد",
+      "text": "1. صف «سند قبض» في STD-GEN-04 (01-global-rules.md) ينص على ذلك: الحالات «مسودة، بانتظار المراجعة (يُعرض «بانتظار تأكيد التحويل»)، صادر، ملغى». تقع «بانتظار المراجعة» حين يتضمن السند طريقة «تحويل بنكي». ← صادر: المحاسب بتأكيد وصول المبلغ، وإلا المالك (STD-GEN-19)، أو تلقائياً عند مطابقة السند بسطر في الكشف (STD-TRS-05)، أيهما أسبق. ← مسودة: المحاسب إن لم يصل المبلغ، بسبب مكتوب يُنبَّه به المُنشئ. والتأكيد مراجعة لا اعتماد، فلا يسري عليه ROL-005.\n2. الأثر: لا يدخل المبلغ رصيد الحساب ولا حالة سداد الفاتورة قبل «صادر» (STD-GEN-30 (١)). ولا يتولد قيد قبله (STD-GEN-35 (٢)).\n3. الدفع المجزأ (STD-GEN-13): يُفصل جزء التحويل في سند قبض مستقل مرتبط بالفاتورة نفسها. فيصدر جزء النقد والبطاقة فوراً، وينتظر جزء التحويل وحده.\n4. STD-GEN-13 (01-global-rules.md) يتضمن في جملته الأخيرة: «… وما دُفع بتحويل لا يُحسب في التغطية إلا عند صدور سنده (STD-TRS-04).»\n5. البيع النقدي الفوري: الفاتورة التي ينتظر جزء منها تأكيد التحويل لا تُعدّ بيعاً آجلاً، ولا تخضع لفحص حد الائتمان (SAL-008)، ولا لتنبيهات التأخر قبل يوم العمل التالي لإصدارها؛ وفق STD-TRS-14.\n6. التنبيه: «تحويل ينتظر تأكيدي» إلى المحاسب، عاجل، ويُضاف إلى عمود العاجل في STD-GEN-16. وما بقي بانتظار التأكيد إلى نهاية يوم العمل التالي يدخل الملخص اليومي للمالك.\n7. عند الخيار الأول: يصدر السند فوراً، ويُعلَّم «لم يُطابَق» حتى تشمله مطابقة بنكية. فإن لم يظهر في الكشف، عالجه المحاسب بإلغاء السند (STD-GEN-31).",
+      "applies": {
+        "eq": [
+          "TRS-013",
+          "after_accountant_confirm"
+        ]
+      },
+      "appliesText": "TRS-013 = الخيار الثاني.",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-05",
+      "scope": "TRS",
+      "title": "قاعدة الاقتراح الآلي في المطابقة",
+      "text": "1. تُقترح مطابقة سطر الكشف بحركة في النظام حين يتساوى المبلغ والاتجاه (داخل أو خارج)، ويقع تاريخ الكشف من تاريخ الحركة حتى {{Q:TRS-004#b}} يوم عمل بعده (GEN-006).\n2. إن صلح للسطر أكثر من حركة، يُقترح أقربها تاريخاً، ويُعلَّم الاقتراح «يحتاج اختياراً».\n3. يجوز أن يُطابَق سطر واحد بعدة حركات أو العكس، إذا تساوى المجموعان، باختيار المُجري لا آلياً.\n4. لا يُعدّ الاقتراح مطابقة حتى يقبله المُجري (STD-TRS-06).",
+      "applies": null,
+      "appliesText": null,
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-06",
+      "scope": "TRS",
+      "title": "المطابقة البنكية",
+      "text": "1. المستند: «مطابقة بنكية» (TRS)، لكل حساب بنكي ولكل فترة بتكرار TRS-004، بحالات: مسودة (يُعرض «مفتوحة»)، معتمد (يُعرض «مكتملة»)، ملغى.\n2. المُجري: المحاسب، وإلا المالك (STD-GEN-19). يُنشئها ويُكملها بنفسه، ولا اعتماد عليها لأنها لا تغيّر رصيداً.\n3. المدخلات: رفع الملف أو الربط: سطور الكشف ورصيده الختامي. يدوياً: يُدخل المُجري رصيد الكشف الختامي، ويعلّم حركات النظام التي ظهرت فيه.\n4. سطر في الكشف بلا مقابل:\n - رسوم أو عمولات: يُنشئ منه المُجري مستند «رسوم وعمولات بنكية». وضريبتها يحكمها STD-TAX-08.\n - مبلغ بطاقات: يُطابَق بمستند «تسوية مبالغ بطاقات» (STD-TRS-09).\n - سداد معروف صاحبه: يُنشئ منه المستند المعني (سند قبض لعميل، أو سند صرف) بتاريخ الكشف، وفق صلاحيات وحدته. وسند الصرف المنشأ من سطر كشف خرج ماله فعلاً يمر باعتماد TRS-008 اعتماداً لاحقاً للتصنيف لا للإذن بالصرف، وينفذ بتاريخ الكشف عند اعتماده؛ ورفضه لا يعيد مالاً، بل يُبقي سطر الكشف معلّقاً في المطابقة بحكم «خصم لا يُعرف سببه» أدناه، ويُنبَّه به المالك في ملخصه اليومي. ويجوز للمحاسب، عند TRS-004 ≠ «لا نطابق»، إنشاء سند قبض لعميل مرتبط بفاتورته من سطر الكشف، ولو لم يملك «إنشاء» في SAL. ويصدر السند مطابَقاً بالسطر، فلا يمر بـ«بانتظار تأكيد التحويل» (STD-TRS-04).\n - إيداع لا يُعرف صاحبه: يُسجَّل «سند قبض عام» في حساب «مبالغ تحت التحقق». فإن عُرف أنه سداد عميل، سُجّل له سند قبض طريقته «من مبالغ تحت التحقق»، فيُنقص ذلك الحساب ويُسدد الفاتورة دون أثر ثانٍ على البنك.\n - خصم لا يُعرف سببه: يبقى بنداً معلّقاً في المطابقة، ويُنبَّه به المالك في ملخصه اليومي حتى يُعرف.\n5. حركة في النظام بلا مقابل: تبقى «معلّقة»، وتنتقل إلى مطابقة الفترة التالية، ويُعرض عمرها بالأيام في تقرير المطابقة.\n6. الاكتمال: تصير «معتمد» حين يساوي رصيد الكشف الختامي رصيد النظام بعد إضافة المعلّقات وطرحها، ولا يبقى سطر كشف بلا مقابل إلا ما عُلّق في (٤). ولا تكتمل مطابقة قبل اكتمال سابقتها للحساب نفسه.\n7. القفل وإعادة الفتح: المستند المطابَق في مطابقة «معتمد» لا يُعدَّل ولا يُلغى (STD-GEN-31 (٣)). إعادة الفتح: إلغاء المطابقة بيد المالك بسبب مكتوب، فتُنشأ آلياً مسودة جديدة بالسطور نفسها، ويُسجَّل ذلك في ADM-001.\n8. إيداع النقد: يصير «مستلماً» تلقائياً عند مطابقته (STD-GEN-30 (٣)). والتحويل الوارد يصير «صادراً» عند مطابقته (STD-TRS-04).\n9. عند TRS-004 = «لا نطابق»: يُسقَط تقرير المطابقة وتنبيه «مطابقة لم تُنجز» (STD-GEN-24)، ويصير الإيداع «مستلماً» بتأكيد المحاسب وحده، والتحويل الوارد «صادراً» بتأكيده وحده.",
+      "applies": {
+        "ne": [
+          "TRS-004",
+          "none"
+        ]
+      },
+      "appliesText": "TRS-004 ≠ «لا نطابق».",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-07",
+      "scope": "TRS",
+      "title": "أرصدة الخزينة الافتتاحية",
+      "text": "1. المستند: «رصيد افتتاحي للخزينة» (TRS) لكل صندوق ولكل حساب بنكي، بحالات: مسودة، معتمد، ملغى. تاريخه {{Q:ACC-015}} (إلا عند تع-19 فبتاريخ {{Q:MIG-005}})، وعند عدم M(ACC) تاريخ {{Q:MIG-005}}. يُنشئه المحاسب، وإلا المالك (STD-GEN-19)، ومصدر بياناته MIG-001، ويُدخل مسودةً قبل اعتماد القيد الافتتاحي. ← معتمد: آلياً عند اعتماد القيد الافتتاحي والكشف (STD-GEN-61 (٦)). ولا يولّد قيداً (STD-GEN-35 (٨)). ولا يُعتمد مستند خزينة آخر قبل اعتماد الرصيد الافتتاحي لصندوقه أو حسابه.\n2. الصندوق: رصيده بالعدّ الفعلي بعد انتهاء عمل اليوم السابق لتاريخ التشغيل، ويُعدّ رصيدَ أول يوم التشغيل؛ يعدّه مسؤول الصندوق ويُدخله المحاسب؛ وصندوق الفرع الذي له أمين صندوق (STD-TRS-13 (٢)) يعدّه أمينه بحضور المسؤول أو بتوقيعه على ورقة العدّ.\n3. الحساب البنكي: رصيده رصيد الدفاتر في التاريخ. ويُرفق به «المعلّقات الافتتاحية»: كل تحويل أو إيداع أو صرف لم يظهر في الكشف حتى ذلك التاريخ، بتاريخه ومبلغه. ومن رصيد الكشف في التاريخ والمعلّقات تبدأ أول مطابقة. ويجب أن يساوي رصيدُ الكشف ± المعلّقات رصيدَ الدفاتر قبل الاعتماد.\n4. البنود المنفصلة عن «النقد المتاح» (STD-GEN-32 (٤)): يُدخل كلٌّ منها بنداً افتتاحياً باسمه: مبالغ بطاقات لم تصل لكل جهاز (STD-TRS-08) بتاريخ البيع؛ ونقد في الطريق لكل نقل لم يُستلم، باسم الوجهة، ثم يُستلم بالخطوة المعتادة؛ وشيكات تحت التحصيل أو صادرة لم تُصرف لكل شيك (STD-TRS-11)؛ والعُهد بأنواعها.\n5. التساوي: مجموع كل نوع يساوي رصيد حسابه في القيد الافتتاحي، أو يُوجَّه فرقه وفق STD-GEN-61 (٥).",
+      "applies": {
+        "any": [
+          {
+            "module": "TRS"
+          },
+          {
+            "all": [
+              {
+                "not": {
+                  "module": "TRS"
+                }
+              },
+              {
+                "any": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "module": "POS"
+                  },
+                  {
+                    "module": "PUR"
+                  },
+                  {
+                    "module": "EXP"
+                  },
+                  {
+                    "module": "PAY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "appliesText": "M(TRS) أو ق-ت12. ويلتزم مبدأ الأرصدة الافتتاحية وتسلسل STD-GEN-61.",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-08",
+      "scope": "TRS",
+      "title": "وجهة مبالغ البطاقات",
+      "text": "1. عند TRS-009 = «نعم»: يُسجَّل كل مبلغ بطاقة في الحساب الوسيط لجهازه، واسمه «مبالغ بطاقات تحت التسوية — <الجهاز>»، ويشمل ذلك سند القبض في الفرع، وجهاز السائق، وجهاز الفني. ويُنقص الحساب الوسيط ردُّ المبلغ على البطاقة (STD-SAL-16). ويُنقل الرصيد إلى الحساب البنكي المرتبط بالجهاز عند اعتماد التسوية (STD-TRS-09).\n2. عند غير ذلك، أو عدم ظهور TRS-009: يُسجَّل المبلغ في الحساب البنكي المرتبط بالجهاز، وإلا في الحساب المرتبط بطريقة «بطاقة» في أثر SAL-010، مباشرة.\n3. الجهاز في السند: يُختار في سطر البطاقة، وقيمته الأولية جهاز فرع المُنشئ في TRS-009.ب، أو جهاز المحصِّل في سند القبض باسمه. ولمندوب المبيعات جهاز فرع الفاتورة، ولا يُضاف له صف في TRS-009.ب. ويحمل سطر البطاقة حقل «نوع البطاقة» (قائمة من أنواع الجهاز المُدخلة في 4.9 ب-١٨)، إلزامياً متى عُرّف للجهاز أكثر من نوع، وقيمته الأولية أول نوع؛ ولا يظهر متى عُرّفت للجهاز نسبة واحدة (ق ع-91).\n4. رابط الدفع الإلكتروني والمحفظة الرقمية: ليسا طريقة دفع مستقلة في الإصدار الأول. فإن اختار الكيان أحدهما في SAL-010 أو ذكره في «أخرى (حدّد)»، عُومل طريقةَ «بطاقة» (ق ع-83): يسري عليه هذا الحكم وSTD-TRS-09، ويُعدّ SAL-010 متضمناً «بطاقة» في شرط ظهور TRS-009، ويُعرَّف مزوّده صفاً «جهازاً» في TRS-009.ب بمدة وصول مبلغه.\n5. جهاز المحصِّل قالباً (عند SAL-029.ب أو SAL-031.ج تتضمن «بطاقة»، وTRS-009 = «نعم») (ق ع-126): يُكتب صف المحصّلين في TRS-009.ب صفاً قالباً واحداً «جهاز لكل محصِّل يقبض بالبطاقة»، لا صفاً لكل اسم. وتحمل قائمة «أشخاص غير مستخدمين» (STD-GEN-20) للسائق والفني حقل «يقبض بالبطاقة: نعم/لا»، قيمته الأولية «نعم» متى تضمن SAL-029.ب (للسائق) أو SAL-031.ج (للفني) «بطاقة». ويُنشئ النظام عند إضافة محصِّل حقله «نعم» جهازاً باسم «جهاز <اسم المحصِّل>» وحسابه الوسيط «مبالغ بطاقات تحت التسوية — جهاز <اسم المحصِّل>» آلياً، فرعه فرع المحصِّل، مرتبطاً بالحساب البنكي ومدة الوصول لجهاز فرعه في TRS-009.ب؛ ويُدخل المحاسب نسبة عمولته وأنواع بطاقاته (4.9 ب-١٨). والمحصِّل الموقوف أو الذي صار حقله «لا» يبقى جهازه في التقارير ولا يقبل سطراً جديداً (قياساً على STD-INV-20 (٣)).",
+      "applies": {
+        "any": [
+          {
+            "any": [
+              {
+                "hasLabel": [
+                  "SAL-010",
+                  "بطاقة مدى أو بطاقة ائتمانية عبر جهاز"
+                ]
+              },
+              {
+                "hasLabel": [
+                  "SAL-010",
+                  "رابط دفع إلكتروني"
+                ]
+              },
+              {
+                "hasLabel": [
+                  "SAL-010",
+                  "محفظة رقمية"
+                ]
+              }
+            ]
+          },
+          {
+            "any": [
+              {
+                "hasLabel": [
+                  "SAL-029#b",
+                  "بطاقة عبر جهاز يحمله السائق"
+                ]
+              },
+              {
+                "hasLabel": [
+                  "SAL-031#c",
+                  "بطاقة عبر جهاز يحمله الفني"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "appliesText": "SAL-010 أو SAL-029.ب أو SAL-031.ج تتضمن «بطاقة».",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-09",
+      "scope": "TRS",
+      "title": "تسوية مبالغ البطاقات",
+      "text": "1. المستند: «تسوية مبالغ بطاقات» (TRS)، لكل جهاز ولكل يوم عمل (ومبيعات يوم ليس من أيام العمل في GEN-006 تدخل تسوية أول يوم عمل بعده)، بحالات: مسودة، معتمد، ملغى. يُنشئه المحاسب، وغالباً من سطر الكشف في المطابقة (STD-TRS-06 (٤)). يعرض: مجموع مبالغ اليوم في الحساب الوسيط، والواصل في الكشف، والعمولة المتوقعة = مجموع (مبالغ اليوم لكل نوع بطاقة × نسبة ذلك النوع في الجهاز)، وإن عُرّفت للجهاز نسبة واحدة فهي لكل الأنواع{{IF:{\"flag\":\"F_VAT\"}|، مضافاً إليها ضريبتها (STD-TAX-08 (٦))}}، والفرق.\n2. الأثر عند «معتمد»: يُنقص الحساب الوسيط بمبالغ اليوم، ويُثبت الواصل في الحساب البنكي، ويُثبت الفرق حتى العمولة المتوقعة مصروف «عمولات بطاقات». وضريبة العمولة يحكمها STD-TAX-08 (٦).\n3. الفرق الزائد على العمولة المتوقعة: يُنشأ آلياً مسودة «تسوية فرق نقدي» على الحساب الوسيط، تُعتمد بـ{{Q:TRS-012#d}} وتُعالج بـ{{Q:TRS-012#b}}. والواصل الزائد على المتوقع زيادةٌ تُعالج بـ{{Q:TRS-012#c}}.\n4. جهاز بلا نسبة عمولة مدخلة: يُعرض كل فرقه على المحاسب ليوزعه بين العمولة والفرق، ولا يُسجَّل عمولةً آلياً.\n5. مبالغ لم تصل: ما لم يصل بعد مدة جهازه في TRS-009.ب يدخل الملخص اليومي للمحاسب بعنوان «مبالغ بطاقات لم تصل» (غير عاجل).\n6. العرض: رصيد الحساب الوسيط يُعرض تحت «النقد المتاح» بند «مبالغ بطاقات تحت التسوية»، ولا يُضاف إليه (STD-GEN-32 (٤)).",
+      "applies": {
+        "eq": [
+          "TRS-009",
+          "yes_reconcile"
+        ]
+      },
+      "appliesText": "TRS-009 = «نعم».",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-10",
+      "scope": "TRS",
+      "title": "بناء التدفق النقدي المتوقع",
+      "text": "1. الفترات: أسابيع لثلاثة أشهر عند الخيار الأول، وأشهر ميلادية لسنة عند الخيار الثاني. ويبدأ الأسبوع بأول يوم عمل في GEN-006.\n2. رصيد البداية: الرقم الرئيسي لـ«النقد المتاح» لحظة عرض التقرير: الصناديق والحسابات البنكية وحدها (STD-GEN-32 (٤)).\n3. الداخل المتوقع: فواتير العملاء غير المسددة، بتاريخ استحقاقها؛ وعُهد التحصيل غير المورَّدة، والنقد في الطريق، في الفترة الأولى؛ ومبالغ البطاقات تحت التسوية، بتاريخ وصولها المتوقع (TRS-009.ب)؛ والشيكات الواردة تحت التحصيل، بتاريخ استحقاقها (TRS-007). ولا تُقدَّر مبيعات مستقبلية.\n4. الخارج المتوقع: فواتير المورّدين غير المسددة، بتاريخ استحقاقها، والمتأخر منها في الفترة الأولى، ناقصاً رصيد الكيان لدى المورّد نفسه غير المطبَّق (STD-PUR-12 (٣))؛ وسندات الصرف «المعتمدة غير المنفَّذة» (STD-GEN-30 (٢)) في الفترة الأولى؛ والأقساط (TRS-006)، والشيكات الصادرة غير المصروفة (TRS-007)، بتواريخها؛ والمصروفات المتكررة المسجّلة (EXP-011 «مصروف متكرر يقترب موعده»)، بتواريخها؛ والرواتب: عند M(PAY) من مسيّر الرواتب، وعند عدمه من قالب القيد المتكرر «رواتب مستحقة» (STD-GEN-36 (١)) بمبلغ سطرَي «رواتب مستحقة» و«اشتراكات التأمينات المستحقة» (STD-GEN-36 (١)) في آخر ترحيل له، دون مخصص نهاية الخدمة، وفي يوم ترحيله من كل شهر، ويُكتب تحت التقرير: «الرواتب تقديرية من آخر شهر»؛ وقبل أول ترحيل للقالب لا يُقدَّر سطر رواتب، ويُكتب تحت التقرير: «لم يُرحَّل قيد رواتب بعد؛ يُضاف بنداً يدوياً (البند (٦))»؛ والفاتورة بعملة أجنبية تُحوَّل إلى {{Q:GEN-001}} بسعر صرف مستندها (قياساً على STD-GEN-14)؛ والضريبة المستحقة غير المسددة في سجل الإقرار، بتاريخ استحقاق سدادها (STD-TAX-05 (١))، والمتأخر منها في الفترة الأولى؛ ولا تُقدَّر ضريبة فترة لم يُقدَّم إقرارها.\n5. المتأخر من فواتير العملاء: يُعرض سطراً مستقلاً «مستحقات متأخرة غير مضمونة»، ولا يُضاف إلى الداخل المتوقع.\n6. البنود اليدوية: يجوز للمحاسب إضافة بند متوقع يدوي، داخلاً أو خارجاً، بتاريخه ومبلغه وبيانه.\n7. العرض: لكل فترة: رصيد البداية، والداخل، والخارج، والرصيد المتوقع. وتُعلَّم كل فترة رصيدها المتوقع سالب.\n8. حين لا يبقى مصدر داخل (مثل SAL-001 = «نقدي فوري فقط» دون مستحقات): يُعرض التقرير بالخارج والبنود اليدوية، ويُكتب فيه: «لا داخل متوقع من الفواتير؛ البيع نقدي فوري». ولا يُسقط ذلك التقرير.\n9. إسقاط المصادر: كل مصدر غير ظاهر يُسقَط من التقرير وفق STD-GEN-24، ويُذكر سببه في سجل الافتراضات.",
+      "applies": {
+        "in": [
+          "TRS-005",
+          [
+            "weekly_3m",
+            "monthly_1y"
+          ]
+        ]
+      },
+      "appliesText": "TRS-005 = أحد خياري «نعم».",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-11",
+      "scope": "TRS",
+      "title": "سجل الشيكات",
+      "text": "1. الشيك سطر طريقة دفع في سند القبض أو الصرف (STD-GEN-13)، ويُفتح له سجل «شيك»: الرقم، والبنك، والطرف، والمبلغ، وتاريخ الاستحقاق.\n2. الشيك الوارد: يصدر سند القبض فتُعدّ الفاتورة مسددة بقدره، ويدخل المبلغ حساب «شيكات تحت التحصيل» لا الحساب البنكي. حالات الشيك: مستلم (= صادر) ← مُرسَل (يُعرض «تحت التحصيل») عند إيداعه ← منفَّذ (يُعرض «صُرف») عند ظهوره في الكشف أو تأكيد المحاسب، فيدخل الحساب البنكي. المرتجع: ← ملغى (يُعرض «مرتجع») بيد المحاسب بسبب مكتوب، فيُعكس أثره (STD-GEN-31)، وتعود الفاتورة إلى حالة سدادها السابقة، ويُنبَّه المحاسب ومُنشئ السند فوراً (عاجل). المؤجل: لا يُودَع قبل تاريخ استحقاقه، ويظهر في التدفق المتوقع بتاريخه.\n3. الشيك الصادر: يتبع سند الصرف حالاته واعتماده (TRS-008). وعند «منفَّذ» (تسليم الشيك) يدخل المبلغ حساب «شيكات صادرة غير مصروفة»، ويُنقص الحساب البنكي عند ظهوره في الكشف (STD-TRS-06). الإلغاء قبل الصرف: بيد المالك، بسبب مكتوب.\n4. الطباعة: عند اختيار «طباعة الشيك من النظام»، يُضاف قالب الشيك إلى DOC-003.\n5. التنبيه: «شيك يقترب استحقاقه» وفق TRS-011.\n6. العرض: الشيكات الواردة تحت التحصيل والصادرة غير المصروفة (بإشارة سالبة) بندان منفصلان تحت «النقد المتاح» (STD-GEN-32 (٤)).\n7. مهمة إعداد: تعيين حسابَي «شيكات تحت التحصيل» و«شيكات صادرة غير مصروفة».",
+      "applies": {
+        "hasAny": [
+          "TRS-007",
+          [
+            "receive_customers",
+            "issue_suppliers",
+            "postdated",
+            "status_tracking",
+            "print_cheque"
+          ]
+        ]
+      },
+      "appliesText": "TRS-007 تتضمن غير «لا نتعامل بالشيكات» و«لا أعلم».",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-12",
+      "scope": "TRS",
+      "title": "الخزينة دون اختيار الوحدة (ق-ت12)",
+      "text": "1. تُبنى من مستندات STD-GEN-29 هذه وحدها، لأن قواعد أخرى تستند إليها: سند القبض العام وسند الصرف العام (يحتاجهما STD-GEN-34 (٥)، (٦) وSTD-GEN-36)؛ ونقل النقد بين صندوق وحساب بنكي (لأن القسم المصغّر يعرّفهما معاً، ويحكمه STD-GEN-30)؛ وتوريد العهدة (عند ظهور STD-GEN-32)؛ والرصيد الافتتاحي (STD-TRS-07)، وإقفال الصندوق وتسوية الفرق (TRS-012).\n2. لا تُبنى: التحويل بين الحسابات البنكية، ومستند الرسوم البنكية (تُسجَّل الرسوم بسند صرف عام مصنَّف «رسوماً بنكية»، ولا يخضع لاعتماد بحكم STD-GEN-33)، والمطابقة البنكية، والتوقع، وتسوية البطاقات، والشيكات ما لم يُظهرها شرط TRS-007.\n3. الاعتماد: لا يخضع سند الصرف العام لاعتماد، إلا إذا أُضيف TRS-008 إلى القسم المصغّر بتع-12. فإن أُضيف، حكم سند الصرف العام وسند الصرف للمورّد معاً، عدا سند الصرف العام المصنَّف «رسوماً بنكية» (البند ٢).\n4. المُنشئ: المحاسب، وإلا المالك (STD-GEN-27 (٥)).\n5. «خارج النطاق» في الوثيقة المُصدَّرة: يُكتب سطر بالنص: «الخزينة: تُبنى الصناديق والحسابات والسندات العامة ونقل النقد فقط؛ ولا مطابقة بنكية ولا توقع نقدي (ق-ت12)».\n6. ق-ت12 (00-foundations.md) ينص على ذلك: «… ويُبنى منها ما في STD-TRS-12.»",
+      "applies": {
+        "all": [
+          {
+            "not": {
+              "module": "TRS"
+            }
+          },
+          {
+            "any": [
+              {
+                "module": "SAL"
+              },
+              {
+                "module": "POS"
+              },
+              {
+                "module": "PUR"
+              },
+              {
+                "module": "EXP"
+              },
+              {
+                "module": "PAY"
+              }
+            ]
+          }
+        ]
+      },
+      "appliesText": "ق-ت12 وعدم M(TRS).",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-13",
+      "scope": "TRS",
+      "title": "رؤية مسؤول الصندوق، وأمين صندوق الفرع",
+      "text": "1. رؤية مسؤول الصندوق: يرى مسؤول الصندوق رصيد صندوقه وحركاته وحدها، ولو حجب عنه ROL-004 «أرصدة البنوك والصناديق». ولا يرى غيره. ويُستثنى الرصيد المسجّل أثناء العدّ الأعمى حتى يُدخل المعدود (STD-TRS-02 (١)). وتنبيهاته عن صندوقه وحده؛ ويتلقى أمين صندوق الفرع (البند (٢)) تنبيهات صندوقه («صندوق تجاوز حده» و«صندوق لم يُقفل») مع مسؤوله.\n2. أمين صندوق الفرع: يسري عند F_MULTIBRANCH على كل صندوق في فرع غير المقر الرئيسي، مسؤوله مستخدم نطاقه «لكل الفروع». يُسمّى له «أمين صندوق الفرع»: مدير الفرع، وإلا أول مستخدم «فرع محدد» في الفرع بترتيب: موظف المبيعات، ثم أمين المستودع. هو صفة تُضاف إلى دوره، كصفة «مسؤول الصندوق»، ويسري عليه البند (١). وتُضاف القيمة «أمين صندوق الفرع» إلى الصفات في ROL-001.\n3. ما يقوم به الأمين: تسليم النقد فعلاً وتسجيل «منفَّذ» لكل ما يخرج نقداً من الصندوق: سند الصرف، وسند المصروف وطلب استرداد المصروف المدفوعان منه (EXP)، ورد مبلغ المرتجع (STD-SAL-22)، وصرف العهدة ورد زيادتها (STD-EXP-09)، وإرسال النقد في «نقل نقد» من الصندوق (إيداعاً في البنك أو إلى صندوق آخر) وتسجيل «مُرسَل»؛ والقائمة حصر لما يخرج نقداً من الصندوق؛ واستلام النقد وتسجيل «مستلم» في النقل، و«توريد عهدة» بالمبلغ المعدود؛ وإنشاء «إقفال صندوق» بعدّ أعمى بتكرار {{Q:TRS-012#a}}. وما يُنشئه الأمين نفسه من سند مصروف من صندوقه في شريحة «لا اعتماد» (EXP-009) ينفّذه دون اعتماد، ويُسجَّل أنه أنشأه ونفّذه (ADM-001).\n4. ما يبقى للمسؤول: إنشاء مستندات الصندوق الأخرى، واعتماد الإقفال بعد مراجعته («← معتمد» في STD-TRS-02 (١)). والفرق يُرفع وفق {{Q:TRS-012#d}}. ولا يعتمد الأمين فرق إقفاله (ROL-005).\n5. السجل: يُدوَّن كل فرق معتمد في سجل الأمين والمسؤول معاً (STD-TRS-02 (٣)).\n6. إن لم يوجد في الفرع مستخدم مؤهل: يُسجَّل لصندوق ذلك الفرع الافتراض المُعلن: «مسؤول صندوق <الفرع> المحاسب من المقر؛ يسجّل حركات الصندوق بناءً على ما يرسله الفرع، ويعدّه عند زيارته أو بإقفال الصندوق»، بدل نص الافتراض في TRS-002.",
+      "applies": {
+        "any": [
+          {
+            "module": "TRS"
+          },
+          {
+            "all": [
+              {
+                "not": {
+                  "module": "TRS"
+                }
+              },
+              {
+                "any": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "module": "POS"
+                  },
+                  {
+                    "module": "PUR"
+                  },
+                  {
+                    "module": "EXP"
+                  },
+                  {
+                    "module": "PAY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "appliesText": "M(TRS) أو ق-ت12.",
+      "regulatory": false
+    },
+    {
+      "id": "STD-TRS-14",
+      "scope": "TRS",
+      "title": "الفاتورة التي ينتظر جزؤها المحوَّل التأكيد",
+      "text": "1. سجل «عميل نقدي»: لا يصدر جزء «تحويل بنكي» على فاتورة لسجل «عميل نقدي». فإن اختار المشتري الدفع بتحويل، أُنشئت له قبل إصدار الفاتورة بطاقة «فرد» بالاسم والجوال (STD-SAL-21 (٢))، وصدرت الفاتورة عليها.\n2. التسليم: تصدر الفاتورة ويُسلَّم الصنف وفق STD-TRS-04 (٥)، ولا تخضع لفحص حد الائتمان عند الإصدار.\n3. التقارير: تُعدّ الفاتورة في «النقدي والآجل» نقديةً ما لم يُرجَع سند التحويل إلى «مسودة».\n4. عدم وصول التحويل: إن أعاد المحاسب السند إلى «مسودة» لعدم وصول المبلغ: يصير المبلغ ديناً على العميل مستحقاً في يومه (STD-GEN-06)، وتُعدّ الفاتورة آجلة من ذلك اليوم؛ ويُنبَّه مُنشئ الفاتورة والمحاسب فوراً، عاجلاً؛ ويدخل الدين رصيد العميل المقارن بحده في فواتيره اللاحقة (SAL-008).",
+      "applies": {
+        "eq": [
+          "TRS-013",
+          "after_accountant_confirm"
+        ]
+      },
+      "appliesText": "TRS-013 = الخيار الثاني. ويكمل STD-TRS-04 (٥).",
+      "regulatory": false
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "تع-TRS-01",
+      "scope": "TRS",
+      "title": "TRS-007 مع اختيار «شيك» طريقةَ دفع",
+      "condition": {
+        "all": [
+          {
+            "any": [
+              {
+                "hasLabel": [
+                  "SAL-010",
+                  "شيك"
+                ]
+              },
+              {
+                "hasLabel": [
+                  "PUR-012",
+                  "شيك"
+                ]
+              }
+            ]
+          },
+          {
+            "has": [
+              "TRS-007",
+              "none"
+            ]
+          }
+        ]
+      },
+      "action": "flag",
+      "target": "TRS-007",
+      "flagText": "اخترتم الشيك طريقة دفع، وأجبتم بأنكم لا تتعاملون بالشيكات؛ احذفوا الشيك من طرق الدفع، أو اختاروا ما ينطبق هنا",
+      "text": "الشرط: SAL-010 تتضمن «شيك» أو PUR-012 تتضمن «شيك»، وTRS-007 = «لا نتعامل بالشيكات».\nإن كانت TRS-007 «افتراضاً»: يصبح موصى بها: «نستلم شيكات من العملاء» إن تضمنتها SAL-010، و«نُصدر شيكات للمورّدين» إن تضمنتها PUR-012، و«متابعة حالة الشيك»؛ ويُسجَّل افتراضاً مُعلناً.\nإن كانت «إجابة»: تُفعَّل علامة «يحتاج حسماً» على TRS-007 بالنص: «اخترتم الشيك طريقة دفع، وأجبتم بأنكم لا تتعاملون بالشيكات؛ احذفوا الشيك من طرق الدفع، أو اختاروا ما ينطبق هنا»."
+    },
+    {
+      "id": "تع-TRS-02",
+      "scope": "TRS",
+      "title": "وجهة مبالغ البطاقات",
+      "condition": {
+        "all": [
+          {
+            "eq": [
+              "TRS-009",
+              "yes_reconcile"
+            ]
+          },
+          {
+            "any": [
+              {
+                "hasLabel": [
+                  "SAL-010",
+                  "بطاقة مدى أو بطاقة ائتمانية عبر جهاز"
+                ]
+              },
+              {
+                "hasLabel": [
+                  "SAL-010",
+                  "رابط دفع إلكتروني"
+                ]
+              },
+              {
+                "hasLabel": [
+                  "SAL-010",
+                  "محفظة رقمية"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "action": "note",
+      "target": "TRS-009",
+      "text": "الشرط: TRS-009 = «نعم»، وظهور STD-SAL-13 (١) أو أثر SAL-010 لطريقة «بطاقة».\nالنتيجة: تُقرأ «يذهب إلى الحساب البنكي المرتبط بالجهاز» في STD-SAL-13 (١): «يذهب إلى الحساب الوسيط للجهاز (STD-TRS-08)». ويُقرأ «ربط كل طريقة بصندوق أو حساب بنكي» في أثر SAL-010 لطريقة البطاقة: «بالحساب الوسيط لكل جهاز». لا تُفعَّل علامة."
+    },
+    {
+      "id": "تع-TRS-03",
+      "scope": "TRS",
+      "title": "التقرير الذي يطلبه سؤال آخر",
+      "condition": {
+        "any": [
+          {
+            "all": [
+              {
+                "in": [
+                  "TRS-005",
+                  [
+                    "weekly_3m",
+                    "monthly_1y"
+                  ]
+                ]
+              },
+              {
+                "not": {
+                  "has": [
+                    "TRS-010",
+                    "cash_forecast"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "eq": [
+                  "TRS-006",
+                  "yes_schedule"
+                ]
+              },
+              {
+                "not": {
+                  "has": [
+                    "TRS-010",
+                    "upcoming_installments"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "eq": [
+                  "TRS-009",
+                  "yes_reconcile"
+                ]
+              },
+              {
+                "not": {
+                  "has": [
+                    "TRS-010",
+                    "card_settlements"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "action": "note",
+      "target": "TRS-010",
+      "text": "الشرط: TRS-005 = أحد خياري «نعم»، وTRS-010 لا تتضمن «التدفق النقدي المتوقع».\nإن كانت TRS-010 «افتراضاً»: يُضاف التقرير، ويُسجَّل افتراضاً مُعلناً: «أُضيف التدفق النقدي المتوقع لأن TRS-005 = <الإجابة>».\nإن كانت «إجابة»: يُضاف التقرير كذلك، لأن TRS-005 هو السؤال الذي يطلبه نصاً، ويظهر في الواجهة تنبيه دون علامة. ولا يُعدّ ذلك قلباً لإجابة TRS-010، لأنها لم تنفِ التقرير.\nويسري الحكم نفسه على «الأقساط القادمة» مع TRS-006، و«تسويات البطاقات» مع TRS-009."
+    },
+    {
+      "id": "تع-TRS-04",
+      "scope": "TRS",
+      "title": "أكثر من صندوق في الفرع الواحد",
+      "condition": {
+        "text": "صفّان أو أكثر في TRS-002 للفرع نفسه"
+      },
+      "action": "note",
+      "target": "TRS-002",
+      "text": "الشرط: صفّان أو أكثر في TRS-002 للفرع نفسه.\nالنتيجة: يُعدّ أول صف للفرع في TRS-002 «صندوق الفرع» في كل قاعدة تذكره بالمفرد: TRS-002 («مسؤول صندوق فرع الفاتورة»)، والتوريد (STD-SAL-13، STD-SAL-18، STD-GEN-32 (٧))، وربط طريقة «نقد» (SAL-010). والقيمة الأولية للصندوق في المستند: الصندوق الذي مسؤوله المُنشئ، وإلا «صندوق الفرع»، ويجوز تغييره لمن يملك «إنشاء» في المستند. يُسجَّل افتراضاً مُعلناً، ولا تُفعَّل علامة."
+    },
+    {
+      "id": "تع-TRS-05",
+      "scope": "TRS",
+      "title": "التوقيع الثاني بلا موقِّع",
+      "condition": {
+        "all": [
+          {
+            "eq": [
+              "TRS-008#b",
+              "yes"
+            ]
+          },
+          {
+            "text": "لا يوجد في ROL-001 مستخدم يحمل دور (د) غير المعتمِد الأول والمُنشئ المعتاد (مثل منشأة المستخدمَين)"
+          }
+        ]
+      },
+      "action": "flag",
+      "target": "TRS-008",
+      "flagText": "اخترتم توقيعين، ولا يوجد مستخدم ثانٍ يوقّع؛ اختاروا دوراً آخر، أو ألغوا التوقيع الثاني",
+      "text": "الشرط: TRS-008.ب = «نعم»، ولا يوجد في ROL-001 مستخدم يحمل دور (د) غير المعتمِد الأول والمُنشئ المعتاد (مثل منشأة المستخدمَين).\nإن كانت (ب) «إجابة»: تُفعَّل علامة على TRS-008 بالنص: «اخترتم توقيعين، ولا يوجد مستخدم ثانٍ يوقّع؛ اختاروا دوراً آخر، أو ألغوا التوقيع الثاني».\nإن كانت «افتراضاً»: لا يقع، لأن الموصى به «لا»."
+    }
+  ],
+  "conflictRefs": [
+    {
+      "id": "تع-12",
+      "text": "تع-12 (§٢.١): السداد يحتاج اعتماداً في PUR-012 مع F_MULTIUSER ودون M(TRS) ← يُضاف TRS-008 إلى القسم المصغّر ق-ت12."
+    },
+    {
+      "id": "تع-28",
+      "text": "تع-28 (§٢.٤): TRS-004 = «ربط مباشر مع البنك» وصف «البنك» في INT-001 ليس «الآن» ← توحيد بحسب «إجابة/افتراض»، أو علامة على INT-001."
+    }
+  ],
+  "documents": [
+    {
+      "document": "توريد عهدة (تحصيل، أو متبقي عهدة مصروفات)",
+      "states": "مسودة، معتمد، ملغى",
+      "effective": "معتمد: ينقص رصيد العهدة ويزيد الصندوق المستلم بالمبلغ المعدود",
+      "transitions": "يسجّله مسؤول الصندوق المستلم بخطوة واحدة، أو أمين صندوق الفرع (STD-TRS-13)"
+    },
+    {
+      "document": "سند قبض عام",
+      "states": "مسودة، صادر، ملغى",
+      "effective": "صادر: يزيد الصندوق أو الحساب",
+      "transitions": "الإنشاء: المحاسب، أو مسؤول الصندوق المستلم"
+    },
+    {
+      "document": "سند صرف عام",
+      "states": "مسودة، بانتظار الاعتماد، معتمد، منفَّذ، ملغى",
+      "effective": "منفَّذ",
+      "transitions": "الاعتماد وفق TRS-008. ← منفَّذ: مسؤول الصندوق، أو أمين صندوق الفرع، أو المحاسب للحساب البنكي"
+    },
+    {
+      "document": "نقل نقد: بين صندوقين، أو من صندوق إلى البنك (إيداع)، أو من البنك إلى صندوق",
+      "states": "مسودة، مُرسَل، مستلم، ملغى (قبل الاستلام)",
+      "effective": "مُرسَل: ينقص المرسِل؛ مستلم: يزيد المستلم",
+      "transitions": "الإرسال: مسؤول المصدر، أو أمين صندوق الفرع لصندوقه (STD-TRS-13 (٣))، أو المحاسب للحساب البنكي، فيصير المبلغ «نقداً في الطريق». الاستلام: مسؤول الصندوق المستلم بالمعدود فعلاً؛ والإيداع «مستلم» بتأكيد المحاسب أو بمطابقته في الكشف أيهما أسبق. ولا يُقبل استلام أكثر مما أُرسل"
+    },
+    {
+      "document": "تحويل بين حسابين بنكيين للكيان",
+      "states": "مسودة، منفَّذ، ملغى",
+      "effective": "منفَّذ: الحسابان معاً",
+      "transitions": "المحاسب، بخطوة واحدة"
+    },
+    {
+      "document": "رسوم وعمولات بنكية",
+      "states": "مسودة، معتمد، ملغى",
+      "effective": "معتمد",
+      "transitions": "المحاسب، من سطر الكشف أو يدوياً"
+    },
+    {
+      "document": "إقفال صندوق",
+      "states": "مسودة، معتمد، ملغى",
+      "effective": "لا أثر على الرصيد",
+      "transitions": "STD-TRS-02 (١)"
+    },
+    {
+      "document": "تسوية فرق نقدي",
+      "states": "مسودة، بانتظار الاعتماد، معتمد، ملغى",
+      "effective": "معتمد: يعدّل الصندوق أو العهدة أو الحساب الوسيط",
+      "transitions": "STD-TRS-02 (٢)"
+    },
+    {
+      "document": "سند قبض بتحويل بنكي (عند TRS-013 = الثاني)",
+      "states": "مسودة، بانتظار المراجعة («بانتظار تأكيد التحويل»)، صادر، ملغى",
+      "effective": "صادر",
+      "transitions": "STD-TRS-04"
+    },
+    {
+      "document": "مطابقة بنكية",
+      "states": "مسودة («مفتوحة»)، معتمد («مكتملة»)، ملغى",
+      "effective": "لا تغيّر رصيداً",
+      "transitions": "STD-TRS-06"
+    },
+    {
+      "document": "رصيد افتتاحي للخزينة",
+      "states": "مسودة، معتمد، ملغى",
+      "effective": "لا يولّد قيداً",
+      "transitions": "STD-TRS-07"
+    },
+    {
+      "document": "تسوية مبالغ بطاقات",
+      "states": "مسودة، معتمد، ملغى",
+      "effective": "معتمد",
+      "transitions": "STD-TRS-09"
+    },
+    {
+      "document": "شيك (سجل)",
+      "states": "وارد: مستلم (= صادر) ← مُرسَل («تحت التحصيل») ← منفَّذ («صُرف») / ملغى («مرتجع»)؛ صادر: يتبع سند الصرف",
+      "effective": "—",
+      "transitions": "STD-TRS-11"
+    }
+  ],
+  "documentsNote": "ولا أثر على الأرصدة قبل الحالة النافذة؛ والمعتمد غير المنفَّذ يُعرض في تقارير الخزينة بنداً مستقلاً «صرف معتمد لم يُنفَّذ» ولا يُطرح من الأرصدة؛ و«نقد في الطريق» بند مستقل لا يدخل رصيد أي صندوق ولا حساب (STD-GEN-30). وعند عدم F_MULTIUSER: مالك كل انتقال «المستخدم الوحيد».",
+  "templateNotes": [
+    "الترميز: {معرّف} الإجابة كاملة، و{معرّف.الجزء} جزء مسمّى، و{معرّف.صف[ن].العمود} خلية في قائمة متكررة. والأولوية لكل قالب {SCP-001.أولوية TRS، أو ع-01}، والمصدر من ع-02. وأحكام STD-TRS وما تحيل إليه من STD-GEN تُكتب في 3.x.4 «قواعد العمل» من فصل TRS بمصدر «قياسي»، ولا تأخذ معرّف متطلب.",
+    "ع-03: كل خانة لها مصدر في سؤال أو جزء أو موصى به أو قاعدة. فلا يوقف TRS التصدير بخانة بلا مصدر، ما لم يُدخل المستخدم قيمة فارغة في قائمة.",
+    "عند عدم F_MULTIUSER: لا يُولَّد TRS-R008x ولا TRS-R008y ولا TRS-R012d، ويُكتب المستلم في TRS-R011x «المستخدم الوحيد» (ع-04).",
+    "الإسقاط: يُسقَط كل قالب انتفى شرطه، ويُسجَّل افتراضاً مُعلناً؛ والخانة المشروطة تُسقَط وحدها وفق STD-GEN-65."
+  ]
+}
