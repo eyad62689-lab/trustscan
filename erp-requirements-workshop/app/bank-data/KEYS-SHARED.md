@@ -96,3 +96,9 @@ Section ids: PRF, SCP, ROLES, GEN, ACC, SAL, TAX, PUR, INV, EXP-MINI, EXP, TRS-M
 - F_B2B={hasAny:[PRF-010,[companies,government]]}; F_B2C={has:[PRF-010,individuals]}
 - F_MIGRATE={hasAny:[PRF-009,[paper,excel,software,mobile_apps,other]]} (= «لا تساوي لا يوجد تسجيل منتظم»; dont_know→rec. excel)
 
+
+## Notes for other extractors
+- ROL-001 (shared-a.json) should use `"section": "ROLES"` (mini-section «الأدوار», meta order 20). ROL-002..008 use `"ROL"`.
+- EXP-002/EXP-003 should carry `"alsoIn": ["EXP-MINI"]`; TRS-001/TRS-002/TRS-008 `"alsoIn": ["TRS-MINI"]` (TRS-008 only when `all(F_MULTIUSER, PUR-012 has «السداد يحتاج اعتماداً»)` — meta references it as `{"hasLabel":["PUR-012","السداد يحتاج اعتماداً"]}`; PUR extractor: tell integration your key for that option).
+- Module refs: `{"module":"ACC"}` etc. (uppercase unit codes); deferred units evaluate false.
+- bankVersion in meta.json = "2.6".

@@ -1,0 +1,2091 @@
+{
+  "unit": "PRF-SCP",
+  "sections": [
+    {
+      "id": "PRF",
+      "title": "ملف الكيان",
+      "order": 0,
+      "condition": true,
+      "kind": "profile",
+      "opening": {
+        "attendees": "المالك أو المدير العام (إلزامي)، والمحاسب إن وُجد.",
+        "mandatory": [
+          "المالك أو المدير العام"
+        ],
+        "duration": "10–15 دقيقة",
+        "minutes": 15,
+        "discussion": [
+          "هل سنعمل بالطريقة نفسها بعد سنتين أم نتوقع فرعاً أو نشاطاً جديداً؟",
+          "ما أكبر مشكلة يومية نريد أن يحلها النظام؟"
+        ]
+      },
+      "note": "**قوالب الصياغة في PRF وSCP:** أسئلة PRF وصفية تغذّي الأعلام والملخص التنفيذي (8.3 القسم 2)، وأكثرها لا يولّد متطلباً بذاته؛ ولكل سؤال تحته «قالب الصياغة»: إما قالب بخاناته (PRF-003.ب، PRF-012، PRF-013، و«أخرى» في SCP-001، وSCP-099)، وإما صف «لا يولّد متطلباً — السبب: …»."
+    },
+    {
+      "id": "SCP",
+      "title": "اختيار النطاق",
+      "order": 10,
+      "condition": true,
+      "kind": "scope",
+      "opening": {
+        "attendees": "المالك، والمحاسب، ومن يمثل كل قسم رئيسي.",
+        "mandatory": [],
+        "duration": "15–20 دقيقة",
+        "minutes": 20,
+        "discussion": [
+          "ما الذي يُدار اليوم خارج أي نظام ويتسبب في أخطاء؟",
+          "ما الذي يمكن تأجيله لمرحلة لاحقة دون ضرر؟"
+        ]
+      },
+      "notes": [
+        "**الوحدات المؤجلة** (POS، FAS، HR، PAY، ATT، CRM، PRJ، BUD؛ `80-deferred.md`): تظهر في الفهرس بوسم «تُجمع متطلباتها في إصدار لاحق»؛ واختيارها يسجّل الحاجة وأولويتها فقط، ولا تُطرح أسئلتها، و`M(X)` لها «خطأ» في شروط البناء، وتُكتب في الملخص التنفيذي تحت «احتياجات مسجلة لم تُجمع متطلباتها» (90، 8.3 القسم 2) (ق ع-3، ق ع-8، ق ع-82). ووحدة PFN مُسقَطة (ق ع-2).",
+        "قسم **TAX** (ضريبة القيمة المضافة والفوترة الإلكترونية) لا يُختار من الفهرس، بل يُضاف تلقائياً عند `F_TAXREADY` وظهور أي من SAL أو PUR أو POS أو EXP. وأولوية متطلباته وأولوية الأقسام المشتركة وفق STD-GEN-39."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "PRF-001",
+      "section": "PRF",
+      "order": 1,
+      "title": "ما اسم الكيان كما تريدونه أن يظهر في الوثيقة والمستندات؟",
+      "help": "الاسم التجاري للمنشأة.",
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يظهر في غلاف الوثيقة، ويُستخدم قيمة أولية لترويسة المستندات.",
+      "answerTypeText": "نص قصير",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "text",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "الكيان",
+            "reason": "الاسم واقعة عن الكيان تُكتب في الغلاف واسم الملف والمستندات، لا تفضيل يُفترض.",
+            "text": "لا موصى به؛ يُكتب الاسم كما في السجل التجاري. وإن أُجيب «لا أعلم» أو بقي فارغاً عند التصدير، يُكتب «الكيان» وتُفعَّل علامة «يحتاج حسماً» (ق-ت9)، وحسمها بقبول الموصى به يُبقي «الكيان» — السبب: الاسم واقعة عن الكيان تُكتب في الغلاف واسم الملف والمستندات، لا تفضيل يُفترض."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-001-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: قيمته تُكتب في الغلاف والملخص التنفيذي (8.3 القسمان 1 و2)، وقيمته الأولية لترويسة المستندات تُولَّد في قالب DOC-001 ومهمة الإعداد ب-١ في 4.9."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-002",
+      "section": "PRF",
+      "order": 2,
+      "title": "ما نوع الكيان؟",
+      "help": "يحدد هذا السؤال المسار كله، فاختر بدقة.",
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد الشكل القانوني في ACC (ACC-010، ACC-012، ACC-014، STD-ACC-09)؛ الجهة غير الربحية تُعامل معاملة الشركة في الأسئلة، ويضاف لها في ACC سؤال الأموال المقيدة (ACC-014).",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "sole_proprietorship",
+              "label": "منشأة فردية (مؤسسة)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "company",
+              "label": "شركة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "nonprofit",
+              "label": "جهة غير ربحية أو جمعية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "sole_proprietorship",
+            "reason": "أبسط مسار للمنشآت، ويمكن التوسع منه.",
+            "text": "منشأة فردية — السبب: أبسط مسار للمنشآت، ويمكن التوسع منه."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-002-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط مسار أسئلة الشكل القانوني؛ والجهة غير الربحية تُولَّد متطلباتها من ACC-014."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-003",
+      "section": "PRF",
+      "order": 3,
+      "title": "ما وضع الكيان في ضريبة القيمة المضافة؟",
+      "help": "المقصود: هل لديكم رقم تسجيل ضريبي وتضيفون الضريبة على فواتيركم؟",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يضبط `F_VAT` و`F_VAT_SOON`؛ يحدد ظهور قسم TAX، وإظهار الضريبة في المستندات والتقارير، أو بناء القدرة معطّلة قابلة للتفعيل. وعند `F_VAT_SOON` تُبنى الخصائص المشروطة بـ`F_VAT` معطّلة وتُفعَّل عند التسجيل (TAX-007، STD-TAX-07).",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "vat_registered",
+              "label": "مسجّل في ضريبة القيمة المضافة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "not_registered_no_plan",
+              "label": "غير مسجّل، ولا نتوقع التسجيل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "not_registered_expected",
+              "label": "غير مسجّل، ونتوقع التسجيل لاحقاً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "not_registered_expected",
+            "reason": "يُبنى النظام جاهزاً لتفعيل الضريبة دون إعادة بناء.",
+            "text": "غير مسجّل، ونتوقع التسجيل لاحقاً — السبب: يُبنى النظام جاهزاً لتفعيل الضريبة دون إعادة بناء."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-003-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط `F_VAT` و`F_VAT_SOON`؛ وتُولَّد المتطلبات الضريبية من قسم TAX (ومنها TAX-007 عند `F_VAT_SOON`)، ويُكتب حكمه في 4.7."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-003.ب",
+      "section": "PRF",
+      "order": 4,
+      "title": "هل تريدون أن ينبّهكم النظام إذا اقتربت مبيعاتكم من حد التسجيل الإلزامي في ضريبة القيمة المضافة؟",
+      "help": "إذا بلغت المبيعات حداً معيناً لزم التسجيل. النظام يتابع مبيعاتكم وينبّهكم قبل بلوغه.",
+      "detail": true,
+      "condition": {
+        "in": [
+          "PRF-003",
+          [
+            "not_registered_no_plan",
+            "not_registered_expected"
+          ]
+        ]
+      },
+      "conditionText": "PRF-003 ∈ {«غير مسجّل، ولا نتوقع التسجيل»، «غير مسجّل، ونتوقع التسجيل لاحقاً»}. **يُعرض داخل PRF بعد PRF-003 مباشرة، ولا يعتمد ظهوره على SCP-001.**",
+      "regulatory": true,
+      "verify": [
+        "[يحتاج تحقق من الحد وفترة الاحتساب وما يدخل فيه]",
+        "[يحتاج تحقق]"
+      ],
+      "impact": "«نعم» يبني: (1) تقرير «المبيعات مقابل حد التسجيل»؛ (2) تنبيه «اقتربت المبيعات من حد التسجيل» عند بلوغ نسبة الاقتراب `{PRF-003.ب.نسبة_الاقتراب}` من الحد، للمالك والمحاسب، داخل النظام، غير عاجل؛ (3) تنبيه «تجاوزت المبيعات حد التسجيل»، للمالك والمحاسب، بوسيلة STD-GEN-70 (١)، عاجل. **ويُرسل كلٌّ من التنبيهين عند أول بلوغ لعتبته، ولا يُعاد ما بقيت المبيعات المقيسة فوقها، ويُعاد إن نزلت دونها ثم بلغتها؛ وفي فترة الاحتساب الثابتة يُعاد كذلك عند أول بلوغ بعد بدء فترة جديدة (ق ع-112).** **ونسبة_الاقتراب:** قيمة إعداد، الموصى بها 80، مصدرها «قياسي»، تُعدَّل عند الإعداد (4.9 ب-٢٨)؛ وهي عتبة تنبيه داخلية لا قيمة نظامية. والدوران «المالك» و«المحاسب» يُقرآن وفق ع-04 (و«المستخدم الوحيد» عند عدم `F_MULTIUSER`). والحد وفترة احتسابه إعدادان يُدخلهما المنفّذ [يحتاج تحقق من الحد وفترة الاحتساب وما يدخل فيه]. **وفترة الاحتساب إعداد بأحد شكلين:** ثابتة (تبدأ في تاريخ وتُصفَّر في نهايتها) أو متحركة (آخر <ن> شهراً حتى الشهر الجاري)؛ ويُحتسب المتراكم في الحالين من مجاميع شهرية (ق ع-112). و«ما يدخل فيه» إعداد ثالث بصيغة واحدة: علامة «يدخل في حد التسجيل: نعم/لا» على كل حساب إيراد في الدليل (وعند عدم `M(ACC)`: على كل نوع إيراد متنوع في سند القبض العام)، قيمتها الأولية «نعم» لحسابات إيراد المبيعات (4.9 أ-٤) و«لا» لغيرها، ويعدّلها المنفّذ بعد التحقق (4.9 ب-٢٨). والمبيعات المقيسة: سطور فواتير المبيعات الصادرة **المرحّلة إلى حساب إيراد معلَّم «نعم»**، بعد خصم سطور المرتجعات والإشعارات الدائنة المقابلة لتلك السطور، أياً كان حساب المردودات الذي رُحّلت إليه (4.9 أ-٤)، في فترة الاحتساب، وتُقرأ بتعريف «مبيعات اليوم والشهر» في STD-GEN-45 (الفواتير والإشعارات المدينة الصادرة ناقص المرتجعات والإشعارات الدائنة، قبل الضريبة)؛ وتُضاف إليها سندات القبض العامة النافذة على حساب إيراد (أو نوع إيراد) معلَّم «نعم» (STD-GEN-34 (٦))، بتاريخها. فالعلامة وحدها تحدد ما يدخل، في الفواتير والسندات معاً (ق ع-111). **ومبيعات ما قبل التشغيل:** إن بدأت فترة الاحتساب الجارية يوم التشغيل قبل {MIG-005}، يُدخل المحاسب عند الإعداد مجموع المبيعات لكل شهر منها سابقٍ لـ{MIG-005} من سجلات الكيان السابقة (4.9 ب-٣٢)، ويعتمدها المالك مع كشف مطابقة الأرصدة الافتتاحية (STD-GEN-57)؛ ولا تولّد قيداً ولا مستنداً، وتدخل «المتراكم في فترة الاحتساب» في التقرير والتنبيهين سطراً مستقلاً «مبيعات ما قبل التشغيل» **في كل فترة احتساب يقع فيها شهرها، ثابتةً كانت أو متحركة** (ق ع-112). ويُكتب حكم تعذّرها في الوثيقة بشرطه نصاً (STD-GEN-65 (٥)): «إن لم تُدخل مجاميع ما قبل التشغيل عند الإعداد، يبدأ المتراكم من {MIG-005}، ويُكتب ذلك تحت التقرير»؛ ولا يُسجَّل افتراضاً عند التصدير، إذ لا يُعرف التعذّر إلا عند الإعداد (ق ع-101).",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes",
+              "label": "نعم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "yes",
+            "reason": "لتجاوز الحد دون تسجيل تبعات، والتنبيه لا يتطلب بناء الضريبة.",
+            "text": "نعم — السبب: لتجاوز الحد دون تسجيل تبعات، والتنبيه لا يتطلب بناء الضريبة."
+          },
+          "required": false
+        },
+        {
+          "key": "approach_pct",
+          "label": "نسبة الاقتراب من حد التسجيل (قيمة إعداد، تُعدَّل عند الإعداد 4.9 ب-٢٨)",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": "٪",
+          "min": 1,
+          "maxValue": 100,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "PRF-003.ب",
+              "yes"
+            ]
+          },
+          "recommended": {
+            "value": 80,
+            "reason": "قيمة إعداد، مصدرها «قياسي»؛ عتبة تنبيه داخلية لا قيمة نظامية.",
+            "text": "ونسبة_الاقتراب: قيمة إعداد، الموصى بها 80، مصدرها «قياسي»، تُعدَّل عند الإعداد (4.9 ب-٢٨)؛ وهي عتبة تنبيه داخلية لا قيمة نظامية."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-R003b",
+          "when": {
+            "all": [
+              {
+                "eq": [
+                  "PRF-003.ب",
+                  "yes"
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "module": "POS"
+                  }
+                ]
+              }
+            ]
+          },
+          "whenText": "PRF-003.ب = «نعم» و(`M(SAL)` أو `M(POS)`)",
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقرير «المبيعات مقابل حد التسجيل» للمالك شهرياً، وأن يُنبّه المالك والمحاسب عند بلوغ المبيعات المقيسة {{Q:PRF-003.ب#approach_pct}}٪ من حد التسجيل (غير عاجل، داخل النظام) وعند تجاوزه (عاجل، بوسيلة STD-GEN-70 (١))، كلاً منهما عند أول بلوغ لعتبته، ثم إن نزلت المبيعات دونها وبلغتها من جديد، وفي فترة الاحتساب الثابتة عند أول بلوغ في كل فترة جديدة؛ والحد وفترة احتسابه (ثابتة أو متحركة) وحسابات الإيراد الداخلة فيه إعدادات يُدخلها المنفّذ [يحتاج تحقق]، وتسري علامة الحساب على سطور الفواتير والسندات العامة معاً، ويشمل المتراكم في كل فترة احتساب يقع فيها شهر سابق للتشغيل مجموع ذلك الشهر المُدخل عند الإعداد (4.9 ب-٣٢)."
+        },
+        {
+          "id": "PRF-003.ب-NR2",
+          "when": {
+            "eq": [
+              "PRF-003.ب",
+              "no"
+            ]
+          },
+          "whenText": "PRF-003.ب = «لا»",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: لا متابعة لحد التسجيل؛ ويُكتب صف الضريبة في 4.7 بنصه العام."
+        }
+      ],
+      "workshopNote": null,
+      "notes": [
+        "- **ليس سؤالاً وصفياً:** لا يسري عليه ق-ت9، و«لا أعلم» تأخذ الموصى به افتراضاً مُعلناً.",
+        "- **بطاقة التقرير (ع-09):** المبيعات مقابل حد التسجيل | الغرض: متابعة لزوم التسجيل | الأرقام: مجموع المبيعات المقيسة لكل شهر، والمتراكم في فترة الاحتساب (ومنه «مبيعات ما قبل التشغيل» سطراً مستقلاً في كل فترة احتساب يقع فيها شهرها)، والحد، والنسبة المبلوغة | التصفية: الفترة | التكرار والقارئ: شهري؛ المالك.",
+        "- **موضع متطلباته في الوثيقة:** متطلبات PRF-003.ب (`PRF-R003b`) تُكتب في فصل SAL (3.x.1) بعد متطلباتها، وإلا في فصل POS عند عدم `M(SAL)`. **وعند عدم `M(SAL)` وعدم `M(POS)` يُسقَط `PRF-R003b` وتقريره وتنبيهاه ومهمة إعداده، ويُسجَّل افتراضاً مُعلناً: «أُسقط PRF-R003b لأن SCP-001 لا يتضمن SAL ولا POS» (STD-GEN-24)، ويُكتب صف الضريبة في 4.7 بنصه العام (ق ع-60).** وأولويتها أولوية تلك الوحدة في SCP-001، ومصدرها مصدر PRF-003.ب. ويُدرج تقرير «المبيعات مقابل حد التسجيل» في 3.x.6 للوحدة نفسها، وتنبيهاه في 3.x.7 (STD-GEN-39 (٤)).",
+        "- **في 4.7** عند PRF-003 = «غير مسجّل، ولا نتوقع التسجيل» وPRF-003.ب = «نعم» و(`M(SAL)` أو `M(POS)`): «ضريبة القيمة المضافة: لا تنطبق الآن، ويُراقَب حد التسجيل. وعند لزوم التسجيل يُعاد قسم TAX في ورشة تحديث وتُحدَّث وثيقة المتطلبات.»",
+        "- **مهام الإعداد لهذه الوحدة:** انظر 90-workshop-and-export، 4.9، الصفان ب-٢٨ وب-٣٢."
+      ]
+    },
+    {
+      "id": "PRF-004",
+      "section": "PRF",
+      "order": 5,
+      "title": "كم شخصاً سيستخدم النظام؟",
+      "help": "عدد من سيدخل إلى النظام فعلاً، لا عدد الموظفين.",
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يضبط `F_MULTIUSER`؛ يحدد الحاجة إلى الأدوار والصلاحيات والاعتمادات وسجل التعديلات بحسب المستخدم، ويوجّه تقدير السعة. وعند PRF-004 ∉ {«2–5»} مع `F_MULTIUSER` يُولَّد دور «المدير العام» في ROL-001 (ع-05).",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "one_person",
+              "label": "شخص واحد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "users_2_5",
+              "label": "2–5",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "users_6_20",
+              "label": "6–20",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "users_21_50",
+              "label": "21–50",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "users_50_plus",
+              "label": "أكثر من 50",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "users_2_5",
+            "reason": "الحالة الأكثر شيوعاً للمنشآت الصغيرة.",
+            "text": "2–5 — السبب: الحالة الأكثر شيوعاً للمنشآت الصغيرة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-004-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط `F_MULTIUSER`؛ والأدوار المولّدة به (ع-05) تُكتب في قالب ROL-001."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-004.ب",
+      "section": "PRF",
+      "order": 6,
+      "title": "كم عددهم بالتحديد؟ (اختياري)",
+      "help": null,
+      "detail": true,
+      "condition": {
+        "flag": "F_MULTIUSER"
+      },
+      "conditionText": "`F_MULTIUSER`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يغذّي قاعدة توزيع المستخدمين في ROL-001 (العدد المتاح «ع»). ويُرفض رقم خارج نطاق (أ).",
+      "answerTypeText": "رقم داخل نطاق الجزء (أ)",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "number",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": 2,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": 2,
+            "reason": "لا يفترض مستخدمين لم يُذكروا.",
+            "text": "الحد الأدنى للنطاق المختار في (أ): 2 أو 6 أو 21 أو 51 — السبب: لا يفترض مستخدمين لم يُذكروا.",
+            "when": [
+              {
+                "if": {
+                  "eq": [
+                    "PRF-004",
+                    "users_2_5"
+                  ]
+                },
+                "value": 2,
+                "reason": "الحد الأدنى للنطاق المختار في (أ)"
+              },
+              {
+                "if": {
+                  "eq": [
+                    "PRF-004",
+                    "users_6_20"
+                  ]
+                },
+                "value": 6,
+                "reason": "الحد الأدنى للنطاق المختار في (أ)"
+              },
+              {
+                "if": {
+                  "eq": [
+                    "PRF-004",
+                    "users_21_50"
+                  ]
+                },
+                "value": 21,
+                "reason": "الحد الأدنى للنطاق المختار في (أ)"
+              },
+              {
+                "if": {
+                  "eq": [
+                    "PRF-004",
+                    "users_50_plus"
+                  ]
+                },
+                "value": 51,
+                "reason": "الحد الأدنى للنطاق المختار في (أ)"
+              }
+            ]
+          },
+          "required": false,
+          "rangeFrom": {
+            "ref": "PRF-004",
+            "ranges": {
+              "users_2_5": [
+                2,
+                5
+              ],
+              "users_6_20": [
+                6,
+                20
+              ],
+              "users_21_50": [
+                21,
+                50
+              ],
+              "users_50_plus": [
+                51,
+                null
+              ]
+            }
+          }
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-004.ب-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: العدد يغذّي قاعدة توزيع المستخدمين في ROL-001، ويُكتب في قالبه وفي ملف الكيان بالملخص التنفيذي."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-005",
+      "section": "PRF",
+      "order": 7,
+      "title": "كم عدد الفروع أو المواقع التي تعملون منها؟",
+      "help": "كل موقع فيه بيع أو تخزين أو موظفون يُعدّ موقعاً (المكتب الرئيسي منها).",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يضبط `F_MULTIBRANCH`؛ يحدد الحاجة إلى بُعد «الفرع» في كل العمليات والتقارير، ويُظهر GEN-003 (قائمة الفروع).",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "one_site",
+              "label": "موقع واحد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sites_2_3",
+              "label": "2–3",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sites_4_10",
+              "label": "4–10",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sites_10_plus",
+              "label": "أكثر من 10",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "one_site",
+            "reason": "الحالة الأشيع للمنشآت الصغيرة.",
+            "text": "موقع واحد — السبب: الحالة الأشيع للمنشآت الصغيرة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-005-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط `F_MULTIBRANCH`؛ وتُولَّد متطلبات الفروع من GEN-003 وبُعد الفرع (STD-GEN-38)."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-006",
+      "section": "PRF",
+      "order": 8,
+      "title": "ما طبيعة نشاطكم؟",
+      "help": "يمكن اختيار أكثر من خيار إن كان النشاط مختلطاً.",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يضبط `F_CONTRACT`؛ يحدد التلميحات في فهرس الوحدات، والقيم الموصى بها في SAL وPRJ. وتضمّنه «خدمات» شرطٌ في ظهور SAL-031 وINV-017.",
+      "answerTypeText": "اختيار متعدد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "trade",
+              "label": "تجارة (بيع بضاعة جملة أو تجزئة)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "services",
+              "label": "خدمات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "contracting",
+              "label": "مقاولات أو مشاريع بعقود",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "trade"
+            ],
+            "reason": "النشاط الأشيع بين المنشآت الصغيرة التي تطلب نظاماً.",
+            "text": "تجارة — السبب: النشاط الأشيع بين المنشآت الصغيرة التي تطلب نظاماً."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-006-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط `F_CONTRACT` وتلميحات الفهرس والموصى به في SAL وPRJ؛ ولا قيمة منه تُكتب في متطلب."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-007",
+      "section": "PRF",
+      "order": 9,
+      "title": "هل تحتفظون ببضاعة أو مواد في مخزون؟",
+      "help": "أي بضاعة تشترونها وتبقى عندكم قبل بيعها أو استخدامها.",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يضبط `F_STOCK`؛ يحدد إظهار وحدتي INV وPOS وأسئلة الأصناف المخزنية.",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes",
+              "label": "نعم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "no",
+            "reason": "التجارة تعني غالباً مخزوناً.",
+            "text": "«نعم» إذا تضمن PRF-006 «تجارة»، وإلا «لا» — السبب: التجارة تعني غالباً مخزوناً.",
+            "when": [
+              {
+                "if": {
+                  "has": [
+                    "PRF-006",
+                    "trade"
+                  ]
+                },
+                "value": "yes",
+                "reason": "التجارة تعني غالباً مخزوناً."
+              }
+            ]
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-007-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط `F_STOCK`، فيُظهر INV وPOS وأسئلة الأصناف المخزنية التي تولّد متطلباتها."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-008",
+      "section": "PRF",
+      "order": 10,
+      "title": "كم عدد الموظفين لديكم (بمن فيهم غير مستخدمي النظام)؟",
+      "help": "كل من يتقاضى راتباً من الكيان.",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يضبط `F_EMP` و`F_EMP_MID`؛ يحدد إظهار HR وPAY وATT، وحجم البيانات المتوقع. وعند `F_EMP` وعدم `M(PAY)` تُسجَّل الرواتب ونهاية الخدمة بقيود في ACC وفق STD-GEN-36.",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "none",
+              "label": "لا يوجد موظفون",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "emp_1_5",
+              "label": "1–5",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "emp_6_20",
+              "label": "6–20",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "emp_21_50",
+              "label": "21–50",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "emp_51_200",
+              "label": "51–200",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "emp_200_plus",
+              "label": "أكثر من 200",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "emp_1_5",
+            "reason": "الشريحة الأشيع للمنشآت الصغيرة.",
+            "text": "1–5 — السبب: الشريحة الأشيع للمنشآت الصغيرة."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-008-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط `F_EMP` و`F_EMP_MID`؛ وقيود الرواتب ونهاية الخدمة دون PAY تُكتب وفق STD-GEN-36 بمصدر «قياسي»."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-009",
+      "section": "PRF",
+      "order": 11,
+      "title": "كيف تديرون شؤونكم المالية والإدارية اليوم؟",
+      "help": "اختر كل ما ينطبق.",
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يضبط `F_MIGRATE`؛ يحدد عمق قسم نقل البيانات MIG والتدريب اللازم، وموصى به عمود «شكلها» في MIG-001 (MIG-001، «الأعمدة الموصى بها»)، وجواز الافتتاح المؤقت عند تضمّنه «برنامج محاسبي» (STD-GEN-61 (١٠)).",
+      "answerTypeText": "اختيار متعدد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "paper",
+              "label": "دفاتر وأوراق",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "excel",
+              "label": "جداول إكسل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "software",
+              "label": "برنامج محاسبي أو إداري حالي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "mobile_apps",
+              "label": "تطبيقات متفرقة على الجوال",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no_records",
+              "label": "لا يوجد تسجيل منتظم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "excel"
+            ],
+            "reason": "الأشيع، ويجعل نقل البيانات متاحاً.",
+            "text": "جداول إكسل — السبب: الأشيع، ويجعل نقل البيانات متاحاً."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-009-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط `F_MIGRATE`؛ وتُولَّد متطلبات النقل من MIG."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-010",
+      "section": "PRF",
+      "order": 12,
+      "title": "من هم عملاؤكم؟",
+      "help": "اختر كل ما ينطبق.",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": true,
+      "verify": [
+        "[يحتاج تحقق من التفاصيل النظامية]"
+      ],
+      "impact": "يضبط `F_B2B` و`F_B2C`؛ يحدد بيانات العميل الإلزامية، ونوع الفاتورة الضريبية عند `F_VAT` (فاتورة مبسطة للأفراد وقياسية للمنشآت [يحتاج تحقق من التفاصيل النظامية])، وأسئلة المنافسات والعقود الحكومية في PRJ. وتُصفّى به قيم «نوع العميل» في SAL-004 وصفوف SAL-028 (STD-GEN-17)، وانطباق «حماية البيانات الشخصية» في 4.7 عند تضمّنه «أفراد».",
+      "answerTypeText": "اختيار متعدد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "individuals",
+              "label": "أفراد (المستهلكون)",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "companies",
+              "label": "منشآت وشركات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "government",
+              "label": "جهات حكومية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "individuals",
+              "companies"
+            ],
+            "reason": "يغطي الحالتين دون أن يُسقط أحدهما.",
+            "text": "أفراد ومنشآت — السبب: يغطي الحالتين دون أن يُسقط أحدهما."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-010-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يضبط `F_B2B` و`F_B2C`؛ وبيانات العميل ونوع الفاتورة تُولَّد من SAL-004 وقسم TAX، وحكم حماية البيانات الشخصية في 4.7."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-011",
+      "section": "PRF",
+      "order": 13,
+      "title": "ما أهم ثلاثة أهداف تريدون أن يحققها النظام؟",
+      "help": "اختر ثلاثة على الأكثر؛ تساعد المنفّذ على ترتيب الأولويات.",
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يُدرج في الملخص التنفيذي، ويرجّح الأولويات عند التعارض، ويحدد لوحة المتابعة الافتراضية.",
+      "answerTypeText": "اختيار متعدد (حد أقصى 3)",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "true_profit",
+              "label": "معرفة الربح الحقيقي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "inventory_control",
+              "label": "ضبط المخزون ومنع الفقد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "expense_control",
+              "label": "ضبط المصروفات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "debt_collection",
+              "label": "تحصيل الديون من العملاء",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "tax_compliance",
+              "label": "الالتزام الضريبي والنظامي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "payroll_attendance",
+              "label": "ضبط الرواتب والحضور",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "customer_sales",
+              "label": "متابعة العملاء والمبيعات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "planning_budget",
+              "label": "التخطيط والموازنة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "less_manual",
+              "label": "تقليل العمل اليدوي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": 3,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "true_profit",
+              "less_manual",
+              "expense_control"
+            ],
+            "reason": "الأهداف الأكثر تكراراً.",
+            "text": "معرفة الربح الحقيقي، وتقليل العمل اليدوي، وضبط المصروفات — السبب: الأهداف الأكثر تكراراً."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-011-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يُكتب في الملخص التنفيذي (8.3 القسم 2)؛ ولوحة المتابعة تُولَّد من RPT-001."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-012",
+      "section": "PRF",
+      "order": 14,
+      "title": "هل تُدار عدة كيانات (شركات أو سجلات تجارية مستقلة الحسابات) معاً؟",
+      "help": "مثلاً: مالك لديه شركتان بسجلين منفصلين يريد إدارتهما من نظام واحد.",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يضبط `F_MULTIENTITY`؛ يحدد فصل الحسابات والمستندات والترقيم لكل كيان، ويُظهر PRF-013.",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "single_entity",
+              "label": "كيان واحد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "multi_entity",
+              "label": "عدة كيانات تُدار معاً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "single_entity",
+            "reason": "الحالة الأشيع، والتعدد يضيف تعقيداً لا يلزم الجميع.",
+            "text": "كيان واحد — السبب: الحالة الأشيع، والتعدد يضيف تعقيداً لا يلزم الجميع."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-R012",
+          "when": {
+            "eq": [
+              "PRF-012",
+              "multi_entity"
+            ]
+          },
+          "whenText": "PRF-012 = «عدة كيانات تُدار معاً»",
+          "noRequirement": false,
+          "text": "يجب أن يدير النظام الكيانات {{Q:PRF-013#main.entity_name}} معاً، بفصل الحسابات والمستندات والترقيم لكل كيان."
+        },
+        {
+          "id": "PRF-012-NR2",
+          "when": {
+            "eq": [
+              "PRF-012",
+              "single_entity"
+            ]
+          },
+          "whenText": "PRF-012 = «كيان واحد»",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: كيان واحد في ملف واحد هو الافتراض الأساسي (ف-4)."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-013",
+      "section": "PRF",
+      "order": 15,
+      "title": "اذكروا الكيانات، وهل تحتاجون تقارير مجمّعة لها؟",
+      "help": "سطر لكل كيان.",
+      "detail": true,
+      "condition": {
+        "flag": "F_MULTIENTITY"
+      },
+      "conditionText": "`F_MULTIENTITY`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد عدد الكيانات، ومشاركة البيانات الأساسية بينها، والحاجة إلى تقارير موحدة مع استبعاد التعاملات البينية.",
+      "answerTypeText": "قائمة متكررة (اسم الكيان / مسجّل في الضريبة: نعم/لا / يشارك العملاء والأصناف مع غيره: نعم/لا) + اختيار واحد: «تقارير مجمّعة لكل الكيانات: نعم / لا»",
+      "parts": [
+        {
+          "key": "main",
+          "label": "الكيانات",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "entity_name",
+              "label": "اسم الكيان",
+              "type": "text"
+            },
+            {
+              "key": "vat_registered",
+              "label": "مسجّل في الضريبة",
+              "type": "bool"
+            },
+            {
+              "key": "shares_master",
+              "label": "يشارك العملاء والأصناف مع غيره",
+              "type": "bool"
+            }
+          ],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [],
+            "reason": "المالك يحتاج صورة موحدة مع فصل بيانات كل كيان.",
+            "text": "تقارير مجمّعة: نعم، ومشاركة العملاء والأصناف: لا — السبب: المالك يحتاج صورة موحدة مع فصل بيانات كل كيان.",
+            "columnDefaults": {
+              "shares_master": false
+            }
+          },
+          "required": false
+        },
+        {
+          "key": "consolidated",
+          "label": "تقارير مجمّعة لكل الكيانات",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes",
+              "label": "نعم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "yes",
+            "reason": "المالك يحتاج صورة موحدة مع فصل بيانات كل كيان.",
+            "text": "تقارير مجمّعة: نعم، ومشاركة العملاء والأصناف: لا — السبب: المالك يحتاج صورة موحدة مع فصل بيانات كل كيان."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-R013a",
+          "when": {
+            "visible": "PRF-013"
+          },
+          "whenText": "ظهور PRF-013",
+          "noRequirement": false,
+          "text": "يجب أن يحفظ النظام لكل كيان {{Q:PRF-013#main.entity_name}} تسجيله في ضريبة القيمة المضافة {{Q:PRF-013#main.vat_registered}}، ومشاركة عملائه وأصنافه مع غيره من الكيانات {{Q:PRF-013#main.shares_master}}.",
+          "forEachRow": "PRF-013#main"
+        },
+        {
+          "id": "PRF-R013b",
+          "when": {
+            "eq": [
+              "PRF-013#consolidated",
+              "yes"
+            ]
+          },
+          "whenText": "PRF-013 «تقارير مجمّعة لكل الكيانات» = «نعم»",
+          "noRequirement": false,
+          "text": "يجب أن يوفّر النظام تقارير مجمّعة للكيانات {{Q:PRF-013#main.entity_name}}، تُستبعد منها التعاملات البينية بينها."
+        },
+        {
+          "id": "PRF-013-NR3",
+          "when": {
+            "eq": [
+              "PRF-013#consolidated",
+              "no"
+            ]
+          },
+          "whenText": "PRF-013 «تقارير مجمّعة لكل الكيانات» = «لا»",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: لكل كيان تقاريره وحده، ولا تقارير موحّدة."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "PRF-099",
+      "section": "PRF",
+      "order": 99,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "أي معلومة عن الكيان تعتقدون أنها تؤثر في النظام.",
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يُدرج نصاً في الملخص التنفيذي مصدراً «نص حر». وذِكر متجر إلكتروني أو منصة توصيل فيه يجعل صفها في INT-001 «لاحقاً» (STD-GEN-51).",
+      "answerTypeText": "نص طويل",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "",
+            "reason": "الحقل اختياري.",
+            "text": "ترك الحقل فارغاً إن لم توجد إضافة — السبب: الحقل اختياري."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "PRF-099-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: نصه يُدرج في الملخص التنفيذي بمصدر «نص حر» (أثره على البناء)، فلا يأخذ معرّف `PRF-R9nn` (حكم خاص يقدَّم على م-4)؛ وذكر متجر إلكتروني أو منصة توصيل فيه أثره في صف INT-001 (STD-GEN-51)."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SCP-001",
+      "section": "SCP",
+      "order": 1,
+      "title": "اختاروا الوحدات التي تحتاجونها، وحددوا أولوية كل منها",
+      "help": "اقرأ وصف كل وحدة وتلميحها؛ ما لا تختارونه يُسجَّل «خارج النطاق».",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد الوحدات المبنية وترتيب مراحل التسليم؛ «أخرى» إن كانت تشغيلية تُدرج «خارج النطاق»، وإن كانت مالية أو إدارية تُدرج متطلباً حراً في الملحق. **كل وحدة مختارة بلا أولوية تُعطى «ضروري من اليوم الأول»، ويُسجَّل ذلك افتراضاً مُعلناً** (معرّف: SCP-001، القيمة: «ضروري من اليوم الأول — <رمز الوحدة>»)؛ ولا تظهر أولوية «غير محددة» في الوثيقة المُصدَّرة أبداً (ع-01).",
+      "answerTypeText": "اختيار متعدد بأولوية (لكل وحدة مختارة: ضروري من اليوم الأول / مرحلة لاحقة / مستحسن إن أمكن)",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multiPriority",
+          "options": [
+            {
+              "key": "acc",
+              "label": "المحاسبة العامة",
+              "other": false,
+              "dontKnow": false,
+              "module": "ACC",
+              "desc": "الحسابات والقيود والقوائم المالية",
+              "hint": "مناسب إذا أردت معرفة الربح والمركز المالي بدقة",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": false
+            },
+            {
+              "key": "sal",
+              "label": "المبيعات والفوترة",
+              "other": false,
+              "dontKnow": false,
+              "module": "SAL",
+              "desc": "عروض الأسعار والفواتير والتحصيل",
+              "hint": "مناسب إذا كنت تصدر فواتير لعملائك",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": false
+            },
+            {
+              "key": "pos",
+              "label": "نقاط البيع",
+              "other": false,
+              "dontKnow": false,
+              "module": "POS",
+              "desc": "البيع السريع عند الكاشير",
+              "hint": "مناسب إذا كنت تبيع للجمهور مباشرة من محل",
+              "condition": {
+                "all": [
+                  {
+                    "flag": "F_BIZ"
+                  },
+                  {
+                    "flag": "F_STOCK"
+                  }
+                ]
+              },
+              "conditionText": "`F_BIZ` و`F_STOCK`",
+              "deferred": true
+            },
+            {
+              "key": "pur",
+              "label": "المشتريات والموردون",
+              "other": false,
+              "dontKnow": false,
+              "module": "PUR",
+              "desc": "طلبات الشراء وفواتير الموردين وسدادها",
+              "hint": "مناسب إذا كنت تشتري بضاعة أو خدمات بانتظام",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": false
+            },
+            {
+              "key": "inv",
+              "label": "المخزون",
+              "other": false,
+              "dontKnow": false,
+              "module": "INV",
+              "desc": "الأصناف والكميات والمستودعات والجرد",
+              "hint": "مناسب إذا كنت تبيع بضاعة من مخزون",
+              "condition": {
+                "all": [
+                  {
+                    "flag": "F_BIZ"
+                  },
+                  {
+                    "flag": "F_STOCK"
+                  }
+                ]
+              },
+              "conditionText": "`F_BIZ` و`F_STOCK`",
+              "deferred": false
+            },
+            {
+              "key": "exp",
+              "label": "المصروفات والعُهد",
+              "other": false,
+              "dontKnow": false,
+              "module": "EXP",
+              "desc": "تسجيل المصروفات وعُهد الموظفين وتسويتها",
+              "hint": "مناسب إذا كثرت المصروفات النثرية",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": false
+            },
+            {
+              "key": "trs",
+              "label": "الخزينة والبنوك",
+              "other": false,
+              "dontKnow": false,
+              "module": "TRS",
+              "desc": "الصناديق والحسابات البنكية والتحويلات والمطابقة",
+              "hint": "مناسب إذا تعددت حساباتك البنكية أو صناديقك",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": false
+            },
+            {
+              "key": "fas",
+              "label": "الأصول الثابتة",
+              "other": false,
+              "dontKnow": false,
+              "module": "FAS",
+              "desc": "المعدات والسيارات والأجهزة واستهلاكها",
+              "hint": "مناسب إذا امتلكت معدات أو سيارات ذات قيمة",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": true
+            },
+            {
+              "key": "hr",
+              "label": "شؤون الموظفين",
+              "other": false,
+              "dontKnow": false,
+              "module": "HR",
+              "desc": "ملفات الموظفين والعقود والإجازات ومستنداتهم الرسمية",
+              "hint": "مناسب إذا كان لديك موظفون",
+              "condition": {
+                "all": [
+                  {
+                    "flag": "F_BIZ"
+                  },
+                  {
+                    "flag": "F_EMP"
+                  }
+                ]
+              },
+              "conditionText": "`F_BIZ` و`F_EMP`",
+              "deferred": true
+            },
+            {
+              "key": "pay",
+              "label": "الرواتب",
+              "other": false,
+              "dontKnow": false,
+              "module": "PAY",
+              "desc": "احتساب الرواتب والبدلات والخصومات والسلف",
+              "hint": "مناسب إذا كنت تصرف رواتب شهرية",
+              "condition": {
+                "all": [
+                  {
+                    "flag": "F_BIZ"
+                  },
+                  {
+                    "flag": "F_EMP"
+                  }
+                ]
+              },
+              "conditionText": "`F_BIZ` و`F_EMP`",
+              "deferred": true
+            },
+            {
+              "key": "att",
+              "label": "الحضور والانصراف",
+              "other": false,
+              "dontKnow": false,
+              "module": "ATT",
+              "desc": "الدوام والتأخير والغياب والعمل الإضافي",
+              "hint": "مناسب إذا أردت ضبط الدوام",
+              "condition": {
+                "all": [
+                  {
+                    "flag": "F_BIZ"
+                  },
+                  {
+                    "flag": "F_EMP"
+                  }
+                ]
+              },
+              "conditionText": "`F_BIZ` و`F_EMP`",
+              "deferred": true
+            },
+            {
+              "key": "crm",
+              "label": "إدارة علاقات العملاء",
+              "other": false,
+              "dontKnow": false,
+              "module": "CRM",
+              "desc": "العملاء المحتملون والفرص والمتابعة",
+              "hint": "مناسب إذا كان لديك فريق مبيعات يتابع صفقات",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": true
+            },
+            {
+              "key": "prj",
+              "label": "المشاريع والعقود",
+              "other": false,
+              "dontKnow": false,
+              "module": "PRJ",
+              "desc": "تكلفة كل مشروع أو عقد وإيراده وربحه",
+              "hint": "مناسب إذا عملت بعقود أو مشاريع",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": true
+            },
+            {
+              "key": "bud",
+              "label": "الموازنات التقديرية",
+              "other": false,
+              "dontKnow": false,
+              "module": "BUD",
+              "desc": "خطة الإيرادات والمصروفات ومقارنتها بالفعلي",
+              "hint": "مناسب إذا أردت التخطيط المالي السنوي",
+              "condition": {
+                "flag": "F_BIZ"
+              },
+              "conditionText": "`F_BIZ`",
+              "deferred": true
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": {
+              "acc": "must_day_one",
+              "sal": "must_day_one"
+            },
+            "reason": "هذه الباقة تغطي ما تحتاجه غالباً منشأة بهذا الملف.",
+            "text": "باقة مقترحة من وحدات الإصدار الأول تُحسب من ملف الكيان: ACC وSAL دائماً؛ وINV وPUR عند `F_STOCK`؛ وTRS وEXP عند `F_MULTIUSER`. **الأولوية الموصى بها: «ضروري من اليوم الأول» لكل وحدة في الباقة المقترحة**، وتُعرض الأولوية معبّأة بجانب كل وحدة في الواجهة — السبب: هذه الباقة تغطي ما تحتاجه غالباً منشأة بهذا الملف. **ولا تدخل الباقةَ وحدةٌ مؤجلة؛ وإن اختارها الكيان فأولويتها الموصى بها «مرحلة لاحقة»، وتُسجَّل حاجةً (ق ع-82)** — السبب: لا تُبنى في الإصدار الأول (ق ع-3).",
+            "deferredNote": "ولا تدخل الباقةَ وحدةٌ مؤجلة؛ وإن اختارها الكيان فأولويتها الموصى بها «مرحلة لاحقة»، وتُسجَّل حاجةً (ق ع-82)",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "flag": "F_STOCK"
+                    },
+                    {
+                      "flag": "F_MULTIUSER"
+                    }
+                  ]
+                },
+                "value": {
+                  "acc": "must_day_one",
+                  "sal": "must_day_one",
+                  "inv": "must_day_one",
+                  "pur": "must_day_one",
+                  "trs": "must_day_one",
+                  "exp": "must_day_one"
+                },
+                "reason": "هذه الباقة تغطي ما تحتاجه غالباً منشأة بهذا الملف."
+              },
+              {
+                "if": {
+                  "flag": "F_STOCK"
+                },
+                "value": {
+                  "acc": "must_day_one",
+                  "sal": "must_day_one",
+                  "inv": "must_day_one",
+                  "pur": "must_day_one"
+                },
+                "reason": "هذه الباقة تغطي ما تحتاجه غالباً منشأة بهذا الملف."
+              },
+              {
+                "if": {
+                  "flag": "F_MULTIUSER"
+                },
+                "value": {
+                  "acc": "must_day_one",
+                  "sal": "must_day_one",
+                  "trs": "must_day_one",
+                  "exp": "must_day_one"
+                },
+                "reason": "هذه الباقة تغطي ما تحتاجه غالباً منشأة بهذا الملف."
+              }
+            ]
+          },
+          "required": false,
+          "priorities": [
+            {
+              "key": "must_day_one",
+              "label": "ضروري من اليوم الأول"
+            },
+            {
+              "key": "later_phase",
+              "label": "مرحلة لاحقة"
+            },
+            {
+              "key": "nice_to_have",
+              "label": "مستحسن إن أمكن"
+            }
+          ],
+          "defaultPriority": "must_day_one",
+          "deferredDefaultPriority": "later_phase"
+        }
+      ],
+      "templates": [
+        {
+          "id": "SCP-001-NR1",
+          "when": null,
+          "whenText": "الوحدات المختارة وأولوياتها",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: تحدد فصول القسم 3 في الوثيقة وأولوية متطلباتها (8.2، ع-01)، والملخص التنفيذي؛ وما لم يُختر يُكتب في «خارج النطاق»."
+        },
+        {
+          "id": "SCP-R9nn",
+          "when": {
+            "all": [
+              {
+                "has": [
+                  "SCP-001",
+                  "other"
+                ]
+              },
+              {
+                "text": "«أخرى» مالية أو إدارية"
+              }
+            ]
+          },
+          "whenText": "«أخرى» مالية أو إدارية",
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام «{{Q:SCP-001#main.other}}»، بأولوية {{Q:SCP-001#main.other_priority}}. — المصدر «نص حر»، وموضعه وفق ق ع-61."
+        },
+        {
+          "id": "SCP-001-NR3",
+          "when": {
+            "all": [
+              {
+                "has": [
+                  "SCP-001",
+                  "other"
+                ]
+              },
+              {
+                "text": "«أخرى» تشغيلية"
+              }
+            ]
+          },
+          "whenText": "«أخرى» تشغيلية",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: تُكتب في «خارج النطاق» (8.3 القسم 7)."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SCP-002",
+      "section": "SCP",
+      "order": 2,
+      "title": "هل تفضلون تسليم النظام دفعة واحدة أم على مراحل؟",
+      "help": "المراحل تعني البدء بالضروري ثم إضافة الباقي.",
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "`F_BIZ`",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يحدد تقسيم خطة التنفيذ؛ عند «مراحل» تُرتّب المتطلبات في الوثيقة بحسب الأولوية. **وعند تساوي أولويات الوحدات** (كلها «ضروري من اليوم الأول» بموصى به SCP-001 أو ع-01) تُكتب خطة المراحل: المرحلة الأولى كل ما أولويته «ضروري من اليوم الأول»، واللاحقة ما وُسم «مرحلة لاحقة» في الخيارات أو بحكم قاعدة (مثل TAX-007 وSTD-GEN-39 (١))؛ وإن لم يبقَ للاحقة شيء، يُكتب «مرحلة واحدة».",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "one_go",
+              "label": "دفعة واحدة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "phased",
+              "label": "على مراحل بحسب الأولويات المحددة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "phased",
+            "reason": "يبدأ الاستخدام أسرع ويقل خطر التعثر.",
+            "text": "على مراحل — السبب: يبدأ الاستخدام أسرع ويقل خطر التعثر."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SCP-002-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يُكتب خطةَ مراحل في الملخص التنفيذي (8.3 القسم 2)، وعند «على مراحل» تُرتَّب المتطلبات بحسب الأولوية."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SCP-003",
+      "section": "SCP",
+      "order": 3,
+      "title": "هل تريدون أن يُخرج النظام الأرباح والخسائر والمركز المالي تلقائياً من عملياتكم؟",
+      "help": "اخترتم وحدات تشغيلية دون المحاسبة العامة؛ هذا السؤال يحسم هل تحتاجون حسابات مكتملة.",
+      "detail": true,
+      "condition": {
+        "all": [
+          {
+            "not": {
+              "module": "ACC"
+            }
+          },
+          {
+            "any": [
+              {
+                "module": "SAL"
+              },
+              {
+                "module": "PUR"
+              },
+              {
+                "module": "INV"
+              },
+              {
+                "module": "EXP"
+              },
+              {
+                "module": "TRS"
+              },
+              {
+                "module": "FAS"
+              },
+              {
+                "module": "PAY"
+              },
+              {
+                "module": "PRJ"
+              },
+              {
+                "module": "POS"
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "ق-ت8",
+      "regulatory": false,
+      "verify": [],
+      "impact": "عند «نعم» تُضاف ACC تلقائياً وتظهر أسئلتها الأساسية فقط (ACC-001 إلى ACC-005) مع تطبيق الموصى به في أسئلة التفصيل افتراضاتٍ مُعلنة.",
+      "answerTypeText": "اختيار واحد",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "yes_simplified_acc",
+              "label": "نعم، أضيفوا المحاسبة العامة بشكلها المبسّط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no_ops_only",
+              "label": "لا، يكفينا تسجيل العمليات وتقاريرها",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "yes_simplified_acc",
+            "reason": "دون محاسبة لا يظهر الربح الحقيقي، والشكل المبسّط لا يرهق المستخدم.",
+            "text": "نعم، بشكلها المبسّط — السبب: دون محاسبة لا يظهر الربح الحقيقي، والشكل المبسّط لا يرهق المستخدم."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SCP-003-NR1",
+          "when": true,
+          "whenText": "دائماً",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: «نعم» يضيف ACC إلى SCP-001 بشكلها المبسّط فتولّد أسئلتها متطلباتها؛ و«لا» يُبقي ACC غير مختارة فتُكتب في «خارج النطاق»."
+        }
+      ],
+      "workshopNote": null
+    },
+    {
+      "id": "SCP-099",
+      "section": "SCP",
+      "order": 99,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "أي وظيفة مالية أو إدارية لم تجدوها في الفهرس.",
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "impact": "يُفرز يدوياً عند البناء: مالي/إداري → متطلب حر؛ تشغيلي → خارج النطاق.",
+      "answerTypeText": "نص طويل",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "",
+            "reason": "الحقل اختياري.",
+            "text": "ترك الحقل فارغاً إن لم توجد إضافة — السبب: الحقل اختياري."
+          },
+          "required": false
+        }
+      ],
+      "templates": [
+        {
+          "id": "SCP-R9nn-099",
+          "when": {
+            "all": [
+              {
+                "answered": "SCP-099"
+              },
+              {
+                "text": "نص مالي أو إداري"
+              }
+            ]
+          },
+          "whenText": "نص مالي أو إداري",
+          "noRequirement": false,
+          "text": "يجب أن يدعم النظام «{{Q:SCP-099}}». — المصدر «نص حر»، وموضعه وفق ق ع-61."
+        },
+        {
+          "id": "SCP-099-NR2",
+          "when": {
+            "all": [
+              {
+                "answered": "SCP-099"
+              },
+              {
+                "text": "نص تشغيلي"
+              }
+            ]
+          },
+          "whenText": "نص تشغيلي",
+          "noRequirement": true,
+          "text": "لا يولّد متطلباً — السبب: يُكتب في «خارج النطاق» (8.3 القسم 7)."
+        }
+      ],
+      "workshopNote": null
+    }
+  ],
+  "rules": [],
+  "conflicts": []
+}
