@@ -1,0 +1,4310 @@
+{
+  "unit": "SHARED-B",
+  "sections": [
+    {
+      "id": "ALR",
+      "title": "التنبيهات والتذكيرات العامة",
+      "order": 85,
+      "condition": null,
+      "kind": "shared",
+      "opening": {
+        "attendees": "المالك، والمحاسب.",
+        "mandatory": [],
+        "duration": "10 دقائق",
+        "minutes": 10,
+        "discussion": [
+          "كم تنبيهاً يومياً يُعدّ مزعجاً؟",
+          "هل تريدون تنبيهات في عطلة نهاية الأسبوع؟"
+        ],
+        "note": "تنبيهات كل وحدة حُددت في وحدتها؛ هنا القواعد العامة."
+      }
+    },
+    {
+      "id": "INT",
+      "title": "الربط مع الجهات الأخرى",
+      "order": 86,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "kind": "shared",
+      "opening": {
+        "attendees": "المالك، والمحاسب، ومسؤول المتجر الإلكتروني إن وُجد.",
+        "mandatory": [],
+        "duration": "10–15 دقيقة",
+        "minutes": 15,
+        "discussion": [
+          "ما البيانات التي تُنقل اليوم يدوياً من جهة إلى أخرى؟",
+          "ما الذي يُنسخ مرتين؟"
+        ],
+        "note": "البنود تُعبّأ تلقائياً «الآن» أو «لاحقاً» مما اختير في الوحدات، ويؤكدها الحضور."
+      }
+    },
+    {
+      "id": "MIG",
+      "title": "نقل البيانات الحالية",
+      "order": 87,
+      "condition": null,
+      "kind": "shared",
+      "opening": {
+        "attendees": "المحاسب، وأمين المستودع، ومسؤول الموارد البشرية (بحسب الوحدات).",
+        "mandatory": [],
+        "duration": "15–20 دقيقة",
+        "minutes": 20,
+        "discussion": [
+          "ما مدى ثقتكم بدقة بياناتكم الحالية؟",
+          "من لديه وقت لتنظيفها قبل النقل؟"
+        ]
+      }
+    },
+    {
+      "id": "ADM",
+      "title": "الضبط الإداري العام",
+      "order": 88,
+      "condition": null,
+      "kind": "shared",
+      "opening": {
+        "attendees": "المالك.",
+        "mandatory": [],
+        "duration": "10–15 دقيقة",
+        "minutes": 15,
+        "discussion": [
+          "هل حدث أن حُذفت أو عُدّلت عملية ولم يُعرف من فعلها؟",
+          "من سيكون مسؤول النظام داخلياً؟"
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ALR-R001x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يرسل النظام التنبيهات عبر {{ITEM}} — بأولوية الخيار. ولا تُستعمل في أي سؤال تنبيهات وسيلة غير مختارة هنا.",
+          "perItem": "ALR-001#main",
+          "itemWhen": {
+            "ne": [
+              "@item.key",
+              "dont_know"
+            ]
+          }
+        }
+      ],
+      "workshopNote": null,
+      "id": "ALR-001",
+      "section": "ALR",
+      "order": 1,
+      "title": "ما وسائل التنبيه المسموحة عموماً؟",
+      "help": "يُحصر عليها ما اخترتموه في الوحدات.",
+      "impact": "يحدد قنوات الإرسال المبنية؛ الرسائل النصية وواتساب تُدرج في INT. وتوحَّد مرحلة كل قناة مع DOC-005 وALR-004 وDOC-006 وفق تع-25 (01-global-rules.md)، وعليه تُرفع علامتها. ووسائل تنبيه طلب الاعتماد وفق ع-04: وسائل صف «… ينتظر اعتمادي» في سؤال التنبيهات لوحدة المستند إن وُجد فيه الصف، وإلا وسائل ALR-001 كلها بمرحلة «الآن» (ولو وُجد للوحدة سؤال تنبيهات بلا هذا الصف)، ولما يُعتمد خروج ماله في TRS-008 وسيلة صف «سند صرف ينتظر اعتمادي» في TRS-011. والتنبيه الذي لم تُحدَّد وسيلته وفق STD-GEN-70.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multiPriority",
+          "options": [
+            {
+              "key": "in_app",
+              "label": "داخل النظام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "email",
+              "label": "بريد إلكتروني",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sms",
+              "label": "رسالة نصية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "whatsapp",
+              "label": "واتساب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": {
+              "in_app": "must_day_one",
+              "email": "must_day_one",
+              "whatsapp": "later_phase"
+            },
+            "reason": "الأوليان بلا تكلفة إضافية، وواتساب يحتاج ترتيبات لاحقة.",
+            "when": [],
+            "text": "داخل النظام وبريد إلكتروني، وواتساب «مرحلة لاحقة» — السبب: الأوليان بلا تكلفة إضافية، وواتساب يحتاج ترتيبات لاحقة."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ALR-R002",
+          "when": null,
+          "noRequirement": false,
+          "text": "{{SW:ALR-002|daily_digest=يجب أن يُرسل التنبيه العاجل فوراً، وأن تُجمع التنبيهات غير العاجلة في ملخص يومي لكل مستخدم الساعة {{Q:ALR-002#time}} وفق {{R:STD-GEN-16}} و{{R:STD-GEN-21}} و{{R:STD-GEN-49}}|each_on_time=يجب أن يُرسل كل تنبيه في توقيته المختار في وحدته}}."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ALR-002",
+      "section": "ALR",
+      "order": 2,
+      "title": "هل تريدون ملخصاً يومياً بدلاً من تنبيهات متفرقة؟",
+      "help": "رسالة واحدة تجمع التنبيهات غير العاجلة.",
+      "impact": "يحدد تصنيف التنبيهات (عاجل/غير عاجل) وتجميع غير العاجل. التصنيف وفق STD-GEN-16، وساعة الملخص وتوقيت الكيان وفق STD-GEN-21، ومستلم الملخص وقناته (ملخص لكل مستخدم، داخل النظام دائماً وبالبريد إن كان البريد «الآن» في ALR-001، ولا ملخص فارغ) وفق STD-GEN-49. وملخص البريد لا يتضمن إلا ما وسيلته في سؤاله أو قاعدته تتضمن البريد، وما لم تُحدَّد وسيلته (STD-GEN-49 (٧)). و«الملخص اليومي» اسم ملخص التنبيهات وحده، وليس «تقرير نهاية اليوم» (RPT-004).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "daily_digest",
+              "label": "نعم، ملخص يومي للتنبيهات غير العاجلة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "each_on_time",
+              "label": "لا، كل تنبيه في وقته",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "daily_digest",
+            "reason": "يقلل الإزعاج ولا يُفوِّت شيئاً.",
+            "when": [],
+            "text": "نعم، الساعة 8 صباحاً — السبب: يقلل الإزعاج ولا يُفوِّت شيئاً."
+          },
+          "required": false
+        },
+        {
+          "key": "time",
+          "label": "وقت الملخص",
+          "type": "text",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": {
+            "eq": [
+              "ALR-002",
+              "daily_digest"
+            ]
+          },
+          "recommended": {
+            "value": "08:00",
+            "reason": "يقلل الإزعاج ولا يُفوِّت شيئاً.",
+            "when": [],
+            "text": "الساعة 8 صباحاً"
+          },
+          "required": false,
+          "inputType": "time"
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ALR-R003",
+          "when": {
+            "ne": [
+              "ALR-003",
+              "no_restriction"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب ألا تُرسل الرسائل الخارجة من النظام {{Q:ALR-003}}، بنطاق {{R:STD-GEN-48}} واستثناءاته، وأن يُرسل المؤجَّل عند انتهاء المنع."
+        },
+        {
+          "id": "ALR-R003-NR",
+          "when": {
+            "eq": [
+              "ALR-003",
+              "no_restriction"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا منع للإرسال فلا تأجيل يُبنى."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ALR-003",
+      "section": "ALR",
+      "order": 3,
+      "title": "متى يُمنع إرسال التنبيهات الخارجية؟",
+      "help": "ساعات الهدوء للرسائل والبريد.",
+      "impact": "يحدد تأجيل الرسائل الخارجية خارج الأوقات المسموحة. النطاق والاستثناءات وفق STD-GEN-48 (ومن المستثنى رسالة DOC-006).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "no_22_to_7",
+              "label": "لا تُرسل بين 10 مساءً و7 صباحاً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no_outside_workdays",
+              "label": "لا تُرسل خارج أيام العمل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no_restriction",
+              "label": "لا قيود",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "no_22_to_7",
+            "reason": "يحترم وقت الراحة.",
+            "when": [],
+            "text": "لا تُرسل بين 10 مساءً و7 صباحاً — السبب: يحترم وقت الراحة."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": true,
+      "verify": [
+        "يحتاج تحقق من اشتراطات موافقة العميل على الرسائل، 4.7"
+      ],
+      "templates": [
+        {
+          "id": "ALR-R004x",
+          "when": {
+            "not": {
+              "has": [
+                "ALR-004",
+                "no_external"
+              ]
+            }
+          },
+          "noRequirement": false,
+          "text": "يجب أن يرسل النظام «{{ITEM}}» إلى {{ITEM:recipient}} عبر {{ITEMCELL:ALR-004#channel.channel}}، وفق {{R:STD-GEN-50}}.",
+          "perItem": "ALR-004#main",
+          "itemWhen": {
+            "not": {
+              "in": [
+                "@item.key",
+                [
+                  "no_external",
+                  "dont_know"
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "ALR-R004-NR",
+          "when": {
+            "has": [
+              "ALR-004",
+              "no_external"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا رسالة آلية إلى العملاء أو المورّدين تُبنى."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ALR-004",
+      "section": "ALR",
+      "order": 4,
+      "title": "هل يرسل النظام رسائل لعملائكم أو مورّديكم؟",
+      "help": "مثل إرسال الفاتورة، أو تذكير بالسداد، أو تأكيد استلام دفعة.",
+      "impact": "يحدد قوالب الرسائل الخارجية وقنواتها، وتسجيل ما أُرسل. وأحكام الإرسال (متى، والعنوان، وسجل «عميل نقدي»، و«تأكيد استلام الدفعة» و«تذكير العميل»، والنص، والتسجيل، وحقل «لا يرغب في الرسائل» في بطاقتي العميل والمورّد، وساعات الهدوء، والإشعار المدين والدائن بالقيمة، والرسالة النصية برابط) وفق STD-GEN-50. [يحتاج تحقق من اشتراطات موافقة العميل على الرسائل، 4.7]. ومرحلة كل وسيلة وفق تع-25.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "send_invoice",
+              "label": "إرسال الفاتورة عند إصدارها",
+              "other": false,
+              "dontKnow": false,
+              "recipient": "العميل"
+            },
+            {
+              "key": "payment_reminder",
+              "label": "تذكير العميل قبل الاستحقاق وبعده",
+              "other": false,
+              "dontKnow": false,
+              "recipient": "العميل"
+            },
+            {
+              "key": "payment_confirmation",
+              "label": "تأكيد استلام الدفعة",
+              "other": false,
+              "dontKnow": false,
+              "recipient": "العميل"
+            },
+            {
+              "key": "send_po",
+              "label": "إرسال أمر الشراء للمورّد",
+              "other": false,
+              "dontKnow": false,
+              "recipient": "المورّد"
+            },
+            {
+              "key": "no_external",
+              "label": "لا رسائل خارجية",
+              "other": false,
+              "dontKnow": false,
+              "exclusive": true
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "send_invoice",
+              "payment_confirmation"
+            ],
+            "reason": "يحسّن التجربة دون إزعاج العميل.",
+            "when": [],
+            "text": "إرسال الفاتورة، وتأكيد استلام الدفعة — بالبريد الإلكتروني — السبب: يحسّن التجربة دون إزعاج العميل."
+          },
+          "required": false
+        },
+        {
+          "key": "channel",
+          "label": "الوسيلة لكل منها",
+          "type": "matrix",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "channel",
+              "label": "الوسيلة",
+              "type": "single",
+              "options": [
+                {
+                  "key": "email",
+                  "label": "بريد إلكتروني",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "sms",
+                  "label": "رسالة نصية",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "whatsapp",
+                  "label": "واتساب",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "dont_know",
+                  "label": "لا أعلم",
+                  "other": false,
+                  "dontKnow": true
+                }
+              ]
+            }
+          ],
+          "rows": [],
+          "rowsFrom": "ALR-004#main",
+          "condition": {
+            "all": [
+              {
+                "answered": "ALR-004"
+              },
+              {
+                "not": {
+                  "has": [
+                    "ALR-004",
+                    "no_external"
+                  ]
+                }
+              }
+            ]
+          },
+          "recommended": {
+            "value": {
+              "send_invoice": {
+                "channel": "email"
+              },
+              "payment_confirmation": {
+                "channel": "email"
+              }
+            },
+            "reason": "يحسّن التجربة دون إزعاج العميل.",
+            "when": [],
+            "text": "بالبريد الإلكتروني"
+          },
+          "required": false,
+          "rowsExclude": [
+            "no_external",
+            "dont_know"
+          ]
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "templates": [],
+      "workshopNote": "وفق القاعدة م-4؛ المتطلب العام XXX-R9nn يولّده المولّد.",
+      "id": "ALR-099",
+      "section": "ALR",
+      "order": 99,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "",
+      "impact": "يُدرج متطلباً مصدره «نص حر» بمعرّف ALR-R9nn (القاعدة م-4).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "",
+            "reason": "",
+            "when": [],
+            "text": "ترك الحقل فارغاً إن لم توجد إضافة"
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": true,
+      "verify": [
+        "يحتاج تحقق من المرحلة المنطبقة على الكيان"
+      ],
+      "templates": [
+        {
+          "id": "INT-R001x",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يُبنى الربط مع «{{ITEM}}» {{SW:@item.phase|now=في المرحلة الأولى|later=في مرحلة لاحقة مدرجة في خطة المراحل، مع عمل وظيفتها يدوياً في المرحلة الأولى}}، وفق {{R:STD-GEN-51}}.",
+          "perItem": "INT-001#main",
+          "itemWhen": {
+            "in": [
+              "@item.phase",
+              [
+                "now",
+                "later"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "INT-R001-NR",
+          "when": null,
+          "noRequirement": true,
+          "text": "لا ربط يُبنى؛ ويُكتب الصف في «خارج النطاق» (8.1).",
+          "perItem": "INT-001#main",
+          "itemWhen": {
+            "eq": [
+              "@item.phase",
+              "no"
+            ]
+          }
+        }
+      ],
+      "workshopNote": null,
+      "id": "INT-001",
+      "section": "INT",
+      "order": 1,
+      "title": "حددوا حاجتكم لكل ربط",
+      "help": "لكل جهة: نحتاجه الآن / لاحقاً / لا نحتاجه.",
+      "impact": "يحدد قائمة الربط المطلوبة ومرحلة كل منها؛ لكل بند «الآن» يتحقق المنفّذ من طريقة الربط المتاحة لدى الجهة. ومعنى «الآن» و«لاحقاً» و«لا»، وأن رفع ملف أو تصديره يدوياً ليس ربطاً، وفق STD-GEN-51. وعند F_VAT_SOON: صف منصة الفوترة «لاحقاً» يُبنى معطّلاً بوسم «يُفعَّل عند التسجيل» (TAX-007).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "matrix",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "phase",
+              "label": "الحاجة",
+              "type": "single",
+              "options": [
+                {
+                  "key": "now",
+                  "label": "الآن",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "later",
+                  "label": "لاحقاً",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "no",
+                  "label": "لا",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "dont_know",
+                  "label": "لا أعلم",
+                  "other": false,
+                  "dontKnow": true
+                }
+              ]
+            }
+          ],
+          "rows": [
+            {
+              "key": "bank",
+              "label": "البنك (كشوف الحساب، المدفوعات، ملفات الرواتب)",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "eqLabel": [
+                        "TRS-004",
+                        "ربط مباشر مع البنك"
+                      ]
+                    },
+                    "value": "now",
+                    "reason": ""
+                  }
+                ],
+                "text": "«الآن» عند TRS-004 = «ربط مباشر مع البنك»؛ وإلا «لا»"
+              },
+              "phaseOne": "المطابقة برفع ملف الكشف أو يدوياً (TRS-004)"
+            },
+            {
+              "key": "e_invoicing",
+              "label": "منصة الفوترة الإلكترونية",
+              "condition": {
+                "flag": "F_VAT"
+              },
+              "conditionText": "يظهر عند F_VAT",
+              "recommended": {
+                "value": "later",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "any": [
+                        {
+                          "eqLabel": [
+                            "TAX-001",
+                            "مرتبطون حالياً عبر برنامجنا الحالي"
+                          ]
+                        },
+                        {
+                          "eqLabel": [
+                            "TAX-001",
+                            "وصلنا إشعار بموعد الربط"
+                          ]
+                        }
+                      ]
+                    },
+                    "value": "now",
+                    "reason": ""
+                  }
+                ],
+                "text": "«الآن» عند TAX-001 ∈ {مرتبطون حالياً عبر برنامجنا الحالي، وصلنا إشعار بموعد الربط}؛ و«لاحقاً» عند TAX-001 ∈ {لم يصلنا إشعار بعد، لا أعلم}، مع بناء المستندات من الآن بالبيانات اللازمة للربط (أثر TAX-001). [يحتاج تحقق من المرحلة المنطبقة على الكيان]"
+              },
+              "phaseOne": null,
+              "verify": [
+                "يحتاج تحقق من المرحلة المنطبقة على الكيان"
+              ]
+            },
+            {
+              "key": "wps_gosi",
+              "label": "منصة حماية الأجور والتأمينات الاجتماعية",
+              "condition": {
+                "any": [
+                  {
+                    "module": "PAY"
+                  },
+                  {
+                    "module": "ATT"
+                  }
+                ]
+              },
+              "conditionText": "يظهر عند اختيار PAY أو ATT في الفهرس، ق ع-82",
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "any": [
+                        {
+                          "module": "PAY"
+                        },
+                        {
+                          "module": "ATT"
+                        }
+                      ]
+                    },
+                    "value": "later",
+                    "reason": ""
+                  }
+                ],
+                "text": "«لاحقاً» إن اختيرت PAY أو ATT في الفهرس (ق ع-8)؛ وإلا «لا»"
+              },
+              "phaseOne": null
+            },
+            {
+              "key": "online_store",
+              "label": "المتجر الإلكتروني",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [],
+                "text": "«لاحقاً» إن ذُكرا في إجابة نصية لوحدة (XXX-099) أو في PRF؛ وإلا «لا»"
+              },
+              "phaseOne": "تُدخل الطلبات فواتيرَ يدوياً"
+            },
+            {
+              "key": "card_terminals",
+              "label": "أجهزة الدفع بالبطاقة",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "any": [
+                        {
+                          "hasLabel": [
+                            "SAL-010",
+                            "بطاقة مدى أو بطاقة ائتمانية عبر جهاز"
+                          ]
+                        },
+                        {
+                          "hasLabel": [
+                            "SAL-029#b",
+                            "بطاقة عبر جهاز يحمله السائق"
+                          ]
+                        },
+                        {
+                          "hasLabel": [
+                            "SAL-031#c",
+                            "بطاقة عبر جهاز يحمله الفني"
+                          ]
+                        }
+                      ]
+                    },
+                    "value": "later",
+                    "reason": ""
+                  }
+                ],
+                "text": "«لاحقاً» عند SAL-010 تتضمن «بطاقة عبر جهاز»، أو SAL-029.ب أو SAL-031.ج تتضمن جهازاً؛ وإلا «لا»"
+              },
+              "phaseOne": "يُسجَّل المقبوض بالبطاقة بطريقة دفعه يدوياً، وتُطابق تسوياته وفق TRS-009"
+            },
+            {
+              "key": "payment_links",
+              "label": "روابط الدفع الإلكتروني",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "any": [
+                        {
+                          "hasLabel": [
+                            "SAL-010",
+                            "رابط دفع إلكتروني"
+                          ]
+                        },
+                        {
+                          "hasLabel": [
+                            "SAL-010",
+                            "محفظة رقمية"
+                          ]
+                        }
+                      ]
+                    },
+                    "value": "later",
+                    "reason": ""
+                  }
+                ],
+                "text": "«لاحقاً» عند SAL-010 تتضمن «رابط دفع إلكتروني» أو «محفظة رقمية» (اختياراً أو ذكراً في «أخرى»)؛ وإلا «لا»"
+              },
+              "phaseOne": "يُرسل الرابط خارج النظام، ويُسجَّل المقبوض في الحساب الوسيط لمزوّده ويُسوّى وفق STD-TRS-08 (٤) وSTD-TRS-09 (ق ع-83)"
+            },
+            {
+              "key": "biometric",
+              "label": "أجهزة البصمة",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "any": [
+                        {
+                          "module": "PAY"
+                        },
+                        {
+                          "module": "ATT"
+                        }
+                      ]
+                    },
+                    "value": "later",
+                    "reason": ""
+                  }
+                ],
+                "text": "«لاحقاً» إن اختيرت PAY أو ATT في الفهرس (ق ع-8)؛ وإلا «لا»"
+              },
+              "phaseOne": null
+            },
+            {
+              "key": "sms",
+              "label": "الرسائل النصية",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "all": [
+                        {
+                          "ne": [
+                            "ADM-005",
+                            "password_only"
+                          ]
+                        },
+                        {
+                          "eq": [
+                            "ADM-005.ب",
+                            "sms"
+                          ]
+                        }
+                      ]
+                    },
+                    "value": "now",
+                    "reason": "تع-27"
+                  },
+                  {
+                    "if": {
+                      "all": [
+                        {
+                          "any": [
+                            {
+                              "eqLabel": [
+                                "DOC-006",
+                                "الفاتورة على جواله برسالة فور إصدارها"
+                              ]
+                            },
+                            {
+                              "eqLabel": [
+                                "DOC-006",
+                                "الاثنان معاً"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "ne": [
+                            "ALR-001#main.whatsapp",
+                            "must_day_one"
+                          ]
+                        }
+                      ]
+                    },
+                    "value": "now",
+                    "reason": ""
+                  },
+                  {
+                    "if": {
+                      "eq": [
+                        "ALR-001#main.sms",
+                        "later_phase"
+                      ]
+                    },
+                    "value": "later",
+                    "reason": ""
+                  }
+                ],
+                "text": "«الآن» عند تع-27، أو عند DOC-006 بخيار الرسالة وواتساب غير متاح الآن؛ و«لاحقاً» إن كانت في ALR-001 بمرحلة لاحقة؛ وإلا «لا»"
+              },
+              "phaseOne": null
+            },
+            {
+              "key": "whatsapp",
+              "label": "واتساب",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "eq": [
+                        "ALR-001#main.whatsapp",
+                        "must_day_one"
+                      ]
+                    },
+                    "value": "now",
+                    "reason": "تع-25"
+                  },
+                  {
+                    "if": {
+                      "has": [
+                        "ALR-001",
+                        "whatsapp"
+                      ]
+                    },
+                    "value": "later",
+                    "reason": "تع-25"
+                  }
+                ],
+                "text": "بمرحلته الموحّدة (تع-25)؛ وإلا «لا»"
+              },
+              "phaseOne": null
+            },
+            {
+              "key": "email",
+              "label": "البريد الإلكتروني",
+              "condition": null,
+              "recommended": {
+                "value": "now",
+                "reason": "",
+                "when": [],
+                "text": "الآن"
+              },
+              "phaseOne": null
+            },
+            {
+              "key": "shipping",
+              "label": "شركات الشحن",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [
+                  {
+                    "if": {
+                      "hasLabel": [
+                        "SAL-018",
+                        "توصيل عبر شركة شحن"
+                      ]
+                    },
+                    "value": "later",
+                    "reason": ""
+                  }
+                ],
+                "text": "«لاحقاً» عند SAL-018 تتضمن «توصيل عبر شركة شحن»؛ وإلا «لا»"
+              },
+              "phaseOne": "يُدخل رقم الشحنة وحالتها يدوياً في إذن التسليم"
+            },
+            {
+              "key": "delivery_platforms",
+              "label": "منصات التوصيل",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [],
+                "text": "«لاحقاً» إن ذُكرا في إجابة نصية لوحدة (XXX-099) أو في PRF؛ وإلا «لا»"
+              },
+              "phaseOne": "تُدخل الطلبات فواتيرَ يدوياً"
+            },
+            {
+              "key": "accounting_software",
+              "label": "برنامج مكتب المحاسبة الخارجي",
+              "condition": null,
+              "recommended": {
+                "value": "no",
+                "reason": "",
+                "when": [],
+                "text": "«لا»"
+              },
+              "phaseOne": "التصدير إلى إكسل"
+            },
+            {
+              "key": "other",
+              "label": "أخرى (حدّد)",
+              "other": true,
+              "condition": null,
+              "recommended": null,
+              "phaseOne": null
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": {
+              "bank": {
+                "phase": "no"
+              },
+              "e_invoicing": {
+                "phase": "later"
+              },
+              "wps_gosi": {
+                "phase": "no"
+              },
+              "online_store": {
+                "phase": "no"
+              },
+              "card_terminals": {
+                "phase": "no"
+              },
+              "payment_links": {
+                "phase": "no"
+              },
+              "biometric": {
+                "phase": "no"
+              },
+              "sms": {
+                "phase": "no"
+              },
+              "whatsapp": {
+                "phase": "no"
+              },
+              "email": {
+                "phase": "now"
+              },
+              "shipping": {
+                "phase": "no"
+              },
+              "delivery_platforms": {
+                "phase": "no"
+              },
+              "accounting_software": {
+                "phase": "no"
+              }
+            },
+            "reason": "يبدأ النظام بما لا غنى عنه، ويُبنى الباقي تدريجياً.",
+            "when": [],
+            "text": "البريد الإلكتروني «الآن»؛ وما سواها بحسب جدول «الذكر» أدناه — السبب: يبدأ النظام بما لا غنى عنه، ويُبنى الباقي تدريجياً."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": true,
+      "condition": {
+        "ne": [
+          "INT-001#main.online_store",
+          "no"
+        ]
+      },
+      "conditionText": "INT-001 «المتجر الإلكتروني» ≠ «لا»",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "INT-R002",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن ينقل الربط مع المتجر الإلكتروني {{Q:INT-002}}{{IF:{\"answered\":\"INT-002#platform\"}|، مع المنصة الحالية «{{Q:INT-002#platform}}»}}."
+        }
+      ],
+      "workshopNote": null,
+      "id": "INT-002",
+      "section": "INT",
+      "order": 2,
+      "title": "ما الذي ينتقل بين المتجر الإلكتروني والنظام؟",
+      "help": "اختر كل ما ينطبق، واذكر المنصة الحالية إن وُجدت.",
+      "impact": "يحدد اتجاه البيانات ودوريتها لكل عنصر.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "orders_to_invoices",
+              "label": "الطلبات تصل للنظام فواتيرَ",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "stock_qty_sync",
+              "label": "الكميات المتاحة تُحدَّث في المتجر",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "prices_sync",
+              "label": "الأسعار تُحدَّث من النظام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "new_customers",
+              "label": "العملاء الجدد",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "order_shipping_status",
+              "label": "حالة الطلب والشحن",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "orders_to_invoices",
+              "stock_qty_sync"
+            ],
+            "reason": "يمنع بيع ما نفد ويوفر إعادة الإدخال.",
+            "when": [],
+            "text": "الطلبات، والكميات المتاحة — السبب: يمنع بيع ما نفد ويوفر إعادة الإدخال."
+          },
+          "required": false
+        },
+        {
+          "key": "platform",
+          "label": "اسم المنصة الحالية",
+          "type": "text",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": true,
+      "condition": {
+        "ne": [
+          "INT-001#main.bank",
+          "no"
+        ]
+      },
+      "conditionText": "INT-001 «البنك» ≠ «لا»",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "INT-R003",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يتيح الربط مع البنك {{Q:INT-003}}{{IF:{\"answered\":\"INT-003#bank\"}| مع «{{Q:INT-003#bank}}»}}."
+        }
+      ],
+      "workshopNote": null,
+      "id": "INT-003",
+      "section": "INT",
+      "order": 3,
+      "title": "ما الذي تحتاجونه من الربط مع البنك؟",
+      "help": "اختر كل ما ينطبق، واذكر البنك.",
+      "impact": "يحدد نطاق الربط البنكي.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "statement_import",
+              "label": "استيراد كشف الحساب آلياً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "payments_from_system",
+              "label": "تنفيذ المدفوعات من النظام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "payroll_file",
+              "label": "رفع ملف الرواتب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "statement_import"
+            ],
+            "reason": "الأكثر فائدة للمطابقة.",
+            "when": [
+              {
+                "if": {
+                  "eqLabel": [
+                    "TRS-004",
+                    "ربط مباشر مع البنك"
+                  ]
+                },
+                "value": [
+                  "statement_import"
+                ],
+                "reason": "وهو «استيراد كشف الحساب آلياً» عند TRS-004 = «ربط مباشر»."
+              }
+            ],
+            "text": "استيراد كشف الحساب — السبب: الأكثر فائدة للمطابقة. وهو «استيراد كشف الحساب آلياً» عند TRS-004 = «ربط مباشر»."
+          },
+          "required": false
+        },
+        {
+          "key": "bank",
+          "label": "البنك",
+          "type": "text",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": null,
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": false,
+      "verify": [],
+      "templates": [],
+      "workshopNote": "وفق القاعدة م-4؛ المتطلب العام XXX-R9nn يولّده المولّد.",
+      "id": "INT-099",
+      "section": "INT",
+      "order": 99,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "",
+      "impact": "يُدرج متطلباً مصدره «نص حر» بمعرّف INT-R9nn (القاعدة م-4).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "",
+            "reason": "",
+            "when": [],
+            "text": "ترك الحقل فارغاً إن لم توجد إضافة"
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_MIGRATE"
+      },
+      "conditionText": "F_MIGRATE",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "MIG-R001x",
+          "when": {
+            "flag": "F_MIGRATE"
+          },
+          "noRequirement": false,
+          "text": "يجب أن تُنقل «{{ITEM:type}}» من {{ITEM:form}} (نحو {{ITEM:count}})، بقالب استيراد وفحص أخطاء قبل الترحيل.",
+          "perItem": "MIG-001#main",
+          "itemWhen": {
+            "all": [
+              {
+                "eq": [
+                  "@item.migrate",
+                  "yes"
+                ]
+              },
+              {
+                "not": {
+                  "all": [
+                    {
+                      "eq": [
+                        "@item.key",
+                        "coa_opening"
+                      ]
+                    },
+                    {
+                      "not": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "MIG-R001-NR",
+          "when": {
+            "flag": "F_MIGRATE"
+          },
+          "noRequirement": true,
+          "text": "لا أداة استيراد تُبنى لبيانات لا تُنقل.",
+          "perItem": "MIG-001#main",
+          "itemWhen": {
+            "eq": [
+              "@item.migrate",
+              "no"
+            ]
+          }
+        }
+      ],
+      "workshopNote": null,
+      "id": "MIG-001",
+      "section": "MIG",
+      "order": 1,
+      "title": "ما البيانات الموجودة لديكم، وما الذي يُنقل؟",
+      "help": "الجدول يعرض البيانات المرتبطة بالوحدات المختارة فقط.",
+      "impact": "يحدد نطاق أدوات الاستيراد وقوالبها وحجمها، وترتيب النقل. وعند ACC-002 دليلاً جاهزاً وصف «دليل الحسابات وأرصدته الافتتاحية» = «تُنقل: نعم» وPRF-009 تتضمن «برنامج محاسبي أو إداري حالي» يُطبَّق تع-20. ومطابقة أرصدة الافتتاح واعتمادها، والجرد الافتتاحي، وتسلسل الافتتاح وفق STD-GEN-57 وSTD-GEN-58 وSTD-GEN-61.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "list",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [
+            {
+              "key": "type",
+              "label": "نوع البيانات",
+              "type": "text",
+              "options": []
+            },
+            {
+              "key": "exists",
+              "label": "موجودة",
+              "type": "single",
+              "options": [
+                {
+                  "key": "yes",
+                  "label": "نعم",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "no",
+                  "label": "لا",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "form",
+              "label": "شكلها",
+              "type": "single",
+              "options": [
+                {
+                  "key": "paper",
+                  "label": "ورق",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "excel",
+                  "label": "إكسل",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "current_software",
+                  "label": "برنامج حالي",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            },
+            {
+              "key": "count",
+              "label": "العدد التقريبي",
+              "type": "text",
+              "options": []
+            },
+            {
+              "key": "migrate",
+              "label": "تُنقل",
+              "type": "single",
+              "options": [
+                {
+                  "key": "yes",
+                  "label": "نعم",
+                  "other": false,
+                  "dontKnow": false
+                },
+                {
+                  "key": "no",
+                  "label": "لا",
+                  "other": false,
+                  "dontKnow": false
+                }
+              ]
+            }
+          ],
+          "rows": [
+            {
+              "key": "customers",
+              "type": "العملاء",
+              "condition": {
+                "module": "SAL"
+              },
+              "conditionText": "M(SAL)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "من GEN-011",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "من GEN-011 للعملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              },
+              "note": "العملاء يُنقلون ببياناتهم المقصورة في ROL-008 (الفئة، وحد الائتمان، وشرط الدفع، ومندوب المبيعات المسؤول) متى وُجدت في المصدر."
+            },
+            {
+              "key": "suppliers",
+              "type": "المورّدون",
+              "condition": {
+                "module": "PUR"
+              },
+              "conditionText": "M(PUR)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "من GEN-011",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "من GEN-011 للعملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              },
+              "note": "المورّدون يُنقلون بشرط دفعهم وحسابهم البنكي (الآيبان) متى وُجدا في المصدر، ويُعتمدان مع كشف المطابقة وفق STD-PUR-11 (ق ع-104)."
+            },
+            {
+              "key": "items",
+              "type": "الأصناف",
+              "condition": {
+                "module": "INV"
+              },
+              "conditionText": "M(INV)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "من GEN-011",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "من GEN-011 للعملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              }
+            },
+            {
+              "key": "stock_balances",
+              "type": "أرصدة المخزون بالكمية والتكلفة",
+              "condition": {
+                "module": "INV"
+              },
+              "conditionText": "M(INV)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              }
+            },
+            {
+              "key": "coa_opening",
+              "type": "دليل الحسابات وأرصدته الافتتاحية",
+              "condition": {
+                "module": "ACC"
+              },
+              "conditionText": "M(ACC)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "not": {
+                          "has": [
+                            "PRF-009",
+                            "software"
+                          ]
+                        }
+                      },
+                      "value": "no",
+                      "reason": "القيد الافتتاحي حينئذ قائمة مركز مالي يعدّها المحاسب بالعدّ (STD-ACC-10 (٢))."
+                    }
+                  ],
+                  "text": "«نعم»، وعدا «دليل الحسابات وأرصدته الافتتاحية» عند PRF-009 لا تتضمن «برنامج محاسبي أو إداري حالي» فـ«لا»: فالقيد الافتتاحي حينئذ قائمة مركز مالي يعدّها المحاسب بالعدّ (STD-ACC-10 (٢))، ولا يُولَّد للصف MIG-R001x ولا تسري تع-20."
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              }
+            },
+            {
+              "key": "open_customer_invoices",
+              "type": "الفواتير المفتوحة على العملاء",
+              "condition": {
+                "all": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "any": [
+                      {
+                        "not": {
+                          "all": [
+                            {
+                              "hasLabel": [
+                                "SAL-001",
+                                "بيع نقدي فوري"
+                              ]
+                            },
+                            {
+                              "not": {
+                                "hasLabel": [
+                                  "SAL-001",
+                                  "بيع آجل على حساب العميل"
+                                ]
+                              }
+                            },
+                            {
+                              "not": {
+                                "hasLabel": [
+                                  "SAL-001",
+                                  "بيع بعقد أو على دفعات"
+                                ]
+                              }
+                            },
+                            {
+                              "not": {
+                                "hasLabel": [
+                                  "SAL-001",
+                                  "اشتراكات أو فواتير دورية (شهرية، سنوية)"
+                                ]
+                              }
+                            },
+                            {
+                              "not": {
+                                "hasLabel": [
+                                  "SAL-001",
+                                  "عربون ثم باقي المبلغ عند التسليم"
+                                ]
+                              }
+                            },
+                            {
+                              "not": {
+                                "hasLabel": [
+                                  "SAL-001",
+                                  "أخرى (حدّد)"
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "all": [
+                          {
+                            "all": [
+                              {
+                                "hasLabel": [
+                                  "SAL-001",
+                                  "بيع نقدي فوري"
+                                ]
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "بيع آجل على حساب العميل"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "بيع بعقد أو على دفعات"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "اشتراكات أو فواتير دورية (شهرية، سنوية)"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "عربون ثم باقي المبلغ عند التسليم"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "أخرى (حدّد)"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "any": [
+                              {
+                                "eqLabel": [
+                                  "SAL-031#b",
+                                  "الفني من العميل في موقعه"
+                                ]
+                              },
+                              {
+                                "eqLabel": [
+                                  "SAL-031#b",
+                                  "الاثنان بحسب العميل"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "conditionText": "M(SAL) (والثاني يُسقَط بالحالة ١ من STD-GEN-24، إلا عند سريان STD-SAL-26 (٢))",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "all": [
+                          {
+                            "all": [
+                              {
+                                "hasLabel": [
+                                  "SAL-001",
+                                  "بيع نقدي فوري"
+                                ]
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "بيع آجل على حساب العميل"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "بيع بعقد أو على دفعات"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "اشتراكات أو فواتير دورية (شهرية، سنوية)"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "عربون ثم باقي المبلغ عند التسليم"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "أخرى (حدّد)"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "not": {
+                              "all": [
+                                {
+                                  "all": [
+                                    {
+                                      "hasLabel": [
+                                        "SAL-001",
+                                        "بيع نقدي فوري"
+                                      ]
+                                    },
+                                    {
+                                      "not": {
+                                        "hasLabel": [
+                                          "SAL-001",
+                                          "بيع آجل على حساب العميل"
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "not": {
+                                        "hasLabel": [
+                                          "SAL-001",
+                                          "بيع بعقد أو على دفعات"
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "not": {
+                                        "hasLabel": [
+                                          "SAL-001",
+                                          "اشتراكات أو فواتير دورية (شهرية، سنوية)"
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "not": {
+                                        "hasLabel": [
+                                          "SAL-001",
+                                          "عربون ثم باقي المبلغ عند التسليم"
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "not": {
+                                        "hasLabel": [
+                                          "SAL-001",
+                                          "أخرى (حدّد)"
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "any": [
+                                    {
+                                      "eqLabel": [
+                                        "SAL-031#b",
+                                        "الفني من العميل في موقعه"
+                                      ]
+                                    },
+                                    {
+                                      "eqLabel": [
+                                        "SAL-031#b",
+                                        "الاثنان بحسب العميل"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "value": "no",
+                      "reason": "STD-GEN-24، الحالة ١"
+                    },
+                    {
+                      "if": {
+                        "all": [
+                          {
+                            "all": [
+                              {
+                                "all": [
+                                  {
+                                    "hasLabel": [
+                                      "SAL-001",
+                                      "بيع نقدي فوري"
+                                    ]
+                                  },
+                                  {
+                                    "not": {
+                                      "hasLabel": [
+                                        "SAL-001",
+                                        "بيع آجل على حساب العميل"
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "not": {
+                                      "hasLabel": [
+                                        "SAL-001",
+                                        "بيع بعقد أو على دفعات"
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "not": {
+                                      "hasLabel": [
+                                        "SAL-001",
+                                        "اشتراكات أو فواتير دورية (شهرية، سنوية)"
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "not": {
+                                      "hasLabel": [
+                                        "SAL-001",
+                                        "عربون ثم باقي المبلغ عند التسليم"
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "not": {
+                                      "hasLabel": [
+                                        "SAL-001",
+                                        "أخرى (حدّد)"
+                                      ]
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "any": [
+                                  {
+                                    "eqLabel": [
+                                      "SAL-031#b",
+                                      "الفني من العميل في موقعه"
+                                    ]
+                                  },
+                                  {
+                                    "eqLabel": [
+                                      "SAL-031#b",
+                                      "الاثنان بحسب العميل"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "hasAny": [
+                              "PRF-009",
+                              [
+                                "paper",
+                                "excel",
+                                "software"
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "value": "yes",
+                      "reason": "STD-SAL-26 (٢)"
+                    },
+                    {
+                      "if": {
+                        "all": [
+                          {
+                            "all": [
+                              {
+                                "hasLabel": [
+                                  "SAL-001",
+                                  "بيع نقدي فوري"
+                                ]
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "بيع آجل على حساب العميل"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "بيع بعقد أو على دفعات"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "اشتراكات أو فواتير دورية (شهرية، سنوية)"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "عربون ثم باقي المبلغ عند التسليم"
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "hasLabel": [
+                                    "SAL-001",
+                                    "أخرى (حدّد)"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "any": [
+                              {
+                                "eqLabel": [
+                                  "SAL-031#b",
+                                  "الفني من العميل في موقعه"
+                                ]
+                              },
+                              {
+                                "eqLabel": [
+                                  "SAL-031#b",
+                                  "الاثنان بحسب العميل"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "value": "no",
+                      "reason": "STD-GEN-24، الحالة ١"
+                    }
+                  ],
+                  "text": "«نعم»، عدا «الفواتير المفتوحة على العملاء» عند SAL-001 = «بيع نقدي فوري» وحده فـ«لا» (STD-GEN-24، الحالة ١) ما لم يسرِ STD-SAL-26 (٢) فـ«نعم» إن تضمنت PRF-009 «دفاتر وأوراق» أو «جداول إكسل» أو «برنامج محاسبي أو إداري حالي» (STD-GEN-24، الحالة ١)"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              }
+            },
+            {
+              "key": "supplier_payables",
+              "type": "المستحق للمورّدين",
+              "condition": {
+                "module": "PUR"
+              },
+              "conditionText": "M(PUR)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              }
+            },
+            {
+              "key": "assets",
+              "type": "الأصول وقيمها",
+              "condition": {
+                "module": "FAS"
+              },
+              "conditionText": "M(FAS)؛ وعند عدمه لا يظهر، وأرصدة الأصول ومجمّع إهلاكها ضمن «دليل الحسابات وأرصدته الافتتاحية» (STD-GEN-36 (٤))",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                }
+              }
+            },
+            {
+              "key": "employees",
+              "type": "الموظفون وبياناتهم",
+              "condition": {
+                "any": [
+                  {
+                    "module": "HR"
+                  },
+                  {
+                    "module": "PAY"
+                  }
+                ]
+              },
+              "conditionText": "M(HR) أو M(PAY)؛ وعند عدمهما لا يظهران، ورصيد «سلف الموظفين» ضمن الدليل (STD-GEN-36 (٣))",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                }
+              }
+            },
+            {
+              "key": "leave_advance_balances",
+              "type": "أرصدة الإجازات والسلف",
+              "condition": {
+                "any": [
+                  {
+                    "module": "HR"
+                  },
+                  {
+                    "module": "PAY"
+                  }
+                ]
+              },
+              "conditionText": "M(HR) أو M(PAY)؛ وعند عدمهما لا يظهران، ورصيد «سلف الموظفين» ضمن الدليل (STD-GEN-36 (٣))",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              }
+            },
+            {
+              "key": "projects",
+              "type": "المشاريع الجارية وأرقامها",
+              "condition": {
+                "module": "PRJ"
+              },
+              "conditionText": "M(PRJ)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية"
+                }
+              }
+            },
+            {
+              "key": "historical",
+              "type": "العمليات التاريخية",
+              "condition": null,
+              "conditionText": "دائماً، ويُقرأ مع MIG-002",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "no",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "دون العمليات التاريخية"
+                }
+              }
+            },
+            {
+              "key": "cash_bank_balances",
+              "type": "أرصدة الصناديق والحسابات البنكية",
+              "condition": {
+                "module": "TRS"
+              },
+              "conditionText": "M(TRS)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "صفوف تُضاف: موصى بها «تُنقل: نعم»"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«برنامج حالي» للعملاء والمورّدين والأصناف والأرصدة إن تضمنت PRF-009 «برنامج محاسبي أو إداري حالي»؛ وإلا «إكسل» إن تضمنت «جداول إكسل»؛ وإلا «ورق»."
+                }
+              },
+              "added": true
+            },
+            {
+              "key": "open_custodies",
+              "type": "العُهد المفتوحة: عهدة المصروفات، وعهدة التحصيل، وعهدة القطع (وكميات عهدة القطع تُنقل ضمن «أرصدة المخزون» لكل سيارة، ويقتصر صفها هنا على كشف التوقيع، STD-GEN-56 (٣))",
+              "condition": {
+                "any": [
+                  {
+                    "module": "EXP"
+                  },
+                  {
+                    "visible": "SAL-029"
+                  },
+                  {
+                    "visible": "SAL-031"
+                  },
+                  {
+                    "visible": "INV-018"
+                  }
+                ]
+              },
+              "conditionText": "M(EXP)، أو ظهور SAL-029 أو SAL-031، أو ظهور INV-018",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "صفوف تُضاف: موصى بها «تُنقل: نعم»"
+                }
+              },
+              "added": true
+            },
+            {
+              "key": "cheques_outstanding",
+              "type": "الشيكات المستلمة غير المحصّلة والصادرة غير المصروفة",
+              "condition": {
+                "all": [
+                  {
+                    "visible": "TRS-007"
+                  },
+                  {
+                    "not": {
+                      "hasLabel": [
+                        "TRS-007",
+                        "لا نتعامل بالشيكات"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "conditionText": "TRS-007 ≠ «لا نتعامل بالشيكات»",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "صفوف تُضاف: موصى بها «تُنقل: نعم»"
+                }
+              },
+              "added": true
+            },
+            {
+              "key": "uninvoiced_receipts",
+              "type": "الاستلامات السابقة للتشغيل غير المفوترة (STD-PUR-14، STD-GEN-56 (١))",
+              "condition": {
+                "all": [
+                  {
+                    "module": "PUR"
+                  },
+                  {
+                    "any": [
+                      {
+                        "eqLabel": [
+                          "PUR-001",
+                          "أمر شراء ← استلام ← فاتورة المورّد"
+                        ]
+                      },
+                      {
+                        "eqLabel": [
+                          "PUR-001",
+                          "طلب شراء داخلي ← أمر شراء ← استلام ← فاتورة المورّد"
+                        ]
+                      },
+                      {
+                        "eqLabel": [
+                          "PUR-001",
+                          "طلب شراء داخلي ← مقارنة عروض أسعار المورّدين ← أمر شراء ← استلام ← فاتورة المورّد"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "flag": "F_STOCK"
+                  }
+                ]
+              },
+              "conditionText": "M(PUR) وPUR-001 تتضمن «استلام» وF_STOCK",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "صفوف تُضاف: موصى بها «تُنقل: نعم»"
+                }
+              },
+              "added": true
+            },
+            {
+              "key": "invoiced_not_received",
+              "type": "الشحنات المفوترة قبل التشغيل غير المستلمة (STD-PUR-16، STD-GEN-56 (١))",
+              "condition": {
+                "all": [
+                  {
+                    "module": "PUR"
+                  },
+                  {
+                    "flag": "F_STOCK"
+                  }
+                ]
+              },
+              "conditionText": "M(PUR) وF_STOCK",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "صفوف تُضاف: موصى بها «تُنقل: نعم»"
+                }
+              },
+              "added": true
+            },
+            {
+              "key": "pending_deliveries",
+              "type": "التسليمات المعلّقة قبل التشغيل (STD-SAL-33، STD-GEN-56 (١))",
+              "condition": {
+                "all": [
+                  {
+                    "module": "SAL"
+                  },
+                  {
+                    "flag": "F_STOCK"
+                  }
+                ]
+              },
+              "conditionText": "M(SAL) وF_STOCK",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«نعم» لكل صف يخص وحدة مختارة"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "صفوف تُضاف: موصى بها «تُنقل: نعم»"
+                }
+              },
+              "added": true
+            },
+            {
+              "key": "selling_prices",
+              "type": "أسعار البيع: السعر الأساسي، وقوائم أسعار الفئات، وأسعار الفروع، وشرائح الكمية (بحسب المختار في SAL-006)",
+              "condition": {
+                "module": "SAL"
+              },
+              "conditionText": "M(SAL)",
+              "recommended": {
+                "exists": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "أسعار البيع «موجودة: نعم»"
+                },
+                "count": {
+                  "value": "يُحصر عند التجهيز (MIG-003)",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "«يُحصر عند التجهيز (MIG-003)» لغير العملاء والمورّدين والأصناف"
+                },
+                "migrate": {
+                  "value": "yes",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [],
+                  "text": "صفوف تُضاف: موصى بها «تُنقل: نعم»"
+                },
+                "form": {
+                  "value": "paper",
+                  "reason": "نقطة بداية من إجابات الملف تُصحَّح عند الجمع.",
+                  "when": [
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "software"
+                        ]
+                      },
+                      "value": "current_software",
+                      "reason": ""
+                    },
+                    {
+                      "if": {
+                        "has": [
+                          "PRF-009",
+                          "excel"
+                        ]
+                      },
+                      "value": "excel",
+                      "reason": ""
+                    }
+                  ],
+                  "text": "«شكلها» كشكل «الأصناف»"
+                }
+              },
+              "added": true,
+              "note": "تُعتمد القيم المنقولة مع كشف المطابقة وفق STD-SAL-25 (٥) (ق ع-93)."
+            }
+          ],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": null,
+            "reason": "يبدأ النظام صحيحاً بأقل جهد.",
+            "when": [],
+            "text": "نقل البيانات الأساسية والأرصدة المفتوحة كلها، دون العمليات التاريخية — السبب: يبدأ النظام صحيحاً بأقل جهد. «الأرصدة المفتوحة» هي ما يعدّده STD-GEN-56 (١): أرصدة الحسابات (القيد الافتتاحي)، وأرصدة الصناديق والحسابات البنكية، وذمم العملاء والمورّدين ومنها أرصدتهم الدائنة والدفعات المقدمة (MIG-006)، والمخزون لكل مكان ومنه السيارات، والعُهد المفتوحة بأنواعها الثلاثة، والشيكات غير المحصّلة وغير المصروفة، والاستلامات السابقة للتشغيل غير المفوترة (STD-PUR-14)، والشحنات الافتتاحية في الطريق (STD-PUR-16)، والتسليمات المعلّقة قبل التشغيل (STD-SAL-33). والمستندات المفتوحة غير المالية لا تُنقل (STD-GEN-56 (٤)). الأعمدة الموصى بها لكل صف في recommended الصف. و M للوحدة المؤجلة «خطأ» (ق ع-82)، فلا يظهر صفها ولا يُولَّد له MIG-R001x."
+          },
+          "required": false,
+          "rowsFixed": true
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_MIGRATE"
+      },
+      "conditionText": "F_MIGRATE",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "MIG-R002",
+          "when": null,
+          "noRequirement": false,
+          "text": "{{SW:MIG-002|none=يجب ألا تُنقل العمليات التاريخية، وأن تبقى البيانات القديمة في مصدرها للرجوع|*=يجب أن تُنقل عمليات {{Q:MIG-002}}{{IF:{\"all\":[{\"eq\":[\"MIG-002\",\"current_year\"]},{\"text\":\"تع-19: ACC-015 قبل MIG-005\"}]}|، مجاميع شهرية لكل حساب}}}}."
+        }
+      ],
+      "workshopNote": null,
+      "id": "MIG-002",
+      "section": "MIG",
+      "order": 2,
+      "title": "كم سنة من العمليات السابقة تحتاجون في النظام الجديد؟",
+      "help": "العمليات التاريخية تفيد في المقارنة، لكنها تتطلب جهداً.",
+      "impact": "يحدد حجم النقل التاريخي ومدى مطابقة الأرقام بعده. و«السنة الحالية حتى تاريخ التشغيل» عند تع-19 معناها: مجاميع شهرية لكل حساب بين تاريخ الافتتاح وتاريخ التشغيل، يُعدّها المحاسب من السجلات السابقة دون مستندات تفصيلية؛ والتفاصيل المفتوحة تُدخل بتاريخ التشغيل.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "none",
+              "label": "لا شيء، الأرصدة الافتتاحية تكفي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "current_year",
+              "label": "السنة الحالية حتى تاريخ التشغيل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "two_years",
+              "label": "سنتان",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "more",
+              "label": "أكثر (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "none",
+            "reason": "أقل جهد ومخاطرة.",
+            "when": [],
+            "text": "لا شيء، الأرصدة الافتتاحية تكفي، مع الاحتفاظ بالبيانات القديمة في مصدرها للرجوع — السبب: أقل جهد ومخاطرة."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_MIGRATE"
+      },
+      "conditionText": "F_MIGRATE",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "MIG-R003",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يجهّز البيانات وينظّفها {{Q:MIG-003}}، وأن يوفّر المنفّذ قوالب الاستيراد وفحص الأخطاء."
+        }
+      ],
+      "workshopNote": null,
+      "id": "MIG-003",
+      "section": "MIG",
+      "order": 3,
+      "title": "من يجهّز البيانات وينظّفها قبل النقل؟",
+      "help": "حذف المكرر وتصحيح الأخطاء وتعبئة القوالب.",
+      "impact": "يحدد مسؤوليات النقل وقوالب الاستيراد اللازمة وأدوات فحص الأخطاء.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "our_team",
+              "label": "فريقنا بالكامل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "implementer",
+              "label": "فريق التنفيذ بالكامل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "shared",
+              "label": "مشترك: نحن نجمع وهم يرتّبون",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "shared",
+            "reason": "أنتم تعرفون البيانات، والمنفّذ يعرف القوالب.",
+            "when": [],
+            "text": "مشترك — السبب: أنتم تعرفون البيانات، والمنفّذ يعرف القوالب."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "all": [
+          {
+            "flag": "F_MIGRATE"
+          },
+          {
+            "flag": "F_BIZ"
+          }
+        ]
+      },
+      "conditionText": "F_MIGRATE و F_BIZ",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "MIG-R004",
+          "when": null,
+          "noRequirement": false,
+          "text": "{{SW:MIG-004|one_month=يجب أن يُشغَّل النظام بالتوازي مع الطريقة القديمة شهراً واحداً، وفق {{R:STD-GEN-59}}، مع تقرير مقارنة|more=يجب أن يُشغَّل النظام بالتوازي مع الطريقة القديمة {{Q:MIG-004}}، وفق {{R:STD-GEN-59}}، مع تقرير مقارنة|direct=يجب أن يكون الانتقال مباشراً بعد اعتماد أرصدة الافتتاح ({{R:STD-GEN-57}})}}."
+        }
+      ],
+      "workshopNote": null,
+      "id": "MIG-004",
+      "section": "MIG",
+      "order": 4,
+      "title": "هل تستمرون بالطريقة القديمة بالتوازي مع النظام الجديد لفترة؟",
+      "help": "العمل الموازي يكشف الأخطاء لكنه يضاعف الجهد.",
+      "impact": "يحدد خطة التشغيل وتقرير المقارنة بين النظامين. ومضمون التوازي وفق STD-GEN-59.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "direct",
+              "label": "لا، انتقال مباشر",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "one_month",
+              "label": "نعم، شهراً واحداً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "more",
+              "label": "نعم، أكثر (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "one_month",
+            "reason": "يكفي للاطمئنان دون إرهاق.",
+            "when": [],
+            "text": "نعم، شهراً واحداً — السبب: يكفي للاطمئنان دون إرهاق."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "MIG-R005",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يبدأ التشغيل {{Q:MIG-005}}، وأن تكون الأرصدة الافتتاحية بتاريخ {{Q:ACC-015}}، بعد اعتمادها وفق {{R:STD-GEN-57}}، وأن يكون القيد الافتتاحي بتاريخ {{Q:ACC-015}}، والتفاصيل المفتوحة بتاريخ {{Q:ACC-015}}، أو {{Q:MIG-005}} عند تع-19، وأن تنفذ مع اعتماد الكشف ({{R:STD-GEN-61}})."
+        }
+      ],
+      "workshopNote": null,
+      "id": "MIG-005",
+      "section": "MIG",
+      "order": 5,
+      "title": "متى تريدون بدء العمل بالنظام؟",
+      "help": "التاريخ المستهدف لبدء التشغيل الفعلي.",
+      "impact": "يحدد تاريخ بدء التشغيل؛ وتاريخ الأرصدة الافتتاحية من ACC-015. ويُكتب التاريخ في وثيقة المتطلبات «بداية شهر بدء التشغيل المثبت في خطة التسليم»، ولا يوقف ذلك التصدير، ويُسجَّل بنصه افتراضاً مُعلناً في سجل الافتراضات (قيمة ناقصة مقصودة، صنف (أ) خارج معيار الوحدات). والعدّ الافتتاحي للنقد والمخزون بعد انتهاء عمل اليوم السابق لـ{MIG-005}، والمعدود رصيد أول يوم التشغيل (STD-GEN-58، STD-GEN-61 (١)).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "next_fiscal_year",
+              "label": "بداية السنة المالية القادمة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "specific_month",
+              "label": "بداية شهر محدد (حدّد)",
+              "other": true,
+              "dontKnow": false
+            },
+            {
+              "key": "asap",
+              "label": "في أقرب وقت",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "specific_month",
+            "reason": "يسهّل نقل الأرصدة والإقفال، ولا يُعرف الشهر قبل اكتمال الإعداد.",
+            "when": [
+              {
+                "if": {
+                  "flag": "F_VAT"
+                },
+                "value": "specific_month",
+                "reason": "ويُفضَّل أن يكون شهر التشغيل أول شهر في فترة إقرار — السبب: يُغني عن إدخال أرقام الطريقة السابقة لجزء الفترة (STD-TAX-09 (٢)) غالباً."
+              }
+            ],
+            "text": "بداية شهر ميلادي يُثبَّت في خطة التسليم بعد اكتمال الإعداد والتدريب — السبب: يسهّل نقل الأرصدة والإقفال، ولا يُعرف الشهر قبل اكتمال الإعداد. وعند F_VAT: ويُفضَّل أن يكون شهر التشغيل أول شهر في فترة إقرار — السبب: يُغني عن إدخال أرقام الطريقة السابقة لجزء الفترة (STD-TAX-09 (٢)) غالباً.",
+            "otherText": "بداية شهر ميلادي يُثبَّت في خطة التسليم"
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": true,
+      "condition": {
+        "all": [
+          {
+            "flag": "F_MIGRATE"
+          },
+          {
+            "any": [
+              {
+                "eq": [
+                  "MIG-001#main.open_customer_invoices.migrate",
+                  "yes"
+                ]
+              },
+              {
+                "eq": [
+                  "MIG-001#main.supplier_payables.migrate",
+                  "yes"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "conditionText": "F_MIGRATE، وMIG-001 ينقل «الفواتير المفتوحة على العملاء» أو «المستحق للمورّدين»",
+      "regulatory": true,
+      "verify": [
+        "يحتاج تحقق من المعيار المحاسبي المنطبق على تقييم الأرصدة الأجنبية الافتتاحية"
+      ],
+      "templates": [
+        {
+          "id": "MIG-R006",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن تُنقل الذمم المفتوحة {{Q:MIG-006}}{{IF:{\"eqLabel\":[\"GEN-002\",\"نعم\"]}|، وما كان منها بعملة أجنبية بعملته ومتبقيه بها وسعر صرف يوم التشغيل}}، بمجموع يساوي رصيد حسابها الافتتاحي."
+        }
+      ],
+      "workshopNote": null,
+      "id": "MIG-006",
+      "section": "MIG",
+      "order": 6,
+      "title": "كيف تُنقل ديون العملاء والمستحق للمورّدين؟",
+      "help": "النقل فاتورةً فاتورة يُبقي أعمار الديون وتنبيهات الاستحقاق صحيحة.",
+      "impact": "يحدد قالب استيراد الذمم. وعند SAL-001 = «بيع نقدي فوري» وحده يُقرأ للمورّدين وحدهم (STD-GEN-24، الحالة ١). إلا عند سريان STD-SAL-26 (٢) فيُقرأ للعملاء والمورّدين معاً، وتدخل ديون العملاء قبل التشغيل تفصيلاً يساوي حساب المراقبة (STD-GEN-61 (٥)) (تطبيق ت24-29 في STD-GEN-24 وMIG-001).\n- الفاتورة المنقولة: تحمل رقمها في النظام القديم، ولا تدخل التسلسل الجديد (STD-GEN-43). ولا تولّد قيداً (STD-GEN-35 (٨)). ومجموعها يساوي رصيد حسابها في القيد الافتتاحي.\n- الرصيد الدائن والدفعة المقدمة: سطر مستقل بإشارته؛ ويُطبَّق رصيد العميل وفق STD-SAL-31، ورصيد الكيان لدى المورّد وفق STD-PUR-12 (٣){، والدفعة المقدمة لمورّد بصافيها ورمزها وضريبتها وفق STD-TAX-02 (٦) — عند F_VAT}.\n- بالعملة الأجنبية (GEN-002 = «نعم») (ق ع-124): تُنقل الفاتورة المفتوحة والدفعة المقدمة بعملة أجنبية بعملتها ومتبقيها بها، وبسعر صرف يوم التشغيل لكل عملة يُدخله المحاسب في كشف المطابقة (STD-GEN-57 (١))؛ فمقابلها بـ{GEN-001} = المتبقي × ذلك السعر، ومجموعها يساوي رصيد حسابها في القيد الافتتاحي. ويُحسب الفرق المحقق عند سدادها من هذا السعر (STD-ACC-03 (٢))، وتُعامل الدفعة المقدمة المنقولة بسعره وفق STD-ACC-03 (٦). وفرق تقييمها بسعر يوم التشغيل عن قيمتها في دفاتر المصدر يدخل القيد الافتتاحي سطراً مفسَّراً على «فروق عملة غير محققة» (4.9 أ-١٥)، لا على «فروق أرصدة افتتاحية». [يحتاج تحقق من المعيار المحاسبي المنطبق على تقييم الأرصدة الأجنبية الافتتاحية]\n- تُدخل مسوداتٍ قبل اعتماد القيد الافتتاحي، وتنفذ معه (STD-GEN-61 (٢) و(٦)).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "per_invoice",
+              "label": "كل فاتورة مفتوحة بتاريخها وتاريخ استحقاقها ومبلغها المتبقي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "single_balance",
+              "label": "رصيد واحد لكل عميل ومورّد بتاريخ استحقاق يحدده المحاسب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "per_invoice",
+            "reason": "تبقى أعمار الديون (SAL-021) وتنبيهات الاستحقاق وحد الائتمان صحيحة من اليوم الأول.",
+            "when": [
+              {
+                "if": {
+                  "all": [
+                    {
+                      "all": [
+                        {
+                          "hasLabel": [
+                            "SAL-001",
+                            "بيع نقدي فوري"
+                          ]
+                        },
+                        {
+                          "not": {
+                            "hasLabel": [
+                              "SAL-001",
+                              "بيع آجل على حساب العميل"
+                            ]
+                          }
+                        },
+                        {
+                          "not": {
+                            "hasLabel": [
+                              "SAL-001",
+                              "بيع بعقد أو على دفعات"
+                            ]
+                          }
+                        },
+                        {
+                          "not": {
+                            "hasLabel": [
+                              "SAL-001",
+                              "اشتراكات أو فواتير دورية (شهرية، سنوية)"
+                            ]
+                          }
+                        },
+                        {
+                          "not": {
+                            "hasLabel": [
+                              "SAL-001",
+                              "عربون ثم باقي المبلغ عند التسليم"
+                            ]
+                          }
+                        },
+                        {
+                          "not": {
+                            "hasLabel": [
+                              "SAL-001",
+                              "أخرى (حدّد)"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "any": [
+                        {
+                          "eqLabel": [
+                            "SAL-031#b",
+                            "الفني من العميل في موقعه"
+                          ]
+                        },
+                        {
+                          "eqLabel": [
+                            "SAL-031#b",
+                            "الاثنان بحسب العميل"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "value": "per_invoice",
+                "reason": "عند سريان STD-SAL-26 (٢) (البيع النقدي وحده): يبقى كشف حساب العميل ومؤشر الديون صحيحين، إذ لا حد ولا أعمار حينئذ."
+              }
+            ],
+            "text": "كل فاتورة مفتوحة — السبب: تبقى أعمار الديون (SAL-021) وتنبيهات الاستحقاق وحد الائتمان صحيحة من اليوم الأول؛ وعند سريان STD-SAL-26 (٢) (البيع النقدي وحده): يبقى كشف حساب العميل ومؤشر الديون صحيحين، إذ لا حد ولا أعمار حينئذ."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_MIGRATE"
+      },
+      "conditionText": "F_MIGRATE",
+      "regulatory": false,
+      "verify": [],
+      "templates": [],
+      "workshopNote": "وفق القاعدة م-4؛ المتطلب العام XXX-R9nn يولّده المولّد.",
+      "id": "MIG-099",
+      "section": "MIG",
+      "order": 99,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "",
+      "impact": "يُدرج متطلباً مصدره «نص حر» بمعرّف MIG-R9nn (القاعدة م-4).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "",
+            "reason": "",
+            "when": [],
+            "text": "ترك الحقل فارغاً إن لم توجد إضافة"
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ADM-R001",
+          "when": {
+            "ne": [
+              "ADM-001",
+              "no"
+            ]
+          },
+          "noRequirement": false,
+          "text": "يجب أن يحفظ النظام سجلاً {{SW:ADM-001|all_ops=لكل العمليات|financial_only=للمستندات المالية فقط|*={{Q:ADM-001}}}} بنطاق {{R:STD-GEN-54}}، لا يُعدَّل ولا يُحذف، مع شاشة عرض للمالك."
+        },
+        {
+          "id": "ADM-R001-NR",
+          "when": {
+            "eq": [
+              "ADM-001",
+              "no"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا سجل تعديلات مطلوب."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ADM-001",
+      "section": "ADM",
+      "order": 1,
+      "title": "هل تحتاجون سجلاً لكل تعديل في النظام؟",
+      "help": "السجل يحفظ: من عدّل، وماذا، ومتى، والقيمة قبل التعديل وبعده.",
+      "impact": "يحدد نطاق سجل التدقيق وشاشة عرضه للمالك. ونطاق «سجل العمليات» لكل خيار، وحمايته، ومن يراه، وفق STD-GEN-54.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "all_ops",
+              "label": "نعم، لكل العمليات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "financial_only",
+              "label": "نعم، للمستندات المالية فقط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no",
+              "label": "لا",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "all_ops",
+            "reason": "ضمانة رقابية أساسية.",
+            "when": [],
+            "text": "نعم، لكل العمليات — السبب: ضمانة رقابية أساسية."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ADM-R002",
+          "when": null,
+          "noRequirement": false,
+          "text": "{{SW:ADM-002|never_delete=يجب ألا يُحذف المستند المعتمد أبداً، وأن يُلغى بسبب مكتوب أو يُعكس بمستند مقابل ({{R:STD-GEN-31}})|owner_can_delete=يجب أن يُتاح حذف المستند المعتمد للمالك وحده، مع تسجيله ({{R:STD-GEN-54}})}}."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ADM-002",
+      "section": "ADM",
+      "order": 2,
+      "title": "ماذا يحدث عند الخطأ في مستند معتمد؟",
+      "help": "هل يُحذف، أم يُلغى ويبقى ظاهراً؟",
+      "impact": "يحدد منع الحذف بعد الاعتماد، وحالة «ملغى» مع السبب، والمستندات العاكسة. وتعديل المستند النافذ وإلغاؤه وتاريخ أثره وفق STD-GEN-31.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "never_delete",
+              "label": "لا يُحذف المعتمد أبداً؛ يُلغى بسبب مكتوب أو يُعكس بمستند مقابل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "owner_can_delete",
+              "label": "يُسمح بالحذف للمالك فقط",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "never_delete",
+            "reason": "يحفظ تسلسل الأرقام وسلامة السجل.",
+            "when": [],
+            "text": "لا يُحذف أبداً؛ يُلغى بسبب أو يُعكس — السبب: يحفظ تسلسل الأرقام وسلامة السجل."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ADM-R003",
+          "when": {
+            "not": {
+              "has": [
+                "ADM-003",
+                "no_attachments"
+              ]
+            }
+          },
+          "noRequirement": false,
+          "text": "يجب أن يتيح النظام إرفاق ملفات في {{Q:ADM-003}}، وأن يُلزم المرفق في {{Q:ADM-003.ب}} شرطاً لمغادرة «مسودة» ({{R:STD-GEN-55}})."
+        },
+        {
+          "id": "ADM-R003-NR",
+          "when": {
+            "has": [
+              "ADM-003",
+              "no_attachments"
+            ]
+          },
+          "noRequirement": true,
+          "text": "لا إرفاق يُبنى."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ADM-003",
+      "section": "ADM",
+      "order": 3,
+      "title": "على أي المستندات تحتاجون إرفاق ملفات؟",
+      "help": "صور أو ملفات PDF مرتبطة بالمستند.",
+      "impact": "يحدد إمكانية الإرفاق وإلزامه، وتقدير مساحة الملفات. الاختيار هنا يتيح المرفق، والإلزام في ADM-003.ب.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "all_docs",
+              "label": "كل المستندات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_invoices",
+              "label": "فواتير المورّدين",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "expenses",
+              "label": "المصروفات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "contracts",
+              "label": "العقود",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "employee_files",
+              "label": "ملفات الموظفين",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "assets",
+              "label": "الأصول",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "manual_journals",
+              "label": "القيود اليدوية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "no_attachments",
+              "label": "لا مرفقات",
+              "other": false,
+              "dontKnow": false,
+              "exclusive": true
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "all_docs"
+            ],
+            "reason": "توثيق كامل مع مرونة.",
+            "when": [],
+            "text": "كل المستندات (اختيارياً)، وإلزامياً في المصروفات وفواتير المورّدين — السبب: توثيق كامل مع مرونة. (والإلزام يُحدَّد في ADM-003.ب.)"
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": true,
+      "condition": {
+        "all": [
+          {
+            "visible": "ADM-003"
+          },
+          {
+            "not": {
+              "has": [
+                "ADM-003",
+                "no_attachments"
+              ]
+            }
+          }
+        ]
+      },
+      "conditionText": "ظهور ADM-003",
+      "regulatory": false,
+      "verify": [],
+      "templates": [],
+      "workshopNote": "نوع الإجابة: اختيار متعدد من خيارات ADM-003 المختارة. والخيار «المصروفات» يُعرض عند خفاء EXP-003 وحده (EXP غير مختارة، والمصروف في القسم المصغّر ق-ت11).",
+      "id": "ADM-003.ب",
+      "section": "ADM",
+      "order": 4,
+      "title": "أين يكون المرفق إلزامياً؟",
+      "help": "عند ظهور EXP-003 يُكتب: «إلزام صورة الإيصال في المصروفات يُحدَّد في EXP-003».",
+      "helpCondition": {
+        "visible": "EXP-003"
+      },
+      "impact": "المرفق الإلزامي شرط لمغادرة «مسودة» لا لحفظها، ومن يرفعه، وما بعد النفاذ، واستثناء «دون إيصال» في مستندات EXP، وفق STD-GEN-55. ويشمل «فواتير المورّدين» سطور «تكاليف الشحنة» (الشحن والتخليص وغيرها، بمستند مُصدِرها) و«فاتورة المورّد المكمّلة» (STD-PUR-10 (٢)).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "all_docs",
+              "label": "كل المستندات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "supplier_invoices",
+              "label": "فواتير المورّدين",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "expenses",
+              "label": "المصروفات",
+              "other": false,
+              "dontKnow": false,
+              "condition": {
+                "not": {
+                  "visible": "EXP-003"
+                }
+              },
+              "conditionText": "يُعرض عند خفاء EXP-003 وحده (EXP غير مختارة، والمصروف في القسم المصغّر ق-ت11)"
+            },
+            {
+              "key": "contracts",
+              "label": "العقود",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "employee_files",
+              "label": "ملفات الموظفين",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "assets",
+              "label": "الأصول",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "manual_journals",
+              "label": "القيود اليدوية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "expenses",
+              "supplier_invoices"
+            ],
+            "reason": "الموصى به القائم في ADM-003 يذكر الإلزام، ونوع الإجابة لا يحمله.",
+            "when": [
+              {
+                "if": {
+                  "visible": "EXP-003"
+                },
+                "value": [
+                  "supplier_invoices"
+                ],
+                "reason": "عند ظهور EXP-003: لا يُعرض خيار «المصروفات»، فيسقط من الموصى به (STD-GEN-24)، ويبقى «فواتير المورّدين» وحده؛ ويحكم إلزام صورة الإيصال في المصروفات EXP-003."
+              }
+            ],
+            "text": "المصروفات (سند المصروف، وطلب الاسترداد، وسطور تسوية العهدة) وفواتير المورّدين. — السبب: الموصى به القائم في ADM-003 يذكر الإلزام، ونوع الإجابة لا يحمله. عند ظهور EXP-003: لا يُعرض خيار «المصروفات»، فيسقط من الموصى به (STD-GEN-24)، ويبقى «فواتير المورّدين» وحده؛ ويحكم إلزام صورة الإيصال في المصروفات EXP-003."
+          },
+          "required": false,
+          "optionsFrom": "ADM-003"
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": true,
+      "verify": [
+        "يحتاج تحقق من المدة النظامية الدنيا",
+        "يحتاج تحقق من المدة النظامية الدنيا (قالب ADM-R004)"
+      ],
+      "templates": [
+        {
+          "id": "ADM-R004",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يحتفظ النظام بالسجلات {{SW:ADM-004|never_delete=دون حذف أبداً|statutory_period=بحسب المدة النظامية لحفظ السجلات|*={{Q:ADM-004}}}}، وأن يؤرشف السنوات وفق {{R:STD-GEN-53}} دون حذف [يحتاج تحقق من المدة النظامية الدنيا]."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ADM-004",
+      "section": "ADM",
+      "order": 5,
+      "title": "كم مدة الاحتفاظ بالسجلات؟",
+      "help": "المدة التي يجب أن تبقى فيها البيانات متاحة.",
+      "impact": "يحدد سياسة الاحتفاظ، وأرشفة السنوات القديمة دون حذفها. والأرشفة (متى تُؤرشف السنة، وأثرها، والسجلات الأساسية) وفق STD-GEN-53.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "never_delete",
+              "label": "لا تُحذف أبداً",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "statutory_period",
+              "label": "بحسب المدة النظامية لحفظ السجلات",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "never_delete",
+            "reason": "يغطي أي متطلب نظامي دون حاجة لتحديده [يحتاج تحقق من المدة النظامية الدنيا].",
+            "when": [],
+            "text": "لا تُحذف أبداً — السبب: يغطي أي متطلب نظامي دون حاجة لتحديده [يحتاج تحقق من المدة النظامية الدنيا]."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ADM-R005",
+          "when": null,
+          "noRequirement": false,
+          "text": "{{SW:ADM-005|password_only=يجب أن يُطبّق النظام {{R:STD-GEN-52}} دون البند (١)|*=يجب أن يُطلب رمز تحقق {{SW:ADM-005|otp_all=للجميع|otp_sensitive=للمالك والمحاسب ومن يرى المعلومات الحساسة}} يصل {{SW:ADM-005.ب|sms=برسالة نصية إلى جوال المستخدم|authenticator_app=بتطبيق على جوال المستخدم يولّد الرمز|email=بالبريد الإلكتروني}}، وفق سياسة الدخول في {{R:STD-GEN-52}}}}."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ADM-005",
+      "section": "ADM",
+      "order": 6,
+      "title": "كيف يُحمى دخول المستخدمين؟",
+      "help": "رمز تحقق يصل للجوال يمنع الدخول بكلمة مرور مسروقة.",
+      "impact": "يحدد سياسة التحقق عند الدخول. وسياسة الدخول (متى يُطلب الرمز، والقفل، وانتهاء الجلسة، وكلمة المرور، والمستخدم المغادر، والتسجيل، ومسؤول النظام المقفل) وفق STD-GEN-52.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "otp_all",
+              "label": "رمز تحقق للجميع",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "otp_sensitive",
+              "label": "رمز تحقق للمالك والمحاسب ومن يرى المعلومات الحساسة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "password_only",
+              "label": "كلمة المرور تكفي",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "otp_sensitive",
+            "reason": "الوصول من أي مكان يرفع المخاطر.",
+            "when": [
+              {
+                "if": {
+                  "any": [
+                    {
+                      "eqLabel": [
+                        "GEN-009",
+                        "من أي مكان"
+                      ]
+                    },
+                    {
+                      "eqLabel": [
+                        "GEN-009",
+                        "مختلط بحسب الدور"
+                      ]
+                    }
+                  ]
+                },
+                "value": "otp_all",
+                "reason": "الوصول من أي مكان يرفع المخاطر؛ وفي «مختلط بحسب الدور» يدخل بعض المستخدمين من خارج المقر (GEN-009.ب)، فيؤخذ بأشد الفرعين، ولا يُبنى رمز تحقق لأدوار دون أخرى."
+              }
+            ],
+            "text": "رمز تحقق للجميع عند GEN-009 ∈ {«من أي مكان»، «مختلط بحسب الدور»}، وإلا للمالك والمحاسب — السبب: الوصول من أي مكان يرفع المخاطر؛ وفي «مختلط بحسب الدور» يدخل بعض المستخدمين من خارج المقر (GEN-009.ب)، فيؤخذ بأشد الفرعين، ولا يُبنى رمز تحقق لأدوار دون أخرى."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": true,
+      "condition": {
+        "ne": [
+          "ADM-005",
+          "password_only"
+        ]
+      },
+      "conditionText": "ADM-005 ≠ «كلمة المرور تكفي»",
+      "regulatory": false,
+      "verify": [],
+      "templates": [],
+      "workshopNote": "قالب ADM-R005 مشترك مع ADM-005.",
+      "id": "ADM-005.ب",
+      "section": "ADM",
+      "order": 7,
+      "title": "بأي وسيلة يصل رمز التحقق؟",
+      "help": "الرمز يُطلب مع كلمة المرور.",
+      "impact": "يحدد وسيلة الرمز. و«رسالة نصية» تجعل صف «الرسائل النصية» في INT-001 «الآن» (تع-27). و«البريد الإلكتروني» يستلزم بريداً لكل مستخدم (4.9).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "sms",
+              "label": "رسالة نصية إلى جوال المستخدم",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "authenticator_app",
+              "label": "تطبيق على جوال المستخدم يولّد الرمز",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "email",
+              "label": "البريد الإلكتروني",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "sms",
+            "reason": "يتسق مع توضيح ADM-005، ولا يحتاج تجهيزاً من المستخدم.",
+            "when": [],
+            "text": "رسالة نصية إلى جوال المستخدم — السبب: يتسق مع توضيح ADM-005، ولا يحتاج تجهيزاً من المستخدم."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ADM-R006",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يكون {{Q:ADM-006}} مسؤول النظام، يملك الإعدادات في {{R:STD-GEN-41}}، وأن يحتاج ما يمس الرقابة اعتماد المالك إن لم يكن هو المسؤول."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ADM-006",
+      "section": "ADM",
+      "order": 8,
+      "title": "من مسؤول النظام داخلياً؟",
+      "help": "من يضيف المستخدمين ويعدّل الإعدادات بعد التسليم.",
+      "impact": "يحدد دور «مسؤول النظام» وصلاحيات الإعدادات. وما يملكه مسؤول النظام، وما يحتاج فيه اعتماد المالك، وما ليس له، وحالة «فريق التنفيذ»، وفق STD-GEN-41. و«مسؤول النظام» في مهام الإعداد (4.9) يُقرأ بقيمة ADM-006؛ وعند «فريق التنفيذ» يجمع المنفّذ القيم من المالك.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "single",
+          "options": [
+            {
+              "key": "owner",
+              "label": "المالك",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "accountant",
+              "label": "المحاسب",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "specialist",
+              "label": "موظف مختص",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "implementer",
+              "label": "فريق التنفيذ",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "owner",
+            "reason": "صلاحيات الإعداد حساسة.",
+            "when": [],
+            "text": "المالك — السبب: صلاحيات الإعداد حساسة."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ADM-R007",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب أن يُسلَّم مع النظام {{Q:ADM-007}}."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ADM-007",
+      "section": "ADM",
+      "order": 9,
+      "title": "ما التدريب والأدلة التي تحتاجونها عند التسليم؟",
+      "help": "اختر كل ما ينطبق.",
+      "impact": "يحدد مخرجات التسليم المصاحبة للنظام وبيئة التدريب.",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "multi",
+          "options": [
+            {
+              "key": "written_manual",
+              "label": "دليل استخدام مكتوب بالعربية",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "short_videos",
+              "label": "مقاطع مرئية قصيرة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "training_per_role",
+              "label": "تدريب حضوري أو عن بعد لكل دور",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "demo_data",
+              "label": "بيانات تجريبية للتدريب قبل التشغيل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": [
+              "written_manual",
+              "training_per_role",
+              "demo_data"
+            ],
+            "reason": "يسرّع التبني ويقلل الأخطاء الأولى.",
+            "when": [],
+            "text": "دليل مكتوب، وتدريب لكل دور، وبيانات تجريبية — السبب: يسرّع التبني ويقلل الأخطاء الأولى."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": {
+        "flag": "F_BIZ"
+      },
+      "conditionText": "F_BIZ",
+      "regulatory": false,
+      "verify": [],
+      "templates": [
+        {
+          "id": "ADM-R008",
+          "when": null,
+          "noRequirement": false,
+          "text": "يجب ألا يتجاوز فقد البيانات عند التعطل {{SW:ADM-008#a|max_one_day=يوم عمل|max_one_hour=ساعة|*={{Q:ADM-008#a}}}}، وأن يُسترجع بطلب {{Q:ADM-008#b}} مع تسجيله، وأن يحصل الكيان على نسخة كاملة من بياناته بصيغة مقروءة عند الطلب وعند انتهاء التعاقد."
+        }
+      ],
+      "workshopNote": null,
+      "id": "ADM-008",
+      "section": "ADM",
+      "order": 10,
+      "title": "ما أقصى ما تقبلون فقده من البيانات لو تعطّل النظام، ومن يطلب الاسترجاع؟",
+      "help": "النسخة الاحتياطية تُعيد البيانات إلى آخر نسخة محفوظة؛ وما بعدها يُعاد إدخاله.",
+      "impact": "يحدد تكرار النسخ ومدة الاحتفاظ بها وإجراء الاسترجاع وتسجيله (STD-GEN-54). ويثبت حق الكيان في نسخة كاملة من بياناته بصيغة مقروءة، عند الطلب وعند انتهاء التعاقد.",
+      "parts": [
+        {
+          "key": "a",
+          "label": "(أ) أقصى فقد مقبول",
+          "type": "single",
+          "options": [
+            {
+              "key": "max_one_day",
+              "label": "لا يُفقد أكثر من يوم عمل",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "max_one_hour",
+              "label": "لا يُفقد أكثر من ساعة",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "max_one_day",
+            "reason": "يكفي منشأة صغيرة دون كلفة زائدة.",
+            "when": [],
+            "text": "(أ) لا يُفقد أكثر من يوم عمل، بنسخة يومية تُحفظ مستقلةً عن مكان التشغيل، ويُحتفظ بها 30 يوماً. — السبب: يكفي منشأة صغيرة دون كلفة زائدة، والاسترجاع يمس كل البيانات."
+          },
+          "required": false
+        },
+        {
+          "key": "b",
+          "label": "(ب) من يطلب الاسترجاع",
+          "type": "single",
+          "options": [
+            {
+              "key": "owner_only",
+              "label": "المالك وحده",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "sys_admin",
+              "label": "مسؤول النظام",
+              "other": false,
+              "dontKnow": false
+            },
+            {
+              "key": "dont_know",
+              "label": "لا أعلم",
+              "other": false,
+              "dontKnow": true
+            }
+          ],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "owner_only",
+            "reason": "الاسترجاع يمس كل البيانات.",
+            "when": [],
+            "text": "(ب) المالك وحده. — السبب: يكفي منشأة صغيرة دون كلفة زائدة، والاسترجاع يمس كل البيانات."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "detail": false,
+      "condition": null,
+      "conditionText": "دائماً",
+      "regulatory": false,
+      "verify": [],
+      "templates": [],
+      "workshopNote": "وفق القاعدة م-4؛ المتطلب العام XXX-R9nn يولّده المولّد.",
+      "id": "ADM-099",
+      "section": "ADM",
+      "order": 99,
+      "title": "إضافات أو احتياجات لم تُذكر في الخيارات",
+      "help": "",
+      "impact": "يُدرج متطلباً مصدره «نص حر» بمعرّف ADM-R9nn (القاعدة م-4).",
+      "parts": [
+        {
+          "key": "main",
+          "label": "",
+          "type": "longtext",
+          "options": [],
+          "max": null,
+          "unit": null,
+          "min": null,
+          "maxValue": null,
+          "columns": [],
+          "rows": [],
+          "rowsFrom": null,
+          "condition": null,
+          "recommended": {
+            "value": "",
+            "reason": "",
+            "when": [],
+            "text": "ترك الحقل فارغاً إن لم توجد إضافة"
+          },
+          "required": false
+        }
+      ]
+    }
+  ],
+  "rules": [],
+  "conflicts": []
+}
