@@ -1,4 +1,7 @@
-# Deploy with base directory = app (Netlify UI: Base directory "app").
+# Deploy from the eyad62689-lab/trustscan repo with base directory
+# "erp-requirements-workshop/app" (Netlify UI: Build settings > Base directory).
+# Netlify then reads this file, runs the build command and publishes dist/.
+# See ../DEPLOY.md for the full procedure.
 [build]
   command = "npm ci && npm run build"
   publish = "dist"

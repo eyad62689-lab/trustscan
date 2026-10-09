@@ -64,6 +64,6 @@ The app follows `BANK-SCHEMA.md`. On top of it, the loader understands (all opti
 - Progress files are untrusted input: ≤ 10 MB, JSON only, `format`/`formatVersion` check, SHA-256 checksum over the canonical workshop JSON, deep scan rejecting `__proto__`/`constructor`/`prototype` keys, functions, non-finite numbers, over-long strings and non-PNG/JPEG data URLs, then a field-by-field shape validation. The checksum detects corruption and naive edits; it is not a signature.
 - `npm run build` fails the URL check only with `--strict`; the current dist contains only XML namespace identifiers (written into .docx, never requested) and library documentation links in comments.
 
-## Deploy (not done here)
+## Deploy
 
-Netlify site with base directory `app`; `netlify.toml` builds with `npm ci && npm run build` and publishes `dist`.
+Netlify project `erp-requirements-workshop` (team `eyad62689`), connected to the `eyad62689-lab/trustscan` repository with base directory `erp-requirements-workshop/app`; `netlify.toml` builds with `npm ci && npm run build` (Node 22) and publishes `dist`. Step-by-step procedure, checks and troubleshooting: `../DEPLOY.md`.
